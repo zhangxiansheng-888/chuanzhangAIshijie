@@ -694,6 +694,165 @@ button {
   font-size: 10px;
 }
 
+.skill-contract {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: 1px;
+  margin-bottom: 18px;
+  border: 1px solid #cfc8bc;
+  background: #cfc8bc;
+}
+
+.skill-contract > div {
+  padding: 18px 20px;
+  background: #fffdf8;
+}
+
+.skill-contract > div > span,
+.skill-ledger > span {
+  display: block;
+  margin-bottom: 10px;
+  color: #8a8277;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+.skill-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.skill-chips code,
+.skill-ledger code {
+  padding: 5px 8px;
+  border: 1px solid #efc4b3;
+  background: #fff2eb;
+  color: #a43d19;
+  font-family: Consolas, monospace;
+  font-size: 10px;
+}
+
+.skill-contract ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skill-contract li {
+  position: relative;
+  padding-left: 12px;
+  color: #555047;
+  font-size: 11px;
+}
+
+.skill-contract li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--orange);
+}
+
+.detail-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.detail-section {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: rgba(255, 253, 248, 0.94);
+  box-shadow: 0 10px 35px rgba(57, 45, 29, 0.045);
+}
+
+.detail-section > header {
+  padding: 22px 26px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  border-bottom: 1px solid var(--line);
+  background: #f9f6f0;
+}
+
+.detail-section > header span {
+  color: var(--orange-dark);
+  font-family: Georgia, serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.detail-section > header h2 {
+  margin: 6px 0 0;
+  font-family: "STSong", "SimSun", serif;
+  font-size: 21px;
+}
+
+.detail-section > header p {
+  max-width: 700px;
+  margin: 8px 0 0;
+  color: #777168;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.detail-section > article {
+  max-height: 760px;
+  overflow: auto;
+  padding: 28px 30px;
+  color: #302e2a;
+  font-family: "STSong", "SimSun", serif;
+  font-size: 14px;
+  line-height: 1.95;
+  white-space: pre-wrap;
+}
+
+.detail-section > footer {
+  padding: 8px 26px;
+  border-top: 1px solid #ebe5db;
+  color: #9b9489;
+  font-family: Georgia, serif;
+  font-size: 9px;
+  text-align: right;
+}
+
+.skill-ledger {
+  margin-top: 30px;
+  padding: 26px 28px;
+  border: 1px solid #d3ccc0;
+  background: #eae5dc;
+}
+
+.skill-ledger > div {
+  display: grid;
+  gap: 8px;
+}
+
+.skill-ledger p {
+  margin: 0;
+  padding: 12px 14px;
+  display: grid;
+  grid-template-columns: minmax(190px, 0.7fr) minmax(0, 1.3fr);
+  align-items: center;
+  gap: 14px;
+  background: rgba(255, 253, 248, 0.78);
+}
+
+.skill-ledger code {
+  width: fit-content;
+}
+
+.skill-ledger strong {
+  color: #4b4740;
+  font-size: 11px;
+  font-weight: 500;
+}
+
 .output-card {
   margin-bottom: 24px;
   overflow: hidden;
@@ -1214,6 +1373,28 @@ button {
   .context-strip p {
     grid-column: 1 / -1;
     white-space: normal;
+  }
+
+  .skill-contract {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-section > header {
+    padding: 20px 18px;
+  }
+
+  .detail-section > article {
+    padding: 22px 18px;
+    font-size: 13px;
+  }
+
+  .skill-ledger {
+    padding: 22px 18px;
+  }
+
+  .skill-ledger p {
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   .output-card article {
