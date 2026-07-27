@@ -1,0 +1,7 @@
+interface:
+  display_name: "真人写真提示词"
+  short_description: "生成保留本人长相的真人写真提示词"
+  default_prompt: "Use $chuanzhangzhenren-prompts to generate a realistic AI portrait photography prompt from my reference photo and style brief."
+
+policy:
+  allow_implicit_invocation: true

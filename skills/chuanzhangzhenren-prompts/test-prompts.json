@@ -1,0 +1,111 @@
+{
+  "skill": "chuanzhangzhenren-prompts",
+  "version": "0.1.0",
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "根据我上传的真人照片，帮我写一套韩系鬼马少女写真提示词，要像本人，不要变网红脸。",
+      "expected_behavior": "调用 chuanzhangzhenren-prompts，输出以身份参考和身份锚点开头的真人写真提示词。",
+      "notes": "正面场景: 上传真人照片 + 写真 + 保留本人长相。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我想做情侣写真，最难的是两个人看起来像真的情侣，你帮我写 prompt。",
+      "expected_behavior": "调用 chuanzhangzhenren-prompts，重点处理关系感、眼神流向、左右前后和身体接触。",
+      "notes": "正面场景: 情侣真人写真。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "帮我生成一个 AI 人像九宫格写真提示词，别每张都一个角度。",
+      "expected_behavior": "调用 chuanzhangzhenren-prompts，先写镜头表，再写整组统一提示词。",
+      "notes": "正面场景: 人像写真组图和重复控制。"
+    },
+    {
+      "id": "should-trigger-04",
+      "type": "should_trigger",
+      "prompt": "真人照片生成写真总是不像本人，提示词怎么写才能保留五官和气质？",
+      "expected_behavior": "调用 chuanzhangzhenren-prompts，给身份锚点和负面约束，并说明原图只作身份参考。",
+      "notes": "正面场景: 解决不像本人。"
+    },
+    {
+      "id": "should-trigger-05",
+      "type": "should_trigger",
+      "prompt": "我懂焦段和光圈，但不会把 85mm、f/2.8、窗边柔光写成人像 prompt，帮我转成摄影感提示词。",
+      "expected_behavior": "调用 chuanzhangzhenren-prompts，使用 photography-brief，把摄影参数翻译成镜头距离感、景深、光线方向和真实感细节。",
+      "notes": "正面场景: 摄影语言转 prompt。"
+    },
+    {
+      "id": "should-trigger-06",
+      "type": "should_trigger",
+      "prompt": "帮我写一个创业者职业头像 prompt，要自然专业，不要像证件照。",
+      "expected_behavior": "调用 chuanzhangzhenren-prompts，先定图像用途，再给职业写真的人像摄影 brief。",
+      "notes": "正面场景: 职业头像/职业写真。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "帮我写一个赛博朋克城市海报的中英文图像提示词。",
+      "expected_behavior": "不调用 chuanzhangzhenren-prompts，应使用通用静态图提示词技能。",
+      "notes": "诱饵: 静态图但没有真人身份保留。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "把这个剧本拆成 Seedance 视频分镜提示词。",
+      "expected_behavior": "不调用 chuanzhangzhenren-prompts，应使用视频分镜相关技能。",
+      "notes": "诱饵: 视频提示词。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "给我一个二次元少女头像提示词，要可爱一点。",
+      "expected_behavior": "不调用 chuanzhangzhenren-prompts，因为不是真人照片和真实人像写真。",
+      "notes": "边界: 人像词汇但属于插画角色。"
+    },
+    {
+      "id": "edge-02",
+      "type": "edge_case",
+      "prompt": "帮我写一张职业证件照提示词，要真实自然。",
+      "expected_behavior": "通常不调用 chuanzhangzhenren-prompts，除非用户明确要求上传真人照片保留身份并做写真化控制。",
+      "notes": "边界: 真实人像但不是写真。"
+    },
+    {
+      "id": "edge-03",
+      "type": "edge_case",
+      "prompt": "帮我把高级感、胶片感、电影感这几个词改得更具体一点，用在人像图里。",
+      "expected_behavior": "调用 chuanzhangzhenren-prompts，如果上下文明确是人像；若没有人像意图，应先确认用途或转通用图像提示词。",
+      "notes": "边界: 风格词转换，需依赖人像上下文。"
+    },
+    {
+      "id": "should-trigger-07",
+      "type": "should_trigger",
+      "prompt": "你这个真人提示词技能不够全面，把文章里的阅读方式、变量、质感词库都补成可用规则。",
+      "expected_behavior": "调用 chuanzhangzhenren-prompts，并更新或使用 variables-and-texture，把文章读取、变量库、质感词和完整性检查纳入技能。",
+      "notes": "正面场景: 用户要求补全技能方法论。"
+    },
+    {
+      "id": "should-trigger-08",
+      "type": "should_trigger",
+      "prompt": "帮我先提取这个人像想法的变量，再生成提示词：操场、读书、中国女生、青春、真实照片感。",
+      "expected_behavior": "调用 chuanzhangzhenren-prompts，输出读取结果、可选变量、推荐组合和真人写真提示词。",
+      "notes": "正面场景: 变量提取 + 提示词生成。"
+    },
+    {
+      "id": "should-trigger-09",
+      "type": "should_trigger",
+      "prompt": "根据真人照片写写真提示词，重点要保留脸型、眉眼、鼻子、嘴唇和年龄感，不要网红脸。",
+      "expected_behavior": "调用 chuanzhangzhenren-prompts，并读取 face-makeup-filter，输出脸部身份锚点和负面身份约束。",
+      "notes": "正面场景: 脸部细节和身份保留。"
+    },
+    {
+      "id": "should-trigger-10",
+      "type": "should_trigger",
+      "prompt": "帮我写一个清透校园妆容和朦胧滤镜的人像 prompt，皮肤要真实，不要塑料感。",
+      "expected_behavior": "调用 chuanzhangzhenren-prompts，并读取 face-makeup-filter，组合校园妆容、朦胧滤镜和皮肤质感约束。",
+      "notes": "正面场景: 妆容 + 滤镜 + 质感。"
+    }
+  ]
+}

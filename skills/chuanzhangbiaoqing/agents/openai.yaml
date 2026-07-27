@@ -1,0 +1,4 @@
+interface:
+  display_name: "chuanzhangbiaoqing"
+  short_description: "按实际剧情节拍选择时长并生成完整场景、表演、镜头与声音提示词"
+  default_prompt: "Use $chuanzhangbiaoqing to turn a vague character idea into a complete AI video prompt with an adaptively chosen duration, scene, motivation, performance, camera, lighting, and audio."

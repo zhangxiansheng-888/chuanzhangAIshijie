@@ -1,0 +1,7 @@
+interface:
+  display_name: "船长AI视界 中文影视创作 v1"
+  short_description: "v1：从零开发、分场、诊断评分、精准修改中文影视剧本。"
+  default_prompt: "使用 $chuanzhang-chuangzuo-v1 从一个粗略灵感开发中文短片，并用量化评分表做诊断。"
+
+policy:
+  allow_implicit_invocation: true

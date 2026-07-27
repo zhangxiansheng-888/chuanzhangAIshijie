@@ -22,7 +22,7 @@ async function render(path = "/") {
   );
 }
 
-test("renders the Captain AI creative workspace", async () => {
+test("renders the chuanzhangAIshijie creative workspace", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);

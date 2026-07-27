@@ -1,0 +1,8 @@
+interface:
+  display_name: "船长AI视界 中文分镜提示词"
+  short_description: "船长AI视界中文 Seedance 分镜提示词与网页表"
+  brand_color: "#ef4444"
+  default_prompt: "Use $chuanzhang-fenjing to turn my screenplay scene into confirmed Chinese Seedance 2.0 shotlist prompts."
+
+policy:
+  allow_implicit_invocation: true
