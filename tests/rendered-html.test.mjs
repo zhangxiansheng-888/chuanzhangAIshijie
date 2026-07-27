@@ -38,8 +38,8 @@ test("renders the chuanzhangAIshijie creative workspace", async () => {
   assert.match(html, /纯演示/);
   assert.match(html, /不调用AI/);
   assert.match(html, /部署自己的版本/);
-  assert.match(html, /故事方向与核心提炼/);
-  assert.match(html, /拉片节奏与详细剧本/);
+  assert.match(html, /破题、梗概、人物与结构/);
+  assert.match(html, /分场大纲、场景写作与剧本医生/);
   assert.match(html, /场景／道具／真人／情绪／关键帧提示词/);
   assert.match(html, /完整交付目录/);
   assert.match(html, /场景提示词/);
@@ -56,11 +56,11 @@ test("renders the chuanzhangAIshijie creative workspace", async () => {
   assert.match(source, /S02 小厨房/);
   assert.match(source, /S03 废弃照相馆走廊/);
   assert.match(source, /S04 暗房/);
-  assert.match(source, /36个变长镜头/);
-  assert.match(source, /镜头不是生成批次/);
-  assert.match(source, /3—7秒/);
+  assert.match(source, /完整镜头总表/);
+  assert.match(source, /Gate 6｜HTML QA/);
+  assert.match(source, /15秒，这是上限，不是目标/);
   assert.doesNotMatch(source, /12组视频提示词覆盖180秒/);
-  assert.match(html, /分镜规划与提示词结构/);
+  assert.match(html, /分镜六道确认 Gate/);
   assert.match(html, /最终分镜与视频提示词/);
   assert.match(html, /chuanzhang-chuangzuo-v1/);
   assert.match(html, /chuanzhang-tuxiangtishici/);
