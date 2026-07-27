@@ -32,7 +32,7 @@ const outputIndex: { label: string; stage: StageId; targetLabel: string }[] = [
   { label: "场景提示词", stage: "assets", targetLabel: "场景提示词" },
   { label: "道具提示词", stage: "assets", targetLabel: "道具提示词" },
   { label: "真人提示词", stage: "assets", targetLabel: "真人提示词" },
-  { label: "情绪提示词", stage: "assets", targetLabel: "情绪提示词" },
+  { label: "人物情绪表演", stage: "storyboard", targetLabel: "人物情绪与表演轨" },
   { label: "关键帧提示词", stage: "assets", targetLabel: "关键帧提示词" },
   { label: "分镜规划", stage: "promptPlan", targetLabel: "Gate 1｜资产确认" },
   { label: "完整剧本分镜", stage: "storyboard", targetLabel: "完整镜头总表" },
@@ -66,16 +66,16 @@ const stages: DemoStage[] = [
     id: "assets",
     number: "03",
     eyebrow: "把剧本拆成可复用资产",
-    title: "场景／道具／真人／情绪／关键帧提示词",
+    title: "场景／道具／真人／关键帧提示词",
     description:
-      "分别生成场景、道具、真人角色、人物情绪和关键帧提示词；人物画面必须同时融合真人感与情绪表演。",
+      "生成场景、道具、真人角色和关键帧静态图提示词；情绪规则只融合进人物图，不在资产阶段单独交付。",
     button: "展开全部资产提示词",
     skills: [
       "chuanzhang-tuxiangtishici",
       "chuanzhangzhenren-prompts",
       "chuanzhangbiaoqing",
     ],
-    deliverables: ["场景提示词", "道具提示词", "真人定妆提示词", "情绪提示词", "关键帧提示词"],
+    deliverables: ["场景提示词", "道具提示词", "真人定妆提示词", "人物图内融合情绪", "关键帧提示词"],
   },
   {
     id: "promptPlan",
@@ -97,7 +97,7 @@ const stages: DemoStage[] = [
       "先输出一份连续完整的镜头总表；再按已经确认的提示词组生成视频提示词。提示词最多15秒，但内部镜头按剧情实际需要分配。",
     button: "展开完整180秒分镜",
     skills: ["chuanzhang-fenjing", "chuanzhangbiaoqing"],
-    deliverables: ["一份完整镜头总表", "逐镜头时间码与切点", "人物情绪微节拍", "构图与机位", "场景道具与音效", "已确认分组的视频提示词"],
+    deliverables: ["一份完整镜头总表", "逐镜头时间码与切点", "人物情绪与表演轨", "构图与机位", "场景道具与音效", "已确认分组的视频提示词"],
   },
 ];
 
@@ -770,6 +770,9 @@ R05｜冲印装置｜道具｜02:10—02:40｜滚轴真实接触相纸
 };
 
 function getDisplayOutput(stageId: StageId): DetailSection[] {
+  if (stageId === "assets") {
+    return demoOutputs.assets.filter((section) => section.label !== "情绪提示词");
+  }
   if (stageId !== "storyboard") return demoOutputs[stageId];
 
   const shotBlocks = demoOutputs.storyboard
@@ -782,6 +785,18 @@ function getDisplayOutput(stageId: StageId): DetailSection[] {
     intro:
       "这是一个连续交付，不按30秒拆成多个卡片。每行才是一个真实分镜；下方视频提示词组只是生成层。",
     body: shotBlocks.join("\n\n"),
+  };
+  const emotionSource = demoOutputs.assets.find(
+    (section) => section.label === "情绪提示词",
+  );
+  const emotionTrack: DetailSection = {
+    label: "人物情绪与表演轨",
+    title: "情绪不单独漂在资产区，而是进入具体分镜",
+    intro:
+      "以下表演控制会写入第七张照片对应的镜头及视频提示词，并与机位、焦点、灯光和声音同步。",
+    body:
+      emotionSource?.body ??
+      "触发、目标、阻碍、保护策略、识别、抵抗、泄漏、顶点和余波，必须转译成可见表演。",
   };
 
   const promptGroups = Array.from(
@@ -851,7 +866,7 @@ ${shotPrompts}
     },
   );
 
-  return [shotTable, ...promptGroups];
+  return [shotTable, emotionTrack, ...promptGroups];
 }
 
 function downloadDemo() {
