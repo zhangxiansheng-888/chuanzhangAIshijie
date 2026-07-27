@@ -8,30 +8,32 @@ GitHub 仓库名：`chuanzhangAIshijie`
 
 - 查看不调用 AI、不收集 API Key 的公开流程 Demo。
 - 从 `self-hosted` 分支部署一份属于自己的可用网站。
-- 提供 5 个可以单独安装到 Codex 的创作技能。
+- 提供 4 个用于完整流程的 Codex 创作技能，其中分镜与人物情绪已融合为一个技能。
 
 公开 Demo：[船长AI视界](https://captain-ai-studio.zhanganseng.chatgpt.site)
 
-> 公开 Demo 的所有结果均为预制样例，只用于展示完整方法，不会调用 AI。Demo 展开三种故事方向、拉片节奏解释、详细剧本、场景/道具/真人/情绪/关键帧提示词、分镜规划，以及覆盖180秒的最终分镜。需要真正创作时，请安装技能，或部署自己的版本。
+> 公开 Demo 的所有结果均为预制样例，只用于展示完整方法，不会调用 AI。Demo 展开故事创作、拉片节奏解释、详细剧本、场景/道具/真人/关键帧提示词、分镜规划，以及覆盖180秒并逐镜写入完整表情的最终分镜。需要真正创作时，请安装技能，或部署自己的版本。
 
 ## 核心特色
 
 ### 人物提示词不是只写长相
 
-生成涉及人物的图片提示词时，船长AI视界会把两个专门技能加入图像提示词流程：
+生成涉及人物的图片提示词时，船长AI视界使用真人感技能锁定人物；进入最终分镜时，再由分镜情绪融合技能把人物表演写进每个镜头：
 
 1. **真人感增强｜`chuanzhangzhenren-prompts`**
    - 锁定成年人物的身份锚点、脸型、五官比例和辨识特征。
    - 补齐真实皮肤、细发、眼神反光、妆容、服装、镜头、光线与摄影质感。
    - 有真人参考图时强调身份一致性；没有参考图时不虚假声称“保留本人长相”。
-2. **人物情绪增强｜`chuanzhangbiaoqing`**
+2. **分镜情绪融合｜`chuanzhang-fenjing-biaoqing`**
    - 不只使用“悲伤、愤怒、开心”等标签，而是先确定情绪触发、目标、阻碍和保护策略。
    - 把情绪写成可见表演：眼神先变化，再到呼吸、嘴角、下颌、头部、肩膀和手部。
    - 保留情绪顶点后的余波，减少僵硬脸、表情过猛和所有五官同时变化的问题。
 
-最终的人物图片提示词会同时包含：
+最终交付会分别包含：
 
-`人物身份一致性 + 真人摄影质感 + 可见情绪表演 + 构图光线 + 中英双语提示词`
+`真人图片提示词：人物身份一致性 + 真人摄影质感 + 构图光线 + 中英双语提示词`
+
+`最终分镜：画面动作概述 + 画面构图 + 机位 + 动作 + 完整表情 + 音效`
 
 ### 从一个灵感走完整条生产链
 
@@ -39,9 +41,8 @@ GitHub 仓库名：`chuanzhangAIshijie`
 
 1. 灵感破题
 2. 故事创作
-3. 人物与图片提示词（自动融合真人感和人物情绪）
-4. 真人感与角色情绪
-5. 最终分镜
+3. 场景、道具、真人与关键帧提示词
+4. 最终分镜（逐镜融合完整人物情绪）
 
 公开 Demo 不提供生成接口，不要求 API Key，也不产生 AI 调用费用。`self-hosted` 分支保留 BYOK（自带 API Key）版本，部署者和使用者自行承担各自的托管及 API 用量。
 
@@ -50,12 +51,11 @@ GitHub 仓库名：`chuanzhangAIshijie`
 | 技能 | 用途 |
 | --- | --- |
 | `chuanzhang-chuangzuo-v1` | 从灵感、梗概到完整中文影视创作与剧本诊断 |
-| `chuanzhang-tuxiangtishici` | 把故事和画面想法转成中英双语图片提示词；人物画面自动融合真人感与情绪规则 |
+| `chuanzhang-tuxiangtishici` | 把故事和画面想法转成场景、道具、人物与关键帧中英双语图片提示词 |
 | `chuanzhangzhenren-prompts` | 真人感技能：强化真实摄影感、身份一致性、五官、皮肤、妆容、光线和质感 |
-| `chuanzhangbiaoqing` | 人物情绪技能：设计情绪因果、微表情、呼吸、身体表演和情绪余波 |
-| `chuanzhang-fenjing` | 将剧本拆成可制作的镜头、机位、调度和最终分镜 |
+| `chuanzhang-fenjing-biaoqing` | 分镜与人物情绪融合技能：每镜固定输出画面动作概述、画面构图、机位、动作、表情和音效 |
 
-原本的 `chuanzhang-fenjing-` 末尾多了一个连字符，不符合 Codex 技能命名规范；仓库中已规范为 `chuanzhang-fenjing`，功能内容不变。
+`chuanzhang-fenjing-biaoqing` 已合并原 `chuanzhang-fenjing` 与 `chuanzhangbiaoqing` 的全部规则。情绪不再作为道具或资产字段，也不再成为分镜后的独立附件，而是直接写进每个镜头的 `表情：` 字段。
 
 ## 安装全部技能
 
@@ -64,13 +64,17 @@ GitHub 仓库名：`chuanzhangAIshijie`
 把当前 GitHub 仓库地址发给 Codex，然后说：
 
 ```text
-请安装这个 GitHub 仓库 skills 目录下的全部技能。
+请安装这个 GitHub 仓库中的以下 4 个技能：
+skills/chuanzhang-chuangzuo-v1
+skills/chuanzhang-tuxiangtishici
+skills/chuanzhangzhenren-prompts
+skills/chuanzhang-fenjing-biaoqing
 ```
 
 只安装一个技能时，可以说：
 
 ```text
-请安装这个仓库里的 skills/chuanzhang-fenjing。
+请安装这个仓库里的 skills/chuanzhang-fenjing-biaoqing。
 ```
 
 安装完成后，从下一次对话开始即可使用。
@@ -147,7 +151,7 @@ npm test
 chuanzhangAIshijie/
 ├─ app/          网站页面与接口
 ├─ public/       网站静态资源
-├─ skills/       5 个可独立安装的 Codex 技能
+├─ skills/       4 个正式流程技能，以及合并前的原始技能备份
 ├─ tests/        网站检查
 ├─ README.md
 └─ LICENSE

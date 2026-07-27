@@ -72,8 +72,8 @@ test("renders the chuanzhangAIshijie creative workspace", async () => {
   assert.match(html, /chuanzhang-chuangzuo-v1/);
   assert.match(html, /chuanzhang-tuxiangtishici/);
   assert.match(html, /chuanzhangzhenren-prompts/);
-  assert.match(html, /chuanzhangbiaoqing/);
-  assert.match(html, /chuanzhang-fenjing/);
+  assert.match(html, /chuanzhang-fenjing-biaoqing/);
+  assert.match(source, /动作：[\s\S]*表情：\$\{[\s\S]*音效：/);
   assert.doesNotMatch(html, /OpenAI API Key|设置 API/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });

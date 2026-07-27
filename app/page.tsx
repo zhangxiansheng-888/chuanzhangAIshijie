@@ -68,14 +68,13 @@ const stages: DemoStage[] = [
     eyebrow: "把剧本拆成可复用资产",
     title: "场景／道具／真人／关键帧提示词",
     description:
-      "生成场景、道具、真人角色和关键帧静态图提示词；情绪规则只融合进人物图，不在资产阶段单独交付。",
+      "只生成场景、道具、真人角色和关键帧静态图提示词；人物情绪不放在资产或道具阶段，统一写入最终逐镜剧本。",
     button: "展开全部资产提示词",
     skills: [
       "chuanzhang-tuxiangtishici",
       "chuanzhangzhenren-prompts",
-      "chuanzhangbiaoqing",
     ],
-    deliverables: ["场景提示词", "道具提示词", "真人定妆提示词", "人物图内融合情绪", "关键帧提示词"],
+    deliverables: ["场景提示词", "道具提示词", "真人定妆提示词", "关键帧提示词"],
   },
   {
     id: "promptPlan",
@@ -85,7 +84,7 @@ const stages: DemoStage[] = [
     description:
       "完全按分镜技能执行资产、位置、时间、提示词结构、交付形式和网页质检六道确认。",
     button: "展开分镜规划",
-    skills: ["chuanzhang-fenjing"],
+    skills: ["chuanzhang-fenjing-biaoqing"],
     deliverables: ["确认资产", "确认位置与风格", "确认时间划分", "确认提示词结构", "确认交付形式", "HTML QA"],
   },
   {
@@ -94,10 +93,10 @@ const stages: DemoStage[] = [
     eyebrow: "180秒生产级交付",
     title: "最终分镜与视频提示词",
     description:
-      "分镜技能先输出完整镜头总表和视频提示词；情绪技能再对整段分镜逐镜二次加工，最终交付“分镜 + 情绪”的完整剧本。",
+      "融合技能在生成完整镜头总表和视频提示词时，直接把情绪技能的全部可见表演写进每一镜，最终一次性交付“分镜 + 情绪”的完整剧本。",
     button: "展开完整180秒分镜",
-    skills: ["chuanzhang-fenjing", "chuanzhangbiaoqing"],
-    deliverables: ["分镜Skill完整原稿", "已确认分组的视频提示词", "情绪Skill整段二次加工", "逐镜写回可见表演", "摄影机与环境响应", "分镜 + 情绪最终完整稿"],
+    skills: ["chuanzhang-fenjing-biaoqing"],
+    deliverables: ["分镜与情绪融合原稿", "已确认分组的视频提示词", "逐镜完整表情字段", "逐镜写回可见表演", "摄影机与环境响应", "分镜 + 情绪最终完整稿"],
   },
 ];
 
@@ -786,6 +785,14 @@ function getDisplayOutput(stageId: StageId): DetailSection[] {
       "这是一个连续交付，不按30秒拆成多个卡片。每行才是一个真实分镜；下方视频提示词组只是生成层。",
     body: shotBlocks.join("\n\n"),
   };
+  const inlineEmotionDetails = [
+    "触发：陌生湿照片进入卧室，照片里却是她自己；目标：确认危险来源，同时不让恐惧夺走判断；阻碍：记忆空白，无法确认昨天的自己是否可信；保护策略：冻结、观察、压住声音，只用视线与手指求证；压力：内部2/5、外显1/5、自控5/5；可见表演：上眼睑先抬、视线后移，呼吸延迟半拍，右手指尖抓紧床单，下颌轻收，伸手前停顿0.5秒，拇指只颤一次；峰值与余波：看清照片时嘴唇分开但不出声，随后视线突然转向便签墙；摄影机响应：第一次屏息后才轻微推进。",
+    "触发：便签、自拍视频和水杯预言连续应验；目标：验证证据是否由自己留下，以及照片是否领先现实；阻碍：所有证据都指向她本人，她却没有制作记忆；保护策略：反复比对笔迹、脸和动作，用克制求证掩盖慌乱；压力：内部2/5升至4/5、外显1/5升至3/5、自控5/5降至4/5；可见表演：眨眼频率先变慢，吞咽受阻，嘴角失去支撑，下颌锁紧，肩膀在杯子碎裂后轻缩，手停在半空；峰值与余波：碎裂声后眼睛先定住，再快速回看照片，呼吸变浅；摄影机响应：证据确认后才切近，碎裂后立即回到眼睛。",
+    "触发：六张照片构成死亡倒计时，地址指向废弃照相馆；目标：把恐惧转成行动并在记忆清空前抵达；阻碍：手抖、自我怀疑和时间不足；保护策略：把动作机械化，逐项装袋、系红线、核对地址；压力：内部4/5、外显2/5、自控4/5；可见表演：视线在照片与地址间快速折返，系红线时指腹压白，下颌保持稳定，肩膀随一次深呼吸下沉，手抖被主动握拳压住；峰值与余波：决定出门时眼神落点固定，嘴唇闭合，动作突然变得干净；摄影机响应：决定形成后才跟随起身。",
+    "触发：进入废弃照相馆与暗房，环境像在等待她；目标：在未知空间内找到寄信人与控制记忆的证据；阻碍：黑暗、回声、狭窄通道和可能存在的人；保护策略：缩小动作幅度，贴墙移动，让耳朵先于身体搜索；压力：内部4/5、外显2/5、自控4/5；可见表演：眼球先扫暗处再转头，呼吸浅而慢，肩膀内收，右手隔着口袋压住照片，脚步落地前有短暂停顿；峰值与余波：听到异响时全身冻结，只有眼睛移动，随后缓慢吐气；摄影机响应：人物冻结时摄影机也停止。",
+    "触发：照片墙、录音与装置证明未来的她正在给现在的她留证据；目标：重建事实并确认自己是否亲手设计了循环；阻碍：她开始怀疑最危险的人正是自己；保护策略：逐行核对照片、录音和装置，不允许情绪先于证据下结论；压力：内部4/5升至5/5、外显2/5升至4/5、自控4/5降至2/5；可见表演：视线沿照片行移动后骤停，眉心缓慢收紧，肩膀失去支撑，眼睛闭合一拍，嘴唇抿住，手指在录音机边缘反复摩擦；峰值与余波：认出自己声音时眼眶起水光但不落泪，呼吸破一次后重新压平；摄影机响应：认知完成后停住，不替人物提前煽情。",
+    "触发：第七张死亡照片显影，门外脚步逼近；目标：在死亡恐惧中决定相信未来的自己并执行最后一步；阻碍：求生本能、自我怀疑与逼近的未知者；保护策略：压住哭腔，抓紧照片，正面对门，把恐惧集中成一个选择；压力：内部5/5、外显4/5、自控2/5；可见表演：先屏息，瞳孔定住，鼻翼轻张，嘴角向下失守又被抿回，下颌发颤，肩膀吸气抬起，手指把照片边缘压弯；峰值与余波：脚步停门外时眼泪只积在下眼睑，她抬眼直视门缝，呼吸由碎变稳；摄影机响应：峰值出现后才停止运动，让余波完整停留。",
+  ];
   const promptGroups = Array.from(
     { length: Math.ceil(shotBlocks.length / 2) },
     (_, groupIndex): DetailSection => {
@@ -806,6 +813,7 @@ function getDisplayOutput(stageId: StageId): DetailSection[] {
       let relativeStart = 0;
       const shotPrompts = parsed
         .map((shot, index) => {
+          const absoluteShotIndex = groupIndex * 2 + index;
           const relativeEnd = relativeStart + shot.seconds;
           const range = `${relativeStart.toFixed(1)}—${relativeEnd.toFixed(1)}秒`;
           relativeStart = relativeEnd;
@@ -814,6 +822,7 @@ function getDisplayOutput(stageId: StageId): DetailSection[] {
 画面构图：严格沿用完整镜头总表${shot.shot}的景别、主体位置、前中后景和负空间；${shot.assets}的方位、接触点与重量保持稳定。
 机位：${shot.detail}
 动作：动作按镜头总表顺序发生；人物情绪先从眼神变化，再依次传到呼吸、嘴角、下颌、肩膀和手，变化错峰出现，结尾保留余波。
+表情：${inlineEmotionDetails[Math.min(Math.floor(absoluteShotIndex / 6), inlineEmotionDetails.length - 1)]}；必须结合本镜具体动作控制眼神落点、眼睑、呼吸、嘴角、下颌、肩膀、手部受力、峰值和余波，禁止只写“害怕”“紧张”等抽象情绪词。
 音效：${shot.sound}。`;
         })
         .join("\n\n");
@@ -1034,7 +1043,7 @@ export default function Home() {
           <span className="brand-mark">船</span>
           <span>
             <strong>船长AI视界</strong>
-            <small>五技能完整工作流Demo</small>
+            <small>四技能融合工作流Demo</small>
           </span>
         </button>
         <div className="topbar-actions">
@@ -1051,7 +1060,7 @@ export default function Home() {
 
       <section className="demo-notice" aria-label="演示说明">
         <strong>完整教学Demo</strong>
-        <span>严格按5个技能原流程展示：创作逐步确认、静态图提示词、分镜六道Gate与完整镜头总表。</span>
+        <span>严格按4个融合技能原流程展示：创作逐步确认、静态图提示词、分镜六道Gate与逐镜完整表情。</span>
         <a href={repositoryUrl}>查看开源项目 ↗</a>
       </section>
 
@@ -1091,7 +1100,7 @@ export default function Home() {
           </nav>
 
           <div className="privacy-note">
-            <span>5 SKILLS</span>
+            <span>4 SKILLS</span>
             <p>每一步都标明负责技能、实际输出字段和《第七张照片》的完整示例。</p>
           </div>
         </aside>
@@ -1213,13 +1222,12 @@ export default function Home() {
           </section>
 
           <section className="skill-ledger">
-            <span>5个技能在完整流程中的位置</span>
+            <span>4个融合技能在完整流程中的位置</span>
             <div>
               <p><code>chuanzhang-chuangzuo-v1</code><strong>破题、单一梗概、人物、结构、分场、场景写作与剧本医生</strong></p>
               <p><code>chuanzhang-tuxiangtishici</code><strong>场景、道具、关键帧中英双语图像提示词</strong></p>
               <p><code>chuanzhangzhenren-prompts</code><strong>真人身份锚点、皮肤妆发、镜头光线与一致性</strong></p>
-              <p><code>chuanzhangbiaoqing</code><strong>在分镜与视频提示词完成后，对整段剧本逐镜二次加工并输出最终情绪版</strong></p>
-              <p><code>chuanzhang-fenjing</code><strong>资产、位置、时间、构图、机位、动作、音效和视频提示词</strong></p>
+              <p><code>chuanzhang-fenjing-biaoqing</code><strong>分镜六道确认、镜头总表、视频提示词和逐镜表情一体化输出；固定为动作 → 表情 → 音效</strong></p>
             </div>
           </section>
 
@@ -1228,7 +1236,7 @@ export default function Home() {
             <h2>选择属于你自己的运行方式</h2>
             <div>
               <a href={`${repositoryUrl}#安装全部技能`}>
-                <small>推荐</small><strong>安装5个技能</strong>
+                <small>推荐</small><strong>安装4个融合技能</strong>
                 <p>在自己的Codex中运行，使用自己的会员和模型。</p>
               </a>
               <a href={`${repositoryUrl}#部署自己的版本`}>

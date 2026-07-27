@@ -1,0 +1,4 @@
+interface:
+  display_name: "船长AI视界 分镜情绪融合"
+  short_description: "完整分镜、视频提示词与逐镜人物情绪表演的一体化输出技能"
+  default_prompt: "Use $chuanzhang-fenjing-biaoqing to turn this screenplay into a confirmed Chinese storyboard with complete per-shot expression details."
