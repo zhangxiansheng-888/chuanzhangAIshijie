@@ -1,4 +1,4 @@
 interface:
   display_name: "船长AI视界 01—04总流程"
-  short_description: "按01至04固定顺序完成故事、资产、分镜确认与最终情绪分镜交付"
-  default_prompt: "Use $chuanzhang-ai-shijie-workflow to take this idea through the numbered 01-to-04 船长AI视界 production workflow without skipping or reordering steps."
+  short_description: "只管01至04顺序，内部严格执行四个生产技能原文"
+  default_prompt: "Use $chuanzhang-ai-shijie-workflow to run the 01-to-04 船长AI视界 workflow. Read each production skill and its required references completely, preserve its native steps, fields, confirmations, and output shape, and do not invent or renumber internal requirements."

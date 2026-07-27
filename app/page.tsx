@@ -28,17 +28,17 @@ const repositoryUrl =
 const outputIndex: { label: string; stage: StageId; targetLabel: string }[] = [
   { label: "破题与梗概", stage: "direction", targetLabel: "01.2 梗概草稿" },
   { label: "分场大纲", stage: "direction", targetLabel: "01.6 分场大纲" },
-  { label: "可拍摄剧本", stage: "direction", targetLabel: "01.8 场景写作" },
-  { label: "真人身份基准", stage: "identity", targetLabel: "02.1—02.8 真人身份基准" },
-  { label: "统一风格母版", stage: "assets", targetLabel: "03.1 统一风格母版" },
-  { label: "场景提示词", stage: "assets", targetLabel: "03.3 场景提示词" },
-  { label: "道具提示词", stage: "assets", targetLabel: "03.4 道具提示词" },
-  { label: "真人提示词", stage: "assets", targetLabel: "03.5 真人提示词" },
-  { label: "情绪融合最终稿", stage: "storyboard", targetLabel: "04.3 分镜 + 情绪一体稿" },
-  { label: "关键帧提示词", stage: "assets", targetLabel: "03.6 关键帧提示词" },
+  { label: "可拍摄剧本", stage: "direction", targetLabel: "01.7 场景写作" },
+  { label: "真人写真提示词", stage: "identity", targetLabel: "02｜真人写真提示词" },
+  { label: "统一风格依据", stage: "assets", targetLabel: "03｜统一风格依据" },
+  { label: "场景提示词", stage: "assets", targetLabel: "03｜场景提示词" },
+  { label: "道具提示词", stage: "assets", targetLabel: "03｜道具提示词" },
+  { label: "真人提示词", stage: "assets", targetLabel: "03｜真人提示词" },
+  { label: "情绪融合最终稿", stage: "storyboard", targetLabel: "04｜分镜 + 情绪一体稿" },
+  { label: "关键帧提示词", stage: "assets", targetLabel: "03｜关键帧提示词" },
   { label: "分镜规划", stage: "storyboard", targetLabel: "04.G1 Gate 1｜资产确认" },
-  { label: "完整剧本分镜", stage: "storyboard", targetLabel: "04.1 完整镜头总表" },
-  { label: "全片视频提示词", stage: "storyboard", targetLabel: "04.2 完整视频提示词 01 / 18" },
+  { label: "完整剧本分镜", stage: "storyboard", targetLabel: "04｜完整镜头总表" },
+  { label: "全片视频提示词", stage: "storyboard", targetLabel: "04｜完整视频提示词 01 / 18" },
 ];
 
 const stages: DemoStage[] = [
@@ -48,10 +48,10 @@ const stages: DemoStage[] = [
     eyebrow: "01/04｜确认01之前不进入真人基准",
     title: "故事创作与完整中文剧本",
     description:
-      "严格执行01.1—01.9：破题、单一梗概、人物弧光、前史世界观、结构、分场、拉片节奏、可拍摄剧本和剧本医生。",
+      "逐项还原创作技能原文的九步流程。双轨节奏属于第6步“分场大纲 / 场景拆解”，不另造一个步骤。",
     button: "展开01故事创作",
     skills: ["chuanzhang-chuangzuo-v1"],
-    deliverables: ["01.1—01.5 故事基础", "01.6 分场大纲", "01.7 拉片节奏解释", "01.8 可拍摄剧本", "01.9 剧本医生"],
+    deliverables: ["01.1 破题与核心动作", "01.2 梗概草稿", "01.3 人物深度与弧光", "01.4 前史与世界观", "01.5 结构大纲", "01.6 分场大纲 / 场景拆解（含双轨节奏）", "01.7 场景写作", "01.8 剧本医生", "01.9 量化评分"],
   },
   {
     id: "identity",
@@ -59,10 +59,10 @@ const stages: DemoStage[] = [
     eyebrow: "02/04｜只锁定真人身份与摄影基准",
     title: "真人身份基准",
     description:
-      "先固定人物身份锚点、五官、年龄、肤色、妆发、服装、真人材质、镜头光线和一致性约束，不提前生成场景或分镜。",
+      "严格按真人感技能的模块顺序组成一条可复制写真提示词；不把模块擅自改造成八项固定交付。",
     button: "展开02真人基准",
     skills: ["chuanzhangzhenren-prompts"],
-    deliverables: ["02.1 角色清单", "02.2—02.4 身份与妆发", "02.5—02.6 真人摄影基准", "02.7 一致性约束", "02.8 定妆提示词"],
+    deliverables: ["任务类型判断", "有参考图时使用身份参考原句", "按15个模块顺序构建提示词", "真人写真提示词", "这版控制的重点"],
   },
   {
     id: "assets",
@@ -70,12 +70,12 @@ const stages: DemoStage[] = [
     eyebrow: "03/04｜确认02后才生成静态视觉资产",
     title: "统一风格与静态视觉资产",
     description:
-      "先建立全片统一风格母版，再让每条场景、道具、真人角色和关键帧静态图提示词完整继承；人物动态情绪统一写入最终逐镜剧本。",
+      "从已确认剧本与风格说明中选择静态画面。每条提示词严格使用“主体与动作→地点/语境→构图→灯光→风格/审美→镜头→色彩”，先英文、后中文。",
     button: "展开03视觉资产",
     skills: [
       "chuanzhang-tuxiangtishici",
     ],
-    deliverables: ["03.1 风格母版", "03.2 资产清单", "03.3 场景", "03.4 道具", "03.5 人物图", "03.6 关键帧", "03.7 连续性检查"],
+    deliverables: ["已确认风格说明", "场景静帧", "道具静帧", "人物静帧（融合真人感与可见情绪）", "关键帧", "每项先英文后中文"],
   },
   {
     id: "storyboard",
@@ -241,37 +241,6 @@ Arc：
 价值转变：恐惧失控 → 带着恐惧行动。`,
     },
     {
-      label: "拉片节奏解释",
-      title: "情节节奏与情感节奏为什么不能同步拉满",
-      body: `01.7 拉片节奏解释
-
-00:00—00:15｜异常先行
-情节快速：3秒内让照片滑入，15秒内建立“照片仍在显影”的异常。
-情感克制：人物只从睡眠基线转为警觉，不立刻惊恐，让观众先于人物感到不安。
-
-00:15—01:10｜证据逐级验证
-情节逐渐加速：便签、录像、水杯预言依次增加信息密度。
-情感延迟释放：林晚持续求证，直到杯子真实碎裂才出现第一次明显生理停顿。
-
-01:10—01:35｜行动加速
-情节快速：照片、红线和地址连续出现，把“发生了什么”转成“必须去哪里”。
-情感转向控制：恐惧没有消失，而是被装袋、系线、开门等机械动作压住。
-
-01:35—02:10｜空间压迫
-情节降速：进入走廊后减少新信息，让脚步、距离、红光和空照片墙承担悬疑。
-情感加重：镜头与人物一起放慢，观众开始等待不可见威胁。
-
-02:10—02:40｜认知最重
-情节中速：录音与冲印装置只提供必要事实。
-情感最慢：发现“过去的自己一直在保护现在的自己”需要停顿、辨认和余波，不能用快速剪辑掠过。
-
-02:40—03:00｜外部威胁再加速
-情节重新收紧：第七张照片、脚步、门把形成倒计时。
-情感在顶点后骤停：林晚从后退转为停住，最后的稳定比哭喊更有力量。
-
-双轨原则：调查段让情节快于情感，认知段让情感慢于情节，高潮才让两条轨道同时收紧。`,
-    },
-    {
       label: "场景写作",
       title: "可拍摄中文分场剧本",
       intro: "只写摄影机能拍到、麦克风能听到的内容，不写心理解释。",
@@ -338,8 +307,8 @@ Arc：
 切黑。保留一声未完成的吸气。`,
     },
     {
-      label: "剧本自检",
-      title: "创作技能实际检查什么",
+      label: "剧本医生",
+      title: "因果、价值、人物缺陷与节奏审计",
       body: `开场钩子：前5秒出现异常照片，成立。
 因果链：照片 → 预言验证 → 地址 → 暗房 → 录音 → 第七张照片，全部由“因为”连接。
 双轨节奏：中段调查加速，情绪在暗房放慢并加重。
@@ -348,44 +317,46 @@ Arc：
 台词控制：只保留录音中的必要信息，不让人物解释情绪。
 体量：8场约180秒，核心人物1名，主场景4个，符合3分钟AI短片。`,
     },
+    {
+      label: "量化评分",
+      title: "按体量评分并给出修改优先级",
+      body: `高概念与钩子：9/10
+因果链：8/10
+人物目标与弧光：8/10
+场景价值转变：9/10
+视听化程度：9/10
+双轨节奏：8/10
+对白与潜台词：8/10
+结尾行动与余味：9/10
+
+修改优先级：
+1. 补强“事故不是意外”与门外来人的因果伏笔，避免尾钩只增加信息。
+2. 压缩卧室内重复求证动作，为暗房认知与余波保留更多时间。
+3. 保持第七张照片的内容可见但不解释门外身份。`,
+    },
   ],
   identity: [
     {
-      label: "02.1—02.8 真人身份基准",
-      title: "P01 林晚｜先锁身份，再进入全片视觉资产",
-      intro: "02只建立稳定的真人身份与摄影基准；没有参考照片时，不虚假声称保留本人长相。",
-      body: `02.1 真人角色清单
-P01 林晚——24岁东亚女性，失忆后的自我调查者；本片唯一核心人物。
+      label: "02｜真人写真提示词",
+      title: "P01 林晚｜按技能原生模块顺序生成",
+      intro: "本Demo没有真人参考照片，因此不使用“保留本人长相”的身份参考原句，也不承诺身份复刻。",
+      body: `模块顺序（原样保留）：
+身份参考(如有) → 图像用途 → 身份锚点 → 脸部细节 → 主体气质 → 妆容体系 → 滤镜质感 → 构图机位 → 镜头焦段感 → 景深背景 → 光线设计 → 场景服装发型 → 真实感细节 → 人体空间 → 负面约束
 
-02.2 身份锚点
-自然清瘦鹅蛋脸，下颌线柔和但不尖，颧骨位置自然；眉形平缓，眉眼间距正常，内双深棕眼睛；鼻梁高度和鼻翼宽度真实；嘴唇偏薄，嘴角轻微不对称。
+**真人写真提示词**
+请生成一张悬疑短片角色定妆胸像。人物为24岁东亚女性林晚，自然清瘦鹅蛋脸、柔和但不尖的下颌、自然颧骨、平缓眉形、内双深棕眼睛，鼻梁高度与鼻翼宽度真实，嘴唇偏薄且嘴角有轻微不对称；保持24岁真实年龄感和中性肤色，不把脸型变窄，不放大眼睛，不抬高鼻梁。人物气质警觉、克制、疲惫但仍保持判断力。近似素颜，极薄底妆，眼妆几乎不可见，自然血色嘴唇；不过度磨皮。中性低饱和调色，轻微35mm胶片颗粒、克制光晕和自然高光衰减。平视胸像，人物位于画面中央略偏左，肩颈与双手关系自然。85mm人像镜头距离感，保持自然面部比例；f/2.8适度浅景深，面部清晰、背景仍可辨认。灰蓝窗光作为柔和主光，轻微负补光，双眼保留真实眼神反光。背景为凌晨卧室的旧墙与模糊便签，穿洗旧米白针织衫、深灰长裤，黑色锁骨短发、固定发际线与碎发，右手腕系旧红棉线。保留毛孔、细小绒毛、唇纹、轻微疲惫阴影与自然左右不对称。禁止陌生人脸、网红脸、欧美化、塑料皮肤、蜡像感、过度美化、年龄漂移、妆发变化、断裂手指和不自然肢体。
 
-02.3 年龄、肤色与发型
-24岁真实年龄感，中性肤色，保留轻微毛孔、细小绒毛和自然肤色变化；黑色锁骨短发，固定发际线与碎发。
-
-02.4 妆容、服装和记忆点
-近似素颜，极薄底妆，眼妆几乎不可见，自然血色嘴唇；洗旧米白针织衫、深灰长裤；右手腕旧红棉线是固定记忆点。
-
-02.5 真人摄影材质
-皮肤保留毛孔、细发、眼神反光、唇纹和轻微疲惫阴影；禁止塑料皮肤、蜡像感和过度磨皮。
-
-02.6 摄影基准
-胸像平视，85mm人像镜头距离感，f/2.8适度浅景深；灰蓝窗光作为柔和主光，轻微负补光，中性低饱和调色、自然高光过渡和克制胶片颗粒。
-
-02.7 身份一致性约束
-全片固定同一脸型、五官比例、年龄、肤色、发际线、发型、服装和右腕红线；禁止网红脸、小V脸、放大眼睛、欧美化高鼻梁、年龄漂移、妆发或服装变化。
-
-02.8 中文真人定妆提示词
-请生成悬疑短片角色身份参考胸像：24岁东亚女性林晚，自然清瘦鹅蛋脸、柔和非尖下颌、自然颧骨、平缓眉形、内双深棕眼睛、真实鼻梁和鼻翼宽度、偏薄且轻微不对称的嘴唇；中性肤色保留毛孔、细小绒毛和轻微疲惫，黑色锁骨短发，近似素颜，洗旧米白针织衫、深灰长裤、右腕旧红棉线。平视胸像，85mm人像镜头感，f/2.8，灰蓝窗光、轻微负补光、自然眼神光、中性低饱和调色和克制胶片颗粒。固定人物身份、年龄、妆发、服装与右腕红线；禁止网红脸、塑料皮肤、过度磨皮、动漫感和身份漂移。
-
-本步确认口令：确认02。`,
+**这版控制的重点**
+- 没有参考图，所以只建立角色定妆基准，不声称保留真人长相。
+- 用脸型、五官比例、发际线、发型、服装和右腕红线控制后续身份一致性。
+- 把85mm与f/2.8翻译成自然面部比例、适度浅景深和可辨认背景。`,
     },
   ],
   assets: [
     {
       label: "统一风格母版",
-      title: "STYLE-A01｜所有场景、道具、真人和关键帧必须完整继承",
-      intro: "技能核心不是给每个资产各写一套“电影感”，而是先锁定同一份风格简报，再逐条复用。",
+      title: "Demo已确认风格说明｜STYLE-A01",
+      intro: "这是《第七张照片》案例采用的风格说明，不是技能虚构出的固定模板；图像技能要求所有静帧持续继承已确认的风格说明。",
       body: `风格控制维度：
 类型｜中国城市真实实景心理悬疑
 时代｜当代生活空间 + 1990年代末模拟摄影设备，禁止未来化改造
@@ -406,8 +377,8 @@ ${staticAssetStyleGuide.zh}
 下面每一条场景、道具、真人和关键帧提示词都会完整重复这段母版；单独复制任意一条时也不会丢失全片风格。`,
     },
     {
-      label: "资产清单",
-      title: "先从剧本识别人物、场景与道具",
+      label: "Demo资产清单",
+      title: "案例管理信息｜不是图像技能固定输出",
       body: `人物：
 P01 林晚——24岁东亚女性，失忆后的自我调查者，全片固定同一外貌、发型、服装和年龄。
 
@@ -545,42 +516,32 @@ ${staticAssetStyleGuide.zh}
       label: "真人提示词",
       title: "P01 林晚固定真人定妆",
       intro: "真人提示词的核心不是“漂亮”，而是身份锚点、摄影语言、真实材质和一致性。",
-      body: `中文真人定妆提示词
-${staticAssetStyleGuide.zh}
-
-请生成一张电影角色定妆半身人像。主体为24岁东亚女性林晚，清瘦自然鹅蛋脸，下颌线柔和但不尖，颧骨位置自然；眉形平缓，眉眼间距正常，内双深棕眼睛，眼下有轻微疲惫阴影；鼻梁高度自然、鼻翼宽度真实；嘴唇偏薄，嘴角轻微不对称；肤色偏中性，保留真实年龄感、轻微毛孔、细小绒毛、肤色变化和自然眼神光。黑色锁骨短发，发际线与碎发保持稳定。近似素颜妆感，底妆极薄，眉毛自然整理，眼妆几乎不可见，自然血色嘴唇。穿洗旧的米白针织衫、深灰长裤，右手腕绑旧红棉线。
-
-图像用途：悬疑短片角色身份参考。气质：警觉、克制、长期疲惫但不脆弱。构图：胸像，平视，身体微微偏向画面右侧，视线看向镜头左侧近处。85mm人像镜头距离感，f/2.8适度浅景深，面部清晰、背景仍可辨识。左侧灰蓝窗光作为柔和主光，右侧轻微负补光，眼中保留自然小面积眼神光。中性低饱和电影调色，轻微颗粒、自然高光过渡、真实布料纹理和细发。
-
-身份锁定：
-全片严格保持同一脸型、五官比例、眉眼结构、鼻子、嘴唇、肤色、年龄、发际线、发型、米白针织衫、深灰长裤和右腕红线。
-
-负面约束：
-不要陌生人脸、网红脸、小V脸、放大眼睛、欧美化高鼻梁、塑料皮肤、蜡像感、过度磨皮、夸张妆容、动漫感、年龄漂移、服装变化、发型变化、空洞凝视。
-
-English identity prompt
+      body: `English Prompt
 ${staticAssetStyleGuide.en}
 
-Character-reference bust portrait of Lin Wan, a 24-year-old East Asian woman with a naturally slim oval face, soft non-pointed jawline, realistic cheekbone placement, straight soft brows, dark-brown inner double-lid eyes with subtle fatigue shadows, a natural nose bridge and nostril width, thin lips with mild real asymmetry, neutral skin tone with visible pores, fine facial hair and natural tone variation. Stable collarbone-length black hairline and flyaway strands, near-bare-face makeup, worn ivory knit sweater, charcoal trousers and an old red cotton thread on the right wrist. Restrained, alert and quietly exhausted temperament. Eye-level bust framing, 85mm portrait-lens look, f/2.8 feel, soft cool window key from frame left, slight negative fill from frame right, natural catchlights, restrained low-saturation cinematic grade, subtle grain, realistic fabric and skin. Lock the identical facial identity, age, hair, wardrobe and red thread across every image; no influencer face, V-line jaw, enlarged eyes, westernized nose, plastic skin, over-retouching, anime look or identity drift.`,
+Character-reference bust portrait of Lin Wan, a 24-year-old East Asian woman with a naturally slim oval face, soft non-pointed jawline, realistic cheekbone placement, straight soft brows, dark-brown inner double-lid eyes with subtle fatigue shadows, a natural nose bridge and nostril width, thin lips with mild real asymmetry, neutral skin tone with visible pores, fine facial hair and natural tone variation. Stable collarbone-length black hairline and flyaway strands, near-bare-face makeup, worn ivory knit sweater, charcoal trousers and an old red cotton thread on the right wrist. Restrained, alert and quietly exhausted temperament. Eye-level bust framing, 85mm portrait-lens look, f/2.8 feel, soft cool window key from frame left, slight negative fill from frame right, natural catchlights, restrained low-saturation cinematic grade, subtle grain, realistic fabric and skin. Lock the identical facial identity, age, hair, wardrobe and red thread across every image; no influencer face, V-line jaw, enlarged eyes, westernized nose, plastic skin, over-retouching, anime look or identity drift.
+
+中文提示词
+${staticAssetStyleGuide.zh}
+
+24岁东亚女性林晚的电影角色定妆半身人像：清瘦自然鹅蛋脸、柔和非尖下颌、自然颧骨、平缓眉形、内双深棕眼睛与轻微疲惫阴影，鼻梁与鼻翼比例真实，偏薄嘴唇带轻微自然不对称；中性肤色保留毛孔、细小绒毛、自然肤色变化和眼神光。黑色锁骨短发，近似素颜，洗旧米白针织衫、深灰长裤，右手腕旧红棉线。气质警觉、克制、疲惫但不脆弱。平视胸像，85mm人像镜头距离感，f/2.8适度浅景深，左侧灰蓝窗光与右侧轻微负补光，中性低饱和电影调色、轻微颗粒、自然高光过渡和真实布料纹理。全片固定同一脸型、五官比例、年龄、发际线、发型、服装和右腕红线；禁止网红脸、小V脸、放大眼睛、欧美化高鼻梁、塑料皮肤、过度磨皮、动漫感与身份漂移。`,
     },
     {
       label: "关键帧提示词",
       title: "真人感 + 情绪 + 场景合并后的最终静态图",
-      body: `中文关键帧提示词
-${staticAssetStyleGuide.zh}
-
-9:16竖屏，暗房门口的紧特写。严格沿用P01林晚固定真人定妆：24岁东亚女性、自然清瘦鹅蛋脸、内双深棕眼睛、锁骨黑短发、米白针织衫、右腕旧红线，身份与年龄不可变化。她左手拿着仍带湿润显影光泽的第七张即时照片，视线刚从照片移向画面右侧门把；瞳孔短暂放大后的余波仍在，眼眶有水光但不落泪，下颌收紧，喉结刚完成一次吞咽，拇指压弯照片边缘，肩膀轻微上提。
-
-85mm长焦紧特写，f/1.4极浅景深，眼睛和照片边缘处于同一关键焦面；林晚脸部位于画面左中部，右侧保留门把方向的负空间。暗房红色安全灯从后侧描出发丝边缘，门缝冷光轻扫面部，真实毛孔、细发、眼神光、唇纹和针织布料。低饱和悬疑电影调色，真实光学散景，轻微胶片颗粒。避免网红脸、塑料皮肤、夸张哭泣、空洞凝视、发型服装变化、多余手指、漂浮照片和红线位置错误。
-
-English Keyframe Prompt
+      body: `English Prompt
 ${staticAssetStyleGuide.en}
 
-Vertical 9:16 tight close-up at a darkroom doorway. Strictly preserve the fixed P01 Lin Wan identity: the same 24-year-old East Asian woman, naturally slim oval face, dark-brown inner double-lid eyes, collarbone-length black hair, worn ivory knit sweater and old red thread on her right wrist. She holds the still-wet seventh instant photograph in her left hand; her gaze has just shifted from the photograph toward an off-screen door handle on frame right. Residue of pupil dilation, wet eyes without falling tears, tightened jaw, one just-finished swallow, thumb bending the paper edge, shoulders slightly raised. 85mm telephoto tight close-up, f/1.4 shallow depth of field, eyes and photo edge sharing the critical focus plane, face in left-center with threatening negative space on the right. Red safelight rims loose hair, cold door-gap light brushes the face, visible pores, fine hair, catchlights, lip texture and knit fabric, restrained low-saturation suspense grade, optical bokeh, subtle grain. No influencer face, plastic skin, exaggerated crying, empty stare, identity drift, wardrobe change, extra fingers, floating photograph or misplaced red thread.`,
+Vertical 9:16 tight close-up at a darkroom doorway. Strictly preserve the fixed P01 Lin Wan identity: the same 24-year-old East Asian woman, naturally slim oval face, dark-brown inner double-lid eyes, collarbone-length black hair, worn ivory knit sweater and old red thread on her right wrist. She holds the still-wet seventh instant photograph in her left hand; her gaze has just shifted from the photograph toward an off-screen door handle on frame right. Residue of pupil dilation, wet eyes without falling tears, tightened jaw, one just-finished swallow, thumb bending the paper edge, shoulders slightly raised. 85mm telephoto tight close-up, f/1.4 shallow depth of field, eyes and photo edge sharing the critical focus plane, face in left-center with threatening negative space on the right. Red safelight rims loose hair, cold door-gap light brushes the face, visible pores, fine hair, catchlights, lip texture and knit fabric, restrained low-saturation suspense grade, optical bokeh, subtle grain. No influencer face, plastic skin, exaggerated crying, empty stare, identity drift, wardrobe change, extra fingers, floating photograph or misplaced red thread.
+
+中文提示词
+${staticAssetStyleGuide.zh}
+
+9:16竖屏暗房门口紧特写。严格沿用P01林晚固定真人定妆：同一名24岁东亚女性、自然清瘦鹅蛋脸、内双深棕眼睛、锁骨黑短发、米白针织衫、右腕旧红线。她左手拿着仍有湿润显影光泽的第七张即时照片，视线刚从照片移向画面右侧门把；瞳孔短暂放大后的余波仍在，眼眶有水光但不落泪，下颌收紧，刚完成一次吞咽，拇指压弯照片边缘，肩膀轻微上提。85mm长焦紧特写，f/1.4极浅景深，眼睛与照片边缘处于同一关键焦面；脸部位于左中部，右侧保留门把方向的负空间。暗房红色安全灯勾勒发丝，门缝冷光轻扫面部，保留真实毛孔、细发、眼神光、唇纹和针织布料；低饱和悬疑调色、真实光学散景与轻微胶片颗粒。禁止网红脸、塑料皮肤、夸张哭泣、空洞凝视、身份漂移、多余手指、漂浮照片和红线位置错误。`,
     },
     {
-      label: "资产连续性检查",
-      title: "03.7｜把全部静态资产交给04之前的最终核对",
+      label: "Demo连续性记录",
+      title: "案例管理信息｜把已采用静帧交给04",
       body: `人物一致性：P01固定同一脸型、五官比例、年龄、发型、米白针织衫、深灰长裤和右腕红线。
 风格一致性：S01—S04、R01—R05、P01和关键帧全部完整继承STYLE-A01。
 时代一致性：当代生活空间中只出现可信的旧模拟摄影设备，不出现智能屏、未来设备和赛博设计。
@@ -889,20 +850,11 @@ function getDisplayOutput(stageId: StageId): DetailSection[] {
   }
   if (stageId === "identity") return demoOutputs.identity;
   if (stageId === "assets") {
-    const assetNumbers: Record<string, string> = {
-      统一风格母版: "03.1",
-      资产清单: "03.2",
-      场景提示词: "03.3",
-      道具提示词: "03.4",
-      真人提示词: "03.5",
-      关键帧提示词: "03.6",
-      资产连续性检查: "03.7",
-    };
     return demoOutputs.assets
       .filter((section) => section.label !== "情绪提示词")
       .map((section) => ({
         ...section,
-        label: `${assetNumbers[section.label] ?? "03"} ${section.label}`,
+        label: `03｜${section.label === "统一风格母版" ? "统一风格依据" : section.label}`,
       }));
   }
   if (stageId !== "storyboard") return demoOutputs[stageId];
@@ -912,7 +864,7 @@ function getDisplayOutput(stageId: StageId): DetailSection[] {
     .flatMap((section) => section.body.split("\n\n"));
 
   const shotTable: DetailSection = {
-    label: "04.1 完整镜头总表",
+    label: "04｜完整镜头总表",
     title: "《第七张照片》00:00—03:00 连续完整剧本分镜",
     intro:
       "这是一个连续交付，不按30秒拆成多个卡片。每行才是一个真实分镜；下方视频提示词组只是生成层。",
@@ -987,7 +939,7 @@ ${shotPrompts}
 ⚠️保持人物身份、服装、发型、红线位置和道具形态一致；禁止换脸、年龄漂移、手指融合、道具漂浮、焦点乱跳、无动机绕拍和瞬间最大情绪。`;
 
       return {
-        label: `04.2 完整视频提示词 ${String(groupIndex + 1).padStart(2, "0")} / ${String(Math.ceil(shotBlocks.length / 2)).padStart(2, "0")}`,
+        label: `04｜完整视频提示词 ${String(groupIndex + 1).padStart(2, "0")} / ${String(Math.ceil(shotBlocks.length / 2)).padStart(2, "0")}`,
         title: `${firstTime}—${lastTime}｜约${totalSeconds}秒｜${parsed.length}个内部镜头`,
         intro: `本段使用资产图对照：@image1=P01林晚；@image2=${sceneNames}；@image3=${assetNames}。正文约${promptBody.length}字符，可直接复制。`,
         body: promptBody,
@@ -1111,7 +1063,7 @@ ${shotPrompts}
     .join("\n\n");
 
   const emotionEnhancedFinal: DetailSection = {
-    label: "04.3 分镜 + 情绪一体稿",
+    label: "04｜分镜 + 情绪一体稿",
     title: "《第七张照片》逐镜融合完整最终剧本",
     intro:
       "融合技能在同一镜头内保留时间码、构图、机位、动作、场景、道具和音效，并直接写入触发、目标、阻碍、保护策略、三轴控制、微表演及摄影机响应。",
@@ -1132,11 +1084,11 @@ ${shotPrompts}
     return { ...section, label: `${gatePrefix} ${section.label}` };
   });
   const finalCheck: DetailSection = {
-    label: "04.4 全片连续性与可生成性检查",
+    label: "04｜最终自检",
     title: "01—04依赖是否完整传到最终分镜",
     body: `01剧本依赖：所有镜头都能追溯到已确认的场次、戏剧动作、价值转变和180秒体量。
 02人物依赖：P01固定同一脸型、五官比例、年龄、妆发、服装与右腕红线。
-03视觉依赖：全部场景、道具、人物和关键帧继承同一STYLE-A01风格母版与资产编号。
+03视觉依赖：本Demo实际采用的场景、道具、人物和关键帧都继承STYLE-A01，并保留案例资产编号。
 04 Gate状态：资产、位置与风格、时间划分、提示词结构、交付形式和HTML QA均已确认。
 镜头结构：每镜固定为画面动作概述 → 画面构图 → 机位 → 动作 → 表情 → 音效。
 情绪结构：人物情绪包含触发、目标、阻碍、保护策略、三轴控制、可见微表演、顶点、余波和摄影机响应。
@@ -1360,7 +1312,7 @@ export default function Home() {
             <div>
               <span className="demo-action-kicker">NO API · FULL DETAIL</span>
               <h2>{currentOutput ? "本步骤明细已全部展开" : "查看技能真实交付明细"}</h2>
-              <p>Demo只展示预制案例，不请求API Key。每个输出字段都来自对应技能规则。</p>
+              <p>Demo只展示预制案例，不请求API Key。技能原生字段与Demo案例管理信息已明确区分。</p>
             </div>
             <div className="demo-action-buttons">
               {!currentOutput && (
@@ -1382,13 +1334,13 @@ export default function Home() {
           </section>
 
           <section className="skill-ledger">
-            <span>1个总流程入口 + 4个按序生产技能</span>
+            <span>技能原文溯源｜总流程只管顺序，不改写内部规则</span>
             <div>
-              <p><code>chuanzhang-ai-shijie-workflow</code><strong>总入口：保存步骤状态，未确认前一步时禁止启动后一步</strong></p>
-              <p><code>01｜chuanzhang-chuangzuo-v1</code><strong>破题、梗概、人物、结构、分场、拉片节奏、可拍摄剧本与剧本医生</strong></p>
-              <p><code>02｜chuanzhangzhenren-prompts</code><strong>真人身份锚点、皮肤妆发、镜头光线与一致性</strong></p>
-              <p><code>03｜chuanzhang-tuxiangtishici</code><strong>统一风格母版、场景、道具、人物和关键帧中英双语提示词</strong></p>
-              <p><code>04｜chuanzhang-fenjing-biaoqing</code><strong>六道确认、镜头总表、视频提示词和逐镜完整表情</strong></p>
+              <p><code>chuanzhang-ai-shijie-workflow</code><strong>仅负责01→02→03→04、状态交接与缺失技能检查；禁止发明子步骤</strong></p>
+              <p><code>01｜chuanzhang-chuangzuo-v1</code><strong>原文九步；双轨节奏属于第6步分场，不另立“拉片”步骤</strong></p>
+              <p><code>02｜chuanzhangzhenren-prompts</code><strong>按15模块顺序写真人写真提示词，并输出“这版控制的重点”</strong></p>
+              <p><code>03｜chuanzhang-tuxiangtishici</code><strong>静态图固定七段结构，英文在前、中文在后；真人图融合真人感与可见情绪</strong></p>
+              <p><code>04｜chuanzhang-fenjing-biaoqing</code><strong>六道Gate；每镜固定“概述→构图→机位→动作→表情→音效”</strong></p>
             </div>
           </section>
 
@@ -1419,7 +1371,7 @@ export default function Home() {
         <div>
           <span>WECHAT OFFICIAL ACCOUNT</span>
           <h2 id="official-account-title">关注船长AI视界</h2>
-          <p>分享AI影视故事创作、拉片节奏、真人与情绪提示词、影视分镜和视频生成工作流。</p>
+          <p>分享AI影视故事创作、双轨节奏、真人与情绪提示词、影视分镜和视频生成工作流。</p>
         </div>
       </section>
     </main>
