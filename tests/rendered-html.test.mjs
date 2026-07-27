@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 async function render(path = "/") {
@@ -28,6 +29,10 @@ test("renders the chuanzhangAIshijie creative workspace", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
+  const source = await readFile(
+    new URL("../app/page.tsx", import.meta.url),
+    "utf8",
+  );
   assert.match(html, /船长AI视界/);
   assert.match(html, /船长AI视界公众号二维码/);
   assert.match(html, /纯演示/);
@@ -42,6 +47,19 @@ test("renders the chuanzhangAIshijie creative workspace", async () => {
   assert.match(html, /真人提示词/);
   assert.match(html, /情绪提示词/);
   assert.match(html, /关键帧提示词/);
+  assert.match(source, /R01 第七张照片/);
+  assert.match(source, /R02 右腕红线/);
+  assert.match(source, /R03 裂纹白瓷杯/);
+  assert.match(source, /R04 微型磁带录音机/);
+  assert.match(source, /R05 延时冲印装置/);
+  assert.match(source, /S01 凌晨卧室/);
+  assert.match(source, /S02 小厨房/);
+  assert.match(source, /S03 废弃照相馆走廊/);
+  assert.match(source, /S04 暗房/);
+  assert.match(source, /36个变长镜头/);
+  assert.match(source, /镜头不是生成批次/);
+  assert.match(source, /3—7秒/);
+  assert.doesNotMatch(source, /12组视频提示词覆盖180秒/);
   assert.match(html, /分镜规划与提示词结构/);
   assert.match(html, /最终分镜与视频提示词/);
   assert.match(html, /chuanzhang-chuangzuo-v1/);

@@ -25,17 +25,17 @@ type DemoStage = {
 const repositoryUrl =
   "https://github.com/zhangxiansheng-888/chuanzhangAIshijie";
 
-const outputIndex: { label: string; stage: StageId }[] = [
-  { label: "三种故事方向", stage: "direction" },
-  { label: "拉片节奏", stage: "script" },
-  { label: "详细剧本", stage: "script" },
-  { label: "场景提示词", stage: "assets" },
-  { label: "道具提示词", stage: "assets" },
-  { label: "真人提示词", stage: "assets" },
-  { label: "情绪提示词", stage: "assets" },
-  { label: "关键帧提示词", stage: "assets" },
-  { label: "分镜规划", stage: "promptPlan" },
-  { label: "180秒最终分镜", stage: "storyboard" },
+const outputIndex: { label: string; stage: StageId; targetLabel: string }[] = [
+  { label: "三种故事方向", stage: "direction", targetLabel: "故事创作一" },
+  { label: "拉片节奏", stage: "script", targetLabel: "A｜拉片节奏解释" },
+  { label: "详细剧本", stage: "script", targetLabel: "B｜详细剧本" },
+  { label: "场景提示词", stage: "assets", targetLabel: "场景提示词" },
+  { label: "道具提示词", stage: "assets", targetLabel: "道具提示词" },
+  { label: "真人提示词", stage: "assets", targetLabel: "真人提示词" },
+  { label: "情绪提示词", stage: "assets", targetLabel: "情绪提示词" },
+  { label: "关键帧提示词", stage: "assets", targetLabel: "关键帧提示词" },
+  { label: "分镜规划", stage: "promptPlan", targetLabel: "Gate 1｜资产确认" },
+  { label: "180秒最终分镜", stage: "storyboard", targetLabel: "先说清楚｜镜头不是生成批次" },
 ];
 
 const stages: DemoStage[] = [
@@ -93,10 +93,10 @@ const stages: DemoStage[] = [
     eyebrow: "180秒生产级交付",
     title: "最终分镜与视频提示词",
     description:
-      "每组写清具体秒数、人物情绪、微表演、构图、摄像机、拍摄风格、场景、道具、动作和音效。",
+      "按剧情节奏拆成36个3—7秒的变长镜头；逐镜写清时间码、切点、情绪、构图、摄影机、场景、道具、动作和音效。",
     button: "展开完整180秒分镜",
     skills: ["chuanzhang-fenjing", "chuanzhangbiaoqing"],
-    deliverables: ["12组时间段", "人物情绪微节拍", "摄影机与拍摄", "场景道具", "可复制视频提示词"],
+    deliverables: ["36个变长镜头", "逐镜头时间码与切点", "人物情绪微节拍", "摄影机与拍摄", "场景道具", "可复制视频提示词"],
   },
 ];
 
@@ -339,6 +339,33 @@ R05 延时冲印装置——机械滚轴、药液痕迹、吐出照片。`,
     },
     {
       label: "场景提示词",
+      title: "S01 凌晨卧室｜中英双语静态场景图",
+      body: `English Prompt
+A cramped lived-in bedroom at 4:07 a.m., vertical 9:16 composition, viewed from the doorway with a 28mm lens. A narrow bed sits frame left; the wall above it is covered with handwritten memory notes, dated instant photographs and red pencil marks. A bedside digital clock clearly reads 4:07, lit by a weak amber practical lamp. Cold blue predawn light leaks through thin curtains on frame right, creating a believable mixed-color contrast. Worn ivory bedding, old wooden floor, half-open drawer, small camera on a chair, realistic dust and paper texture. Real location photography, restrained suspense, readable layout, no people, no luxury interior, no supernatural glow, no illegible decorative text.
+
+中文提示词
+凌晨4:07的狭小旧卧室，9:16竖屏，从门口以28mm广角建立空间。画面左侧是窄床，床头墙贴满手写记忆便签、标注日期的即时照片和红铅笔记号；床头电子钟清晰显示4:07，由微弱暖黄色实景灯照亮。画面右侧薄窗帘透入灰蓝色黎明前冷光，形成可信的冷暖混合光。洗旧米白床品、旧木地板、半开的抽屉、椅子上的小相机，保留灰尘、纸张与生活磨损。真实地点摄影、克制悬疑、空间关系清楚；无人、无豪华装修、无超自然光效、无乱码装饰字。`,
+    },
+    {
+      label: "场景提示词",
+      title: "S02 小厨房｜中英双语静态场景图",
+      body: `English Prompt
+A tiny aging apartment kitchen at cold dawn, vertical 9:16, eye-level 35mm lens from the hall entrance. An old scarred wooden table occupies the foreground with a white porcelain cup, aluminum kettle and a folded prediction photograph placed in a precise triangle. Pale blue morning light enters through a frosted window above the sink; a weak ceiling bulb adds a dirty warm cast. Faded green cabinets, stained tile joints, exposed water pipe, chipped enamel basin and restrained clutter. Realistic Chinese urban rental apartment, cinematic suspense, natural object scale, clear paths for actor movement, no people, no modern luxury appliances, no excessive mess, no stylized neon.
+
+中文提示词
+寒冷清晨的老旧出租屋小厨房，9:16竖屏，从走廊入口平视，35mm镜头。前景旧木桌表面有划痕，白瓷杯、铝制水壶和折起的预言照片形成明确三角关系。水槽上方磨砂窗透入淡蓝晨光，微弱顶灯加入略脏的暖色。褪色浅绿橱柜、发黑瓷砖缝、外露水管、掉瓷水槽和克制生活杂物。真实中国城市出租屋质感，电影悬疑，物体比例正确，演员行动通道清楚；无人、无现代豪华电器、不过度脏乱、无霓虹风格。`,
+    },
+    {
+      label: "场景提示词",
+      title: "S03 废弃照相馆走廊｜中英双语静态场景图",
+      body: `English Prompt
+An abandoned street-level analog photo studio and its long narrow corridor, vertical 9:16, low eye-level 24mm lens looking inward from the broken storefront. A faded sign hangs above cracked glass; dusty sample portraits, empty film boxes and a toppled stool frame the entrance. The corridor narrows toward a closed darkroom door with a thin red light leaking underneath. Peeling cream paint, damp stains, old electrical conduit, scattered contact sheets and suspended dust. Natural overcast daylight dies gradually into darkness, one motivated red leak only. Real derelict location, tense perspective depth, no people, no ghosts, no cyberpunk neon, no impossible architecture.
+
+中文提示词
+临街废弃胶片照相馆及其狭长走廊，9:16竖屏，从破损店面低机位向内看，24mm广角。裂玻璃上方悬着褪色招牌，积灰样片、空胶卷盒和倒下的木凳围住入口；走廊向深处收窄，尽头暗房门紧闭，门缝只漏出一线红光。奶油色墙漆剥落、潮湿水渍、老旧明线管、散落接触印样和空气浮尘。阴天自然光沿走廊逐渐衰减，只保留有来源的红色漏光。真实废弃地点、透视压迫感强；无人、无鬼影、无赛博霓虹、无不可能建筑结构。`,
+    },
+    {
+      label: "场景提示词",
       title: "S04 暗房｜中英双语静态场景图",
       body: `English Prompt
 An abandoned analog photography darkroom at the end of a narrow decaying photo-studio corridor, viewed from the doorway at eye level with a 35mm wide-angle lens. A red safelight hangs above a chemical-stained workbench; a delayed photo-developing machine, a worn cassette recorder and trays of developer sit in the midground. Seven horizontal rows of instant photographs cover the back wall, while a narrow aged mirror catches a partial reflection from frame right. Damp concrete, peeling paint, curled photo paper, dusty air and restrained deep shadows. Real location photography, practical red light only, readable spatial layout, subtle film grain, no people, no futuristic equipment, no neon cyberpunk styling.
@@ -354,6 +381,42 @@ A single landscape-format instant photograph, approximately 11 cm by 8.5 cm, res
 
 中文提示词
 一张横版即时照片，约11厘米×8.5厘米，放在有药液痕迹的暗房工作台上。暖白色厚纸边框，仍在显影的乳剂表面带轻微湿润反光，右下角略微卷起，边缘有手指压痕。照片画面里是同一名年轻东亚女性倒在红灯照亮的暗房地面；背面黑色手写字必须为“这一次，别再忘了”。85mm微距细节感，f/2.8景深，焦点严格锁定纸纤维和字迹，保留真实接触阴影与重量；禁止漂浮、禁止多余文字。`,
+    },
+    {
+      label: "道具提示词",
+      title: "R02 右腕红线｜中英双语道具图",
+      body: `English Prompt
+A short length of old faded red cotton thread tied in a simple double knot around the right wrist of the same young East Asian woman. The thread is thin, matte and slightly dirty, with visible twisted fibers, tiny frayed ends and one flattened section caused by long wear. Macro close-up, 100mm lens look, realistic skin pores, fine wrist hair, tendon structure and gentle contact pressure where the knot touches skin. Neutral soft side light, plain dark-gray background, forensic continuity reference, no bracelet, no glossy silk, no bright new red, no blood, no left wrist.
+
+中文提示词
+一段长期佩戴的褪色红棉线，以简单双结固定绑在同一名年轻东亚女性的右手腕。线体细、哑光、略旧，能看见棉纤维捻线、细小毛边和长期摩擦形成的压扁段；结与皮肤接触处有轻微真实压痕。100mm微距特写，保留皮肤毛孔、腕部细汗毛和肌腱结构，中性柔和侧光，纯深灰背景，用作连续性道具参考。禁止手链造型、禁止丝绸高光、禁止鲜艳新红色、禁止血迹、禁止出现在左手腕。`,
+    },
+    {
+      label: "道具提示词",
+      title: "R03 裂纹白瓷杯｜中英双语道具图",
+      body: `English Prompt
+A plain off-white porcelain drinking cup on an old wooden kitchen table, 10 cm tall, cylindrical body with a small rounded handle. A distinctive hairline crack begins under the base, branches into a narrow Y shape and climbs 3 cm up the lower wall; one tiny triangular chip is missing from the foot ring. Slight tea staining inside, faint scratches and realistic glazed ceramic reflections. 85mm product-detail lens, f/5.6, three-quarter view showing both the crack and handle, cold dawn window light from frame left. Continuity reference object, exact repeatable damage pattern, no logo, no printed text, no decorative pattern, not shattered.
+
+中文提示词
+旧木质厨房桌上的素面暖白瓷杯，高约10厘米，直筒杯身、小圆弧杯把。标志性细裂纹从杯底开始，分成狭窄Y形并沿杯身下部向上延伸约3厘米；底足缺少一小块三角形瓷片。杯内有淡茶渍，釉面有轻微使用划痕和真实陶瓷反光。85mm产品细节镜头，f/5.6，四分之三角度同时看清裂纹与杯把，画面左侧冷清晨窗光。作为连续性参考，破损形状必须每次完全一致；无标志、无文字、无花纹、不要完全碎裂。`,
+    },
+    {
+      label: "道具提示词",
+      title: "R04 微型磁带录音机｜中英双语道具图",
+      body: `English Prompt
+A worn pocket-size microcassette recorder from the late 1990s, dark charcoal ABS plastic body, approximately 12 by 7 cm. Transparent cassette window with a visible microcassette, mechanical play/stop/record buttons, tiny perforated speaker grille and one dim red recording LED. Scratched corners, fingerprint oils, faded white button labels and dust trapped along seams. Resting flat on a chemical-stained darkroom bench, 70mm close product shot, practical red safelight from rear-left and weak cold fill from front. Functional realistic hardware, no brand logo, no digital screen, no smartphone design, no futuristic controls.
+
+中文提示词
+一台1990年代末的旧便携微型磁带录音机，深炭灰ABS塑料机身，约12×7厘米。透明磁带窗内能看见微型磁带，配机械播放、停止、录音按键，小型打孔扬声器和一枚微弱红色录音灯。边角有划痕与磨损，表面留有指纹油迹，白色按键标识褪色，接缝积灰。录音机平放在有药液痕迹的暗房工作台，70mm近距离产品镜头，后左侧红色安全灯，正面微弱冷补光。结构必须真实可用；无品牌标志、无数字屏、无手机造型、无未来控制面板。`,
+    },
+    {
+      label: "道具提示词",
+      title: "R05 延时冲印装置｜中英双语道具图",
+      body: `English Prompt
+A homemade delayed instant-photo developing apparatus built from an old analog processing unit, positioned on a darkroom workbench. Rectangular beige metal housing, two exposed black rubber rollers, narrow paper exit slot, small mechanical timer dial, red toggle switch, stained translucent chemical tubes and a shallow catch tray. One landscape instant photograph is physically gripped between the rollers and halfway emerging, with correct contact and paper curvature. Corrosion, dried developer residue, screws, ventilation slots and believable wiring. 35mm three-quarter technical reference view, red practical safelight, deep neutral shadows. Real functional machinery, no floating paper, no laser, no computer screen, no sci-fi design, no impossible mechanism.
+
+中文提示词
+放在暗房工作台上的自制延时冲印装置，由旧式模拟相纸处理机改装。米灰色长方形金属外壳，两根外露黑色橡胶滚轴、狭窄出纸口、小型机械定时旋钮、红色拨动开关、染有药液的半透明软管和浅接纸盘。一张横版即时照片被滚轴真实夹住，正吐出一半，相纸弯曲、接触点与受力方向必须正确。保留金属腐蚀、干涸显影液痕迹、螺丝、散热孔和可信布线。35mm四分之三技术参考视角，红色实景安全灯，深色中性阴影。必须像真实可工作的机械；照片不能漂浮，无激光、无电脑屏幕、无科幻造型、无不可能机械结构。`,
     },
     {
       label: "真人提示词",
@@ -449,22 +512,19 @@ R05｜冲印装置｜道具｜02:10—02:40｜滚轴真实接触相纸
     },
     {
       label: "Gate 3｜时间划分",
-      title: "12组视频提示词覆盖180秒",
-      body: `01｜00:00—00:15｜异常照片进入卧室｜15秒｜2个内部镜头
-02｜00:15—00:30｜便签墙与失忆规则｜15秒｜2个内部镜头
-03｜00:30—00:45｜录像确认身份｜15秒｜2个内部镜头
-04｜00:45—01:00｜水杯预言与碎裂｜15秒｜3个内部镜头
-05｜01:00—01:15｜红线与六张照片｜15秒｜2个内部镜头
-06｜01:15—01:30｜地址出现与出门决定｜15秒｜2个内部镜头
-07｜01:30—01:45｜抵达废弃照相馆｜15秒｜2个内部镜头
-08｜01:45—02:00｜走廊进入暗房｜15秒｜2个内部镜头
-09｜02:00—02:15｜照片墙与空白第七排｜15秒｜2个内部镜头
-10｜02:15—02:30｜录音揭示与冲印启动｜15秒｜2个内部镜头
-11｜02:30—02:45｜第七张照片与认知｜15秒｜1个完整情绪镜头
-12｜02:45—03:00｜门把转动与最后选择｜15秒｜2个内部镜头
+      title: "先定36个变长镜头，再适配生成模型",
+      body: `成片层：180秒，共36个正式镜头。
+单镜头节奏：3秒、4秒、5秒、6秒、7秒交替，根据新信息、动作完成、情绪变化和声音切点决定长度。
 
-总计：180秒，12条视频提示词；每条不超过15秒。
-拆分理由：地点、焦点道具、情绪大转折或摄影逻辑改变时才分组；完整情绪弧线不切碎。`,
+00:00—00:30｜照片进入卧室｜6镜｜3 / 4 / 5 / 6 / 7 / 5秒
+00:30—01:00｜失忆规则与预言应验｜6镜｜3 / 4 / 5 / 6 / 7 / 5秒
+01:00—01:30｜从恐惧转为主动调查｜6镜｜3 / 4 / 5 / 6 / 7 / 5秒
+01:30—02:00｜进入废弃照相馆｜6镜｜3 / 4 / 5 / 6 / 7 / 5秒
+02:00—02:30｜照片墙与录音揭示｜6镜｜3 / 4 / 5 / 6 / 7 / 5秒
+02:30—03:00｜第七张照片与最后选择｜6镜｜3 / 4 / 5 / 6 / 7 / 5秒
+
+生成层：
+视频模型能生成几秒，就把正式镜头按模型能力分别生成；需要15秒批次时，也只是把若干相邻短镜头打包，后期仍按原切点剪开。禁止为了凑模型时长，把一个没有足够动作或情绪变化的镜头硬拖到15秒。`,
     },
     {
       label: "风格四段",
@@ -500,188 +560,163 @@ R05｜冲印装置｜道具｜02:10—02:40｜滚轴真实接触相纸
 12. 防错警告：身份、空间、道具、焦点、镜头数
 
 硬规则：
-每组不超过15秒；每个镜头必须有音效；人物情绪必须拆成眼神、呼吸、嘴角、下颌、肩膀和手；运镜由情绪变化驱动。`,
+单镜头长度由剧情决定，不默认15秒；每个镜头必须写绝对时间码与明确切点；每个镜头必须有音效；人物情绪拆成眼神、呼吸、嘴角、下颌、肩膀和手；运镜由情绪变化驱动。`,
     },
   ],
   storyboard: [
     {
-      label: "分镜01｜00:00—00:15",
-      title: "异常照片进入卧室",
-      body: `场景：S01凌晨卧室。道具：R01即时照片、电子钟。
-人物情绪：林晚从睡眠残留转为警觉；内部压力2/5，外显1/5，自控5/5。
-镜头A 0.0—3.0秒：85mm道具特写，f/2.8，焦点锁定电子钟4:07；湿照片从门缝滑入前景。固定机位，不变焦。
-镜头B 3.0—15.0秒：50mm中近景，林晚位于画面左三分之一，门口留在右侧负空间；镜头在她第一次屏息时缓慢推进约12厘米。
-微表演：眼睛先睁开但头不动；视线落向地面；鼻吸气停顿；右手指尖抓紧床单；下颌轻收。
-拍摄风格：灰蓝窗光、暖色床头灯未开启，真实低照度，轻微颗粒。
-音效：电子钟电流声、照片摩擦地板、床单细响、一次被压住的鼻息。
-提示词核心：严格2个镜头；照片必须接触地面并有湿润反光；禁止自动增加女主起身镜头。`,
-    },
-    {
-      label: "分镜02｜00:15—00:30",
-      title: "便签墙建立失忆规则",
-      body: `场景：S01卧室。道具：便签墙、墙边相机。
-人物情绪：警觉转为熟悉又不安；看见自己的笔迹，但不记得写过。
-镜头A 0.0—5.0秒：35mm肩后中景，林晚前景虚焦，便签墙在背景清晰；平视固定机位。
-镜头B 5.0—15.0秒：85mm手部与字迹插入，焦点锁定“每天4点后会忘记”；她的食指停在最后一个字前，没有碰上去。
-微表演：慢眨眼一次；嘴唇轻压；喉结吞咽；肩膀保持僵硬。
-拍摄风格：自然晨光逐渐增强，便签纸纹理和卷边清晰。
-音效：窗外远车声、纸角轻响、相机待机电流。
-提示词核心：字迹只出现指定内容；手指不遮挡关键词；禁止焦点漂移。`,
-    },
-    {
-      label: "分镜03｜00:30—00:45",
-      title: "录像中的自己确认身份",
-      body: `场景：S01卧室。道具：墙边相机屏幕。
-人物情绪：难以置信压住求证欲；内部压力3/5，外显1/5。
-镜头A 0.0—7.0秒：50mm双层构图，现实林晚侧脸在左，屏幕中的昨日林晚在右；两张脸保持同一身份。
-镜头B 7.0—15.0秒：85mm紧特写，现实林晚触摸左眉尾，视线对齐屏幕。
-机位：严格平视，轻微真实手持；触摸动作开始后摄影机停止漂移。
-对白：屏幕里的林晚：“如果现在是四点以后，你已经不记得昨天。”
-微表演：台词前屏息；听到“昨天”时瞳孔轻缩；台词后视线不离开屏幕。
-音效：相机扬声器轻微失真、指腹擦过眉毛、房间低频。
-防错：屏幕人物和现实人物不得换脸、换发型、换服装。`,
-    },
-    {
-      label: "分镜04｜00:45—01:00",
-      title: "水杯预言应验",
-      body: `场景：S02小厨房。道具：R01预言照片、R03白瓷杯、水壶。
-人物情绪：怀疑 → 意外 → 冻结；顶点是“照片领先现实”。
-镜头A 0.0—4.0秒：85mm照片特写，照片中的碎杯清晰，现实完整杯子在背景虚化。
-镜头B 4.0—9.0秒：50mm半身，林晚转身关水壶，袖口擦过杯沿。
-镜头C 9.0—15.0秒：45mm微距跟随杯子落地并碎裂，随后硬切林晚眼睛紧特写。
-微表演：身体冻结0.4秒；瞳孔放大；嘴唇微张无声；延迟鼻吸气。
-拍摄风格：冷清晨光，白瓷碎片真实物理碰撞和细小水滴。
-音效：水壶沸腾、瓷杯撞地、碎片滑动、吸气。
-防错：碎裂形状与照片一致；禁止慢动作夸张爆炸；禁止多余碎片穿模。`,
-    },
-    {
-      label: "分镜05｜01:00—01:15",
-      title: "红线与六张照片",
-      body: `场景：S02厨房抽屉。道具：R02红线、六张照片。
-人物情绪：恐惧开始变成主动调查；内部压力4/5，自控4/5。
-镜头A 0.0—6.0秒：35mm俯拍抽屉，照片按日期排列，红线真实缠绕。
-镜头B 6.0—15.0秒：50mm手部近景，林晚把红线绑在右手腕；背景中她的脸虚化但持续观察照片。
-微表演：手指第一次打结失败；她短促呼气后重新绑紧；下颌由紧转稳。
-拍摄风格：自然光与抽屉内阴影，纸张和棉线材质清晰。
-音效：木抽屉摩擦、照片翻动、棉线勒紧皮肤的细响。
-防错：红线只能在右手腕；六张照片数量固定；禁止手指融合。`,
-    },
-    {
-      label: "分镜06｜01:15—01:30",
-      title: "地址出现与出门决定",
-      body: `场景：S02厨房到门口。道具：写有地址的照片、外套。
-人物情绪：犹豫 → 决定；不是突然勇敢，而是带着恐惧行动。
-镜头A 0.0—8.0秒：85mm照片背面特写，“同安路17号”；焦点从字迹物理拉焦到林晚眼睛。
-镜头B 8.0—15.0秒：35mm门口中景，她穿上外套，手停在门锁上0.8秒后压下。
-摄影机：前段静止，决定发生时轻微向前横移，保持门框前景遮挡。
-微表演：一次深而慢的吸气；肩膀放下；手掌先松开再握住门把。
-音效：纸张、衣料、门锁机械声、走廊回响。
-防错：地址必须清晰一致；红线和照片不能消失。`,
-    },
-    {
-      label: "分镜07｜01:30—01:45",
-      title: "抵达废弃照相馆",
-      body: `场景：S03照相馆外。道具：破损招牌、口袋中的照片。
-人物情绪：警觉上升，试图维持冷静。
-镜头A 0.0—5.0秒：24mm竖屏远景，林晚位于下方中央，破损招牌压在上方；轻微雨后湿地反光。
-镜头B 5.0—15.0秒：50mm侧面跟拍，她走向半开的铁门，右手隔着口袋按住照片。
-摄影机：克制手持，呼吸式微动；靠近门口时逐渐减弱。
-拍摄风格：阴天漫射光，低饱和城市边缘，真实湿地和锈蚀。
-音效：远处车辆、鞋底踩湿地、铁门被风推动。
-防错：不增加路人围观；招牌只剩“照相”二字；禁止赛博朋克霓虹。`,
-    },
-    {
-      label: "分镜08｜01:45—02:00",
-      title: "走廊进入暗房",
-      body: `场景：S03走廊连接S04暗房。道具：胶片盒、暗房红灯。
-人物情绪：紧张接近边缘，但仍压住声音。
-镜头A 0.0—3.0秒：35mm广角闪现，铁门后的狭长走廊，红灯在尽头。
-镜头B 3.0—15.0秒：50mm低位手持跟随，林晚踢到胶片盒；她停下，先看盒子，再看红灯。
-微表演：肩膀突然上提；呼吸变浅；眼神在地面和尽头之间切换；右手握紧口袋。
-摄影机：紧张手持但不乱抖，接近红灯时运动减慢。
-音效：胶片盒滚动、鞋底停顿、走廊长回声、暗房机器低频。
-防错：空间关系保持走廊尽头为暗房；禁止镜像和额外房门。`,
-    },
-    {
-      label: "分镜09｜02:00—02:15",
-      title: "照片墙与空白第七排",
-      body: `场景：S04暗房。道具：照片墙、镜子。
-人物情绪：寻找别人 → 发现自己；震惊后出现压抑悲伤。
-镜头A 0.0—5.0秒：35mm广角，林晚在前景右侧，七排照片墙占据背景。
-镜头B 5.0—15.0秒：85mm缓慢横移扫描照片，最终停在空白第七排和镜中林晚的局部倒影。
-微表演：眼睛逐排移动；到第七排时冻结；眉头中央轻皱；肩膀轻微下沉。
-拍摄风格：暗房红灯为主光，门缝冷光为弱轮廓光，阴影保留细节。
-音效：照片夹轻碰、机器风扇、一次吞咽。
-防错：照片中的人物均为同一林晚；第七排必须空白；镜子只反射真实空间。`,
-    },
-    {
-      label: "分镜10｜02:15—02:30",
-      title: "录音揭示与冲印启动",
-      body: `场景：S04暗房工作台。道具：R04录音机、R05冲印装置。
-人物情绪：认知开始，防御被撬开；主情绪是“难以相信过去的自己”。
-镜头A 0.0—8.0秒：50mm双主体中近景，林晚按下录音机，冲印机在背景静止。
-镜头B 8.0—15.0秒：85mm道具近景，录音说到“六次”时冲印机启动，相纸被滚轴咬入。
-对白：“你已经来过六次。别再删掉它。”
-微表演：听到自己的声音先闭眼0.3秒；下唇内收；手指没有离开播放键。
-音效：磁带底噪、机械按键、滚轴启动、相纸摩擦。
-防错：录音口型不出现在现实人物；冲印机滚轴真实接触相纸；禁止魔法光效。`,
-    },
-    {
-      label: "分镜11｜02:30—02:45",
-      title: "第七张照片与完整情绪弧线",
-      body: `场景：S04暗房。道具：第七张照片。单镜头15秒，不剪切。
-人物情绪：识别 → 抵抗 → 泄漏 → 顶点 → 余波。
-0.0—2.0秒：视线停在照片下缘，呼吸均匀。
-2.0—4.0秒：看见自己倒地，身体冻结0.4秒，瞳孔放大。
-4.0—7.0秒：延迟鼻吸气，下颌收紧，拇指压弯照片边缘。
-7.0—10.0秒：喉结吞咽，眼眶水光增加但不落泪。
-10.0—12.5秒：视线移向门外，肩膀上提，屏息。
-12.5—15.0秒：缓慢吐气，把照片攥进掌心。
-机位：85mm极致紧特写，f/1.4，焦点锁眼睛；识别开始后极慢推进总计12厘米，顶点后停止。
-拍摄风格：红灯轮廓、冷门缝光扫面部、真实毛孔和唇纹。
-音效：纸张压弯、呼吸、录音中的一句“事故不是意外”。
-防错：不要瞬间哭泣、不要夸张瞪眼、不要随机眨眼、不要换脸。`,
-    },
-    {
-      label: "分镜12｜02:45—03:00",
-      title: "门把转动与最后选择",
-      body: `场景：S04暗房入口。道具：门把、第七张照片、录音机。
-人物情绪：恐惧仍在，但控制重新建立；结尾不是胜利，而是选择不逃。
-镜头A 0.0—5.0秒：85mm门把大特写，门把缓慢转动约20度，焦平面全程锁定金属磨损。
-镜头B 5.0—15.0秒：50mm中近景，林晚后退半步后停住；人物在左三分之一，门在右侧负空间。
-微表演：脚后跟先移；胸腔一次短促起伏；她看向门，右手在口袋外攥紧照片；下颌重新稳定。
-摄影机：镜头B低位缓慢手持，前5秒轻微下沉；她停住后摄影机也稳定，只剩规律呼吸感。
-拍摄风格：红色安全灯与门缝冷光，暗部真实，禁止炫技环绕。
-音效：门锁金属摩擦、录音机断电前说“这一次，别再忘了”、一次未完成吸气；切黑后保留0.5秒室内低频。
-防错：严格2个镜头；门外人物不出现；红线仍在右腕；照片不得消失。`,
-    },
-    {
-      label: "完整视频提示词样例",
-      title: "分镜11可复制结构示范",
-      body: `不要出现BGM，不要出现字幕
+      label: "先说清楚｜镜头不是生成批次",
+      title: "为什么不再机械地每段15秒",
+      body: `成片总长：180秒。
+最终分镜：36个镜头，单镜头在3—7秒之间变化，不存在“每个镜头固定15秒”。
+叙事段落：为了阅读，按每30秒归为一章；“章”不是镜头，也不是必须一次生成的视频。
+生成批次：实际接入不同视频模型时，再根据模型上限，把相邻镜头按5秒、8秒、10秒或15秒组合。生成批次只是技术包装，不改变剪辑节奏。
 
-【全局画质】真实电影实拍质感，高解析，大画幅动态范围，真实物理接触与重量；禁止游戏引擎、三维渲染、动画和插画感。
-【人物材质】林晚皮肤保留毛孔、细小绒毛、自然血色、眼眶水光、唇纹和碎发；禁止塑料皮肤、磨皮和年龄漂移。
-【灯光与风格】暗房红色安全灯从后侧勾勒发丝，门缝冷光从右侧轻扫面部，负补光保持颧骨和下颌立体；低饱和悬疑电影调色，轻微颗粒。
-【核心特效】即时照片乳剂仍在显影，表面湿润反光随手指角度变化；只使用真实化学显影效果，不出现魔法发光。
+每条分镜固定写清：
+绝对时间码｜单镜头时长｜景别与构图｜镜头高度与方位｜焦段与光圈｜摄影机运动｜人物动作｜情绪微表演｜场景｜道具｜灯光风格｜声音｜切点｜连续性防错。`,
+    },
+    {
+      label: "逐镜头01—06｜00:00—00:30",
+      title: "照片进入：3、4、5、6、7、5秒",
+      body: `01｜00:00—00:03｜3秒｜S01卧室｜R01照片、4:07电子钟
+85mm俯拍道具特写，固定机位，f/2.8。电子钟清晰显示4:07，湿照片从门缝滑入并停住。音效：电流、相纸擦地。切点：照片完全静止时硬切。
 
-@image1（林晚）——24岁东亚女性，固定清瘦鹅蛋脸、内双深棕眼睛、锁骨黑短发、米白针织衫、深灰长裤、右腕旧红线。
-@image2（暗房）——北墙七排照片，西侧工作台，东墙旧镜子，南侧唯一入口，红色安全灯。
-@image3（第七张照片）——横版白边即时照片，仍有湿润显影光泽，画面是林晚倒在暗房地面。
+02｜00:03—00:07｜4秒｜S01卧室｜床与门口
+35mm低机位中远景，林晚在左、门口在右侧负空间。她睁眼但头不动，呼吸从均匀变为停顿。摄影机静止。音效：床单、一次鼻息。
 
-⚠️空间布局：林晚站在工作台东侧，照片墙在正前方，镜子在右后方，入口在背后右侧。禁止左右镜像。
-⚠️本视频严格只有1个镜头，单镜头15秒，无剪辑。
+03｜00:07—00:12｜5秒｜S01卧室｜R01照片
+50mm床边中近景，极慢推进8厘米。她坐起，视线先找声音再落向地面，右手仍抓床单。内部压力2/5，外显1/5。切点：目光锁定照片。
 
-【单镜头｜0.0—15.0秒】
-画面动作概述：林晚看清第七张照片中的自己，努力压住恐惧，情绪经历识别、抵抗、泄漏、顶点和重新控制。
-画面构图：85mm极致紧特写，林晚脸部占画面左中部，额头到下巴填满画幅；第七张照片边缘位于右下前景，门方向在画面右侧保留负空间；暗房背景完全虚化为红黑色块。
-机位：摄影机位于林晚东南侧约0.7米，平视，85mm长焦，f/1.4极浅景深，焦点严格锁定双眼。0—2秒严格静止；2秒识别开始后极慢推进，总距离约12厘米；10秒情绪顶点后停止移动，保留真实摄影师呼吸式微动，禁止变焦。
-动作：0—2秒视线停在照片下缘，呼吸均匀；2—4秒看见自己倒地，身体冻结0.4秒，瞳孔短暂放大，嘴唇微张无声；4—7秒一次延迟鼻吸气，下颌收紧，左手拇指压弯照片边缘；7—10秒喉结用力吞咽，眼眶水光增加但泪不落下；10—12.5秒视线移向画面右侧门口，肩膀轻微上提并屏息；12.5—15秒缓慢吐气，下颌放松半秒又重新稳定，把照片攥进掌心。所有变化错开出现，不让整张脸同时达到最大幅度。
-音效：湿润相纸被压弯的细声、一次延迟鼻吸气、吞咽、布料轻响；录音机在7秒处说“事故不是意外”，声音带磁带底噪；无音乐。
+04｜00:12—00:18｜6秒｜S01卧室｜R01照片
+85mm手部近景，平视偏低。手指靠近、停顿0.5秒、捏住白边，避开湿显影区。真实接触阴影。音效：指腹摩擦纸边。
 
-环境活动 / 全场音效：冲印机风扇维持低频，红色安全灯轻微电流声，远处门外只有一次模糊脚步。
+05｜00:18—00:25｜7秒｜S01卧室｜照片中的照相馆
+100mm微距，焦点从湿乳剂缓慢拉到照片画面。林晚拇指轻颤一次后压住。禁止漂浮、禁止新增文字。音效：低频渐入。
 
-⚠️保持@image1脸型、五官比例、年龄、发型、服装和右腕红线一致；禁止瞬间最大情绪、夸张瞪眼、立刻流泪、随机眨眼、机械转头、橡皮嘴、手指融合、照片漂浮、焦点漂移和自动增加镜头。`,
+06｜00:25—00:30｜5秒｜S01卧室｜林晚脸部
+85mm紧特写，冷窗光，摄影机在第一次屏息时推进6厘米。瞳孔轻缩、下颌收紧、嘴唇分开但无声。切点：她突然看向便签墙。`,
+    },
+    {
+      label: "逐镜头07—12｜00:30—01:00",
+      title: "失忆规则与预言应验：镜头长短随信息变化",
+      body: `07｜00:30—00:33｜3秒｜S01｜便签墙
+24mm肩后全景，便签墙占画面上部，林晚前景虚焦。快速建立信息空间，固定镜头。
+
+08｜00:33—00:37｜4秒｜S01｜核心便签
+85mm字迹插入，焦点锁定“每天4点后会忘记”。食指停在最后一字前，不遮挡文字。纸角轻响。
+
+09｜00:37—00:42｜5秒｜S01｜相机屏幕
+50mm双层构图，现实林晚与屏幕中的昨日林晚同框，严格同脸、同发型、同服装。屏幕对白：“你已经不记得昨天。”
+
+10｜00:42—00:48｜6秒｜S01｜林晚反应
+85mm紧特写，轻微手持在她触摸眉尾时停止。听到“昨天”瞳孔轻缩，慢眨一次，喉结吞咽。
+
+11｜00:48—00:55｜7秒｜S02厨房｜R01、R03
+85mm照片特写，照片中是碎杯，现实完整白瓷杯在背景。焦点从照片裂纹拉到现实杯底同一位置。
+
+12｜00:55—01:00｜5秒｜S02厨房｜R03白瓷杯
+45mm低位近景，袖口擦过杯沿，杯子落地碎裂。真实重力、碎片数量克制、破损形状与照片一致。瓷器撞地声成为硬切点。`,
+    },
+    {
+      label: "逐镜头13—18｜01:00—01:30",
+      title: "从恐惧转为调查：动作加快，决定处放慢",
+      body: `13｜01:00—01:03｜3秒｜S02｜林晚眼睛
+100mm眼部特写，身体冻结0.4秒，瞳孔放大后出现一次延迟吸气。无夸张瞪眼。
+
+14｜01:03—01:07｜4秒｜S02｜抽屉
+35mm俯拍，抽屉被猛地拉开，六张照片按日期排列，R02红线压在上方。木轨摩擦声。
+
+15｜01:07—01:12｜5秒｜S02｜六张照片
+50mm垂直俯拍，手按日期快速翻看；每张都是同一林晚，照片数量固定六张。摄影机不旋转。
+
+16｜01:12—01:18｜6秒｜S02｜R02红线
+85mm手部近景，第一次打结失败，她短促呼气后重新绑在右腕。情绪从慌乱转向控制。
+
+17｜01:18—01:25｜7秒｜S02｜地址照片
+100mm微距，背面“同安路17号”清楚可读；4秒时拉焦到背景中的林晚眼睛。她缓慢深吸气，肩膀落下。
+
+18｜01:25—01:30｜5秒｜门口｜外套、照片、红线
+35mm门框遮挡中景，手停在门锁0.8秒后压下。摄影机在决定发生时横移10厘米。门锁声切到外景。`,
+    },
+    {
+      label: "逐镜头19—24｜01:30—02:00",
+      title: "进入照相馆：空间镜头短，压迫跟拍变长",
+      body: `19｜01:30—01:33｜3秒｜S03外景｜破损招牌
+24mm仰角快速建立，招牌只剩“照相”二字，阴天湿地反光。远车声。
+
+20｜01:33—01:37｜4秒｜S03外景｜林晚
+50mm侧面跟拍，右手隔口袋按住照片，步速略快但肩颈僵硬。克制手持。
+
+21｜01:37—01:42｜5秒｜S03入口｜铁门
+35mm背后中景，铁门被推开，黑暗走廊逐渐露出。摄影机先停后跟，铁门长摩擦声。
+
+22｜01:42—01:48｜6秒｜S03走廊｜胶片盒
+50mm低位跟随，鞋尖踢到胶片盒；盒子滚出画面，她立即停步。肩膀上提、呼吸变浅。
+
+23｜01:48—01:55｜7秒｜S03走廊｜暗房红光
+70mm压缩透视，林晚前景侧脸与尽头红光同框。焦点先在眼睛，再缓慢拉到门缝。走廊低频增强。
+
+24｜01:55—02:00｜5秒｜S04入口｜暗房门
+24mm肩后广角，她推门进入，照片墙、工作台、镜子只建立一次且方位固定。禁止镜像与额外房门。`,
+    },
+    {
+      label: "逐镜头25—30｜02:00—02:30",
+      title: "真相显形：照片墙、录音机、冲印装置",
+      body: `25｜02:00—02:03｜3秒｜S04｜照片墙
+35mm全景，七排照片墙占背景，林晚位于前景右侧。红灯主光，门缝冷轮廓光。
+
+26｜02:03—02:07｜4秒｜S04｜照片墙
+85mm横移扫描前六排，照片中均为同一林晚。照片夹轻碰，不显示第七排。
+
+27｜02:07—02:12｜5秒｜S04｜空白第七排、镜子
+85mm横移停在空白第七排，镜中出现林晚局部真实倒影。她眉心轻皱、肩膀下沉。
+
+28｜02:12—02:18｜6秒｜S04工作台｜R04录音机
+50mm中近景，手按下播放键后留在原位。录音：“你已经来过六次。”她闭眼0.3秒，下唇内收。
+
+29｜02:18—02:25｜7秒｜S04工作台｜R04、R05
+70mm双主体，前景录音机、背景冲印装置。录音说“别再删掉它”时，R05红灯亮起、滚轴启动。
+
+30｜02:25—02:30｜5秒｜S04工作台｜R05冲印装置
+85mm机械特写，相纸被两根滚轴真实咬合并吐出，接触点、弯曲和摩擦正确。无魔法光、无漂浮纸张。`,
+    },
+    {
+      label: "逐镜头31—36｜02:30—03:00",
+      title: "第七张照片与门外威胁：结尾镜头重新变短",
+      body: `31｜02:30—02:33｜3秒｜S04｜R01第七张照片
+100mm微距，照片完全吐出，湿乳剂中逐渐显出林晚倒地。机械停止声切断环境低频。
+
+32｜02:33—02:37｜4秒｜S04｜林晚与照片
+85mm紧特写，视线停在照片下缘后移到画面中央；身体冻结0.4秒，嘴唇微张无声。
+
+33｜02:37—02:42｜5秒｜S04｜情绪泄漏
+85mm极近，极慢推进8厘米。延迟鼻吸气、下颌收紧、喉结吞咽、眼眶水光增加但不落泪。
+
+34｜02:42—02:48｜6秒｜S04｜照片背面
+70mm手部近景，她翻到背面，“这一次，别再忘了”清楚可读；拇指压弯纸边，右腕红线保持可见。
+
+35｜02:48—02:55｜7秒｜S04入口｜门把
+85mm门把大特写，门外脚步靠近，门把缓慢转动20度。焦点锁定金属磨损，不出现门外人物。
+
+36｜02:55—03:00｜5秒｜S04｜林晚最后选择
+50mm中近景，她后退半步后停住，把照片攥紧，先屏息再稳定下颌，视线直对门口。摄影机随她后退轻微下沉，人物停住时镜头也稳定。录音机说“别再忘了”；切黑后保留0.5秒未完成吸气。`,
+    },
+    {
+      label: "可复制视频提示词｜镜头33",
+      title: "5秒单镜头示范，不再强行写15秒",
+      body: `不要出现BGM，不要出现字幕。
+
+【时长与镜头】本条只生成1个5秒镜头，不剪切，不自动续写前后剧情。
+【画面】9:16竖屏，S04暗房，85mm紧特写，f/1.4，林晚脸部位于左中部，第七张照片边缘位于右下前景，门口方向保留负空间。
+【人物一致性】严格沿用P01林晚：24岁东亚女性、固定清瘦鹅蛋脸、内双深棕眼睛、锁骨黑短发、米白针织衫、深灰长裤、右腕旧红线；不得换脸、变龄、换发型或服装。
+【0.0—1.0秒】她刚认出照片中的自己，身体冻结0.4秒，瞳孔短暂放大，嘴唇微张但无声。
+【1.0—2.5秒】一次延迟鼻吸气，下颌逐渐收紧，视线不离开照片。
+【2.5—4.0秒】喉结完成一次吞咽，眼眶出现水光但不落泪，左手拇指压弯湿照片边缘。
+【4.0—5.0秒】视线开始移向画面右侧门口，呼吸停止；动作未完成处结束镜头，为下一镜保留悬念。
+【摄影机】0—1秒静止；1秒后极慢推进，总距离8厘米；4秒后停止。禁止变焦、绕拍、随机抖动和焦点漂移。
+【灯光与材质】红色安全灯勾勒发丝，门缝冷光扫过面部；保留真实毛孔、细发、眼神光、唇纹、纸纤维和湿乳剂反光。
+【声音】相纸轻响、延迟鼻吸气、吞咽、冲印机低频；无音乐。
+【防错】不要瞬间最大情绪、夸张瞪眼、立刻流泪、随机眨眼、橡皮嘴、手指融合、照片漂浮或自动增加镜头。`,
     },
   ],
 };
@@ -814,7 +849,14 @@ export default function Home() {
                 <button
                   key={item.label}
                   className={item.stage === activeStage ? "active" : ""}
-                  onClick={() => setActiveStage(item.stage)}
+                  onClick={() => {
+                    setActiveStage(item.stage);
+                    window.setTimeout(() => {
+                      document
+                        .querySelector(`[data-detail-label="${item.targetLabel}"]`)
+                        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }, 0);
+                  }}
                 >
                   {item.label}
                 </button>
@@ -862,7 +904,11 @@ export default function Home() {
           {currentOutput && (
             <div className="detail-stack">
               {currentOutput.map((section, index) => (
-                <section className="detail-section" key={`${section.label}-${section.title}`}>
+                <section
+                  className="detail-section"
+                  data-detail-label={section.label}
+                  key={`${section.label}-${section.title}`}
+                >
                   <header>
                     <div>
                       <span>{section.label}</span>
