@@ -703,6 +703,55 @@ button {
   background: #cfc8bc;
 }
 
+.output-index {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.65fr) minmax(0, 2fr);
+  gap: 22px;
+  margin-bottom: 28px;
+  padding: 18px 20px;
+  border: 1px solid #cfc8bc;
+  background: #fffdf8;
+}
+
+.output-index > div span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--orange-dark);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.output-index > div strong {
+  color: #2f2c28;
+  font-family: "STSong", "SimSun", serif;
+  font-size: 15px;
+}
+
+.output-index nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 7px;
+}
+
+.output-index button {
+  padding: 7px 10px;
+  border: 1px solid #ddd5ca;
+  background: #f8f4ed;
+  color: #5d574f;
+  cursor: pointer;
+  font-size: 10px;
+  transition: 150ms ease;
+}
+
+.output-index button:hover,
+.output-index button.active {
+  border-color: #e2784f;
+  background: #fff0e9;
+  color: #9f3b18;
+}
+
 .skill-contract > div {
   padding: 18px 20px;
   background: #fffdf8;
@@ -1377,6 +1426,21 @@ button {
 
   .skill-contract {
     grid-template-columns: 1fr;
+  }
+
+  .output-index {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 18px;
+  }
+
+  .output-index nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .output-index button {
+    text-align: left;
   }
 
   .detail-section > header {

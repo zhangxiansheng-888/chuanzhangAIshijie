@@ -25,6 +25,19 @@ type DemoStage = {
 const repositoryUrl =
   "https://github.com/zhangxiansheng-888/chuanzhangAIshijie";
 
+const outputIndex: { label: string; stage: StageId }[] = [
+  { label: "三种故事方向", stage: "direction" },
+  { label: "拉片节奏", stage: "script" },
+  { label: "详细剧本", stage: "script" },
+  { label: "场景提示词", stage: "assets" },
+  { label: "道具提示词", stage: "assets" },
+  { label: "真人提示词", stage: "assets" },
+  { label: "情绪提示词", stage: "assets" },
+  { label: "关键帧提示词", stage: "assets" },
+  { label: "分镜规划", stage: "promptPlan" },
+  { label: "180秒最终分镜", stage: "storyboard" },
+];
+
 const stages: DemoStage[] = [
   {
     id: "direction",
@@ -52,7 +65,7 @@ const stages: DemoStage[] = [
     id: "assets",
     number: "03",
     eyebrow: "把剧本拆成可复用资产",
-    title: "五类视觉资产提示词",
+    title: "场景／道具／真人／情绪／关键帧提示词",
     description:
       "分别生成场景、道具、真人角色、人物情绪和关键帧提示词；人物画面必须同时融合真人感与情绪表演。",
     button: "展开全部资产提示词",
@@ -700,7 +713,9 @@ ${sections}`;
 
 export default function Home() {
   const [activeStage, setActiveStage] = useState<StageId>("direction");
-  const [revealed, setRevealed] = useState<StageId[]>([]);
+  const [revealed, setRevealed] = useState<StageId[]>(
+    stages.map((stage) => stage.id),
+  );
   const currentIndex = stages.findIndex((stage) => stage.id === activeStage);
   const currentStage = stages[currentIndex];
   const currentOutput = revealed.includes(activeStage)
@@ -743,7 +758,7 @@ export default function Home() {
 
       <section className="demo-notice" aria-label="演示说明">
         <strong>完整教学Demo</strong>
-        <span>三种故事方向、拉片节奏、详细剧本、五类资产提示词、180秒逐组分镜全部展开。</span>
+        <span>所有交付明细默认展开，点击下方目录可直接查看场景、道具、真人、情绪等提示词。</span>
         <a href={repositoryUrl}>查看开源项目 ↗</a>
       </section>
 
@@ -789,6 +804,24 @@ export default function Home() {
         </aside>
 
         <section className="content">
+          <section className="output-index" aria-label="完整交付目录">
+            <div>
+              <span>完整交付目录</span>
+              <strong>核心内容不再隐藏 · 点击直达</strong>
+            </div>
+            <nav>
+              {outputIndex.map((item) => (
+                <button
+                  key={item.label}
+                  className={item.stage === activeStage ? "active" : ""}
+                  onClick={() => setActiveStage(item.stage)}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </nav>
+          </section>
+
           <div className="content-head">
             <div>
               <span className="section-number">{currentStage.number}</span>

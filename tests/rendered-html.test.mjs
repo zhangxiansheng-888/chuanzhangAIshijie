@@ -35,7 +35,13 @@ test("renders the chuanzhangAIshijie creative workspace", async () => {
   assert.match(html, /部署自己的版本/);
   assert.match(html, /故事方向与核心提炼/);
   assert.match(html, /拉片节奏与详细剧本/);
-  assert.match(html, /五类视觉资产提示词/);
+  assert.match(html, /场景／道具／真人／情绪／关键帧提示词/);
+  assert.match(html, /完整交付目录/);
+  assert.match(html, /场景提示词/);
+  assert.match(html, /道具提示词/);
+  assert.match(html, /真人提示词/);
+  assert.match(html, /情绪提示词/);
+  assert.match(html, /关键帧提示词/);
   assert.match(html, /分镜规划与提示词结构/);
   assert.match(html, /最终分镜与视频提示词/);
   assert.match(html, /chuanzhang-chuangzuo-v1/);
