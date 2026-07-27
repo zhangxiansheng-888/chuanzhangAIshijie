@@ -30,10 +30,14 @@ test("renders the chuanzhangAIshijie creative workspace", async () => {
   const html = await response.text();
   assert.match(html, /船长AI视界/);
   assert.match(html, /船长AI视界公众号二维码/);
+  assert.match(html, /纯演示/);
+  assert.match(html, /不调用AI/);
+  assert.match(html, /部署自己的版本/);
   assert.match(html, /灵感破题/);
   assert.match(html, /故事创作/);
-  assert.match(html, /视觉提示词/);
+  assert.match(html, /真人视觉提示词/);
   assert.match(html, /分镜确认/);
   assert.match(html, /最终分镜/);
+  assert.doesNotMatch(html, /OpenAI API Key|设置 API/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });

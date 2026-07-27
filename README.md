@@ -4,12 +4,15 @@
 
 GitHub 仓库名：`chuanzhangAIshijie`
 
-这个仓库集中提供两种使用方式：
+这个仓库集中提供三种使用方式：
 
-- 提供可以在线使用和自行部署的网站源码。
+- 查看不调用 AI、不收集 API Key 的公开流程 Demo。
+- 从 `self-hosted` 分支部署一份属于自己的可用网站。
 - 提供 5 个可以单独安装到 Codex 的创作技能。
 
-在线体验：[船长AI视界](https://captain-ai-studio.zhanganseng.chatgpt.site)
+公开 Demo：[船长AI视界](https://captain-ai-studio.zhanganseng.chatgpt.site)
+
+> 公开 Demo 的所有结果均为预制样例，只用于展示完整方法，不会调用 AI。需要真正创作时，请安装技能，或部署自己的版本。
 
 ## 核心特色
 
@@ -40,9 +43,7 @@ GitHub 仓库名：`chuanzhangAIshijie`
 4. 真人感与角色情绪
 5. 最终分镜
 
-网站采用 BYOK（自带 API Key）方式。每位使用者填写自己的 OpenAI API Key，密钥只用于向 OpenAI 发起当次请求；项目内容保存在使用者自己的浏览器中。
-
-> ChatGPT Plus 与 OpenAI API 是两套独立服务。使用网站调用 API 时，需要在 OpenAI API 平台单独开通计费和额度。
+公开 Demo 不提供生成接口，不要求 API Key，也不产生 AI 调用费用。`self-hosted` 分支保留 BYOK（自带 API Key）版本，部署者和使用者自行承担各自的托管及 API 用量。
 
 ## 仓库中的技能
 
@@ -56,7 +57,7 @@ GitHub 仓库名：`chuanzhangAIshijie`
 
 原本的 `chuanzhang-fenjing-` 末尾多了一个连字符，不符合 Codex 技能命名规范；仓库中已规范为 `chuanzhang-fenjing`，功能内容不变。
 
-## 安装技能
+## 安装全部技能
 
 ### 最简单的方法
 
@@ -83,7 +84,30 @@ GitHub 仓库名：`chuanzhangAIshijie`
 
 每个技能目录都必须完整保留，其中的 `SKILL.md` 是技能入口。
 
-## 本地运行网站
+## 部署自己的版本
+
+可用网站保存在本仓库的 `self-hosted` 分支。最简单的做法是把下面这段话发给你自己的 Codex：
+
+```text
+请从这个仓库的 self-hosted 分支创建一份属于我自己的网站，
+部署到我自己的 ChatGPT Sites 账号，不要使用仓库作者的托管。
+网站采用 BYOK，每位使用者填写自己的 OpenAI API Key。
+```
+
+仓库地址：
+
+```text
+https://github.com/zhangxiansheng-888/chuanzhangAIshijie
+```
+
+这样部署后：
+
+- 网站托管额度属于部署者自己的账号。
+- AI 调用费用属于填写 API Key 的使用者。
+- 不会占用船长AI视界公开 Demo 的 AI 额度。
+- ChatGPT Plus 与 OpenAI API 仍是两套独立服务；API 需要单独开通计费。
+
+## 本地运行公开 Demo
 
 环境要求：Node.js 22.13 或更高版本。
 
@@ -103,8 +127,9 @@ npm test
 ## API Key 与隐私
 
 - 仓库不包含任何人的 API Key。
-- 网站不会把用户的 API Key 写入项目文件或数据库。
-- 使用者可以选择只在当前页面会话中保存密钥。
+- 公开 Demo 不接收 API Key，也不会发起 AI 生成请求。
+- `self-hosted` 版本不会把用户的 API Key 写入项目文件或数据库。
+- `self-hosted` 版本的使用者可以选择只在当前页面会话中保存密钥。
 - 不要把 `.env`、日志或包含密钥的截图提交到 GitHub。
 - 公开部署前，请自行检查服务器日志和托管平台设置。
 

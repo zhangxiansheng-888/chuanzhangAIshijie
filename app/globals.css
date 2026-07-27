@@ -107,6 +107,51 @@ button {
   gap: 10px;
 }
 
+.demo-status {
+  margin-right: 8px;
+  color: #b6b2aa;
+  font-size: 12px;
+}
+
+.demo-status i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: #4fbd90;
+  box-shadow: 0 0 0 4px rgba(79, 189, 144, 0.1);
+}
+
+.link-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.demo-notice {
+  min-height: 48px;
+  padding: 10px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  border-bottom: 1px solid #d8b39f;
+  background: #fff1e8;
+  color: #6d4636;
+  font-size: 12px;
+}
+
+.demo-notice strong {
+  color: #a83e19;
+}
+
+.demo-notice a {
+  color: #8f3516;
+  font-weight: 700;
+}
+
 .save-state {
   margin-right: 10px;
   color: #9d9a94;
@@ -213,6 +258,13 @@ button {
 
 .project-block input:focus {
   border-bottom-color: #736f67;
+}
+
+.demo-project-name {
+  display: block;
+  color: #fff;
+  font-family: "STSong", "SimSun", serif;
+  font-size: 20px;
 }
 
 .progress-row {
@@ -501,6 +553,45 @@ button {
   color: #aaa49a;
 }
 
+.demo-idea {
+  margin-top: 22px;
+  padding: 18px 20px;
+  border-left: 3px solid var(--orange);
+  background: #f5f1e9;
+}
+
+.demo-idea p {
+  margin: 0;
+  color: #5f5a52;
+  font-family: "STSong", "SimSun", serif;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.demo-brief-grid span {
+  min-height: 62px;
+  padding: 14px;
+  border: 1px solid #ddd6ca;
+  background: #fff;
+}
+
+.demo-brief-grid small,
+.demo-brief-grid strong {
+  display: block;
+}
+
+.demo-brief-grid small {
+  margin-bottom: 6px;
+  color: #8d877d;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+}
+
+.demo-brief-grid strong {
+  color: #34312c;
+  font-size: 13px;
+}
+
 .idea-examples {
   margin: 12px 0 25px;
   display: flex;
@@ -642,6 +733,101 @@ button {
 .action-card {
   margin-top: 24px;
   padding: 26px 30px;
+}
+
+.demo-action-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.demo-action-card h2 {
+  margin: 5px 0 8px;
+  font-family: "STSong", "SimSun", serif;
+  font-size: 20px;
+}
+
+.demo-action-card p {
+  max-width: 600px;
+  margin: 0;
+  color: #777168;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.demo-action-kicker {
+  color: var(--green);
+  font-family: Georgia, serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.demo-action-buttons {
+  flex: 0 0 auto;
+}
+
+.ownership-cta {
+  margin-top: 30px;
+  padding: 30px;
+  border: 1px solid #272521;
+  background: #1d1c1a;
+  color: #fff;
+}
+
+.ownership-cta > span {
+  color: #f28a65;
+  font-size: 10px;
+  letter-spacing: 0.13em;
+}
+
+.ownership-cta > h2 {
+  margin: 7px 0 22px;
+  font-family: "STSong", "SimSun", serif;
+  font-size: 24px;
+}
+
+.ownership-cta > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ownership-cta a {
+  padding: 18px;
+  border: 1px solid #45423d;
+  background: #282623;
+  color: #fff;
+  text-decoration: none;
+  transition: 150ms ease;
+}
+
+.ownership-cta a:hover {
+  border-color: var(--orange);
+  transform: translateY(-2px);
+}
+
+.ownership-cta small,
+.ownership-cta strong {
+  display: block;
+}
+
+.ownership-cta small {
+  margin-bottom: 8px;
+  color: #f38b66;
+  font-size: 9px;
+}
+
+.ownership-cta strong {
+  font-size: 15px;
+}
+
+.ownership-cta p {
+  margin: 7px 0 0;
+  color: #aaa69f;
+  font-size: 10px;
+  line-height: 1.65;
 }
 
 .action-card > label {
@@ -933,6 +1119,7 @@ button {
   }
 
   .save-state,
+  .demo-status,
   .ghost-button {
     display: none;
   }
@@ -1035,6 +1222,33 @@ button {
 
   .action-row {
     display: block;
+  }
+
+  .demo-notice {
+    padding: 10px 14px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+  }
+
+  .demo-notice span {
+    width: 100%;
+  }
+
+  .demo-action-card {
+    display: block;
+  }
+
+  .demo-action-buttons {
+    margin-top: 18px;
+  }
+
+  .ownership-cta {
+    padding: 24px 18px;
+  }
+
+  .ownership-cta > div {
+    grid-template-columns: 1fr;
   }
 
   .action-row > p {

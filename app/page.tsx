@@ -1,18 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 
 type StageId = "idea" | "story" | "visual" | "plan" | "storyboard";
 
-type ProjectState = {
-  name: string;
-  idea: string;
-  format: string;
-  genre: string;
-  ratio: string;
-  style: string;
-  outputs: Partial<Record<StageId, string>>;
-};
+const repositoryUrl =
+  "https://github.com/zhangxiansheng-888/chuanzhangAIshijie";
 
 const stages: Array<{
   id: StageId;
@@ -27,215 +20,166 @@ const stages: Array<{
     number: "01",
     eyebrow: "从一句话开始",
     title: "灵感破题",
-    description: "把零散想法整理成高概念、核心戏剧动作和明确的故事方向。",
-    button: "生成故事方向",
+    description: "把一句灵感整理成高概念、核心悬念和明确的故事方向。",
+    button: "查看故事方向 Demo",
   },
   {
     id: "story",
     number: "02",
     eyebrow: "建立故事世界",
     title: "故事创作",
-    description: "完成人物、世界观、结构大纲和可拍摄的中文分场故事。",
-    button: "生成完整故事",
+    description: "建立人物、规则、三幕结构与三分钟可拍摄故事。",
+    button: "查看完整故事 Demo",
   },
   {
     id: "visual",
     number: "03",
-    eyebrow: "把文字变成画面",
-    title: "视觉提示词",
-    description: "统一角色长相、真人质感、情绪表演、场景与关键帧图片提示词。",
-    button: "生成视觉方案",
+    eyebrow: "人物先定妆，再做画面",
+    title: "真人视觉提示词",
+    description: "把真人感与人物情绪合并进同一套角色定妆和关键帧提示词。",
+    button: "查看真人提示词 Demo",
   },
   {
     id: "plan",
     number: "04",
     eyebrow: "开拍前的确认",
     title: "分镜确认",
-    description: "核对资产、人物位置、视觉风格和每段不超过15秒的时间划分。",
-    button: "生成分镜方案",
+    description: "确认人物资产、空间关系、节奏划分和视觉连续性。",
+    button: "查看分镜规划 Demo",
   },
   {
     id: "storyboard",
     number: "05",
     eyebrow: "交付生产指令",
     title: "最终分镜",
-    description: "输出镜头表、表演、构图、机位、声音与可复制的视频提示词。",
-    button: "生成最终分镜",
+    description: "输出镜头、表演、构图、机位、声音和视频生成提示词。",
+    button: "查看最终分镜 Demo",
   },
 ];
 
-const emptyProject: ProjectState = {
-  name: "未命名影片",
-  idea: "",
-  format: "1—3分钟概念短片",
-  genre: "悬疑",
-  ratio: "9:16 竖屏",
-  style: "电影写实，克制、有真实摄影质感",
-  outputs: {},
+const demoOutputs: Record<StageId, string> = {
+  idea: `片名：《第七张照片》
+
+一句话高概念
+一个每天都会失去昨日记忆的女孩，连续收到“未来的自己”寄来的照片；当第七张照片显示她将在今晚死去，她必须在记忆再次清空前找出寄信人。
+
+核心悬念
+照片到底来自未来，还是有人利用她的失忆操纵她？
+
+核心戏剧动作
+女孩把照片上的细节当作坐标，在有限时间内追查自己的过去。
+
+三分钟方向
+前30秒建立失忆与照片规则；中段通过三张照片连续升级；最后一张照片把线索指向镜子中的她自己。`,
+
+  story: `主角
+林晚，24岁。事故后患有顺行性遗忘，每天凌晨四点后无法保留当天形成的记忆。她依靠墙上的便签和即时相机维持生活。
+
+故事结构
+00:00—00:30｜第一张照片
+林晚醒来，床边出现一张并非她相机拍摄的照片：她站在一栋废弃照相馆前，背面写着“不要相信今天的你”。
+
+00:30—01:30｜照片开始预告
+第二张照片提前拍下即将碎裂的水杯。几秒后，水杯真的落地。第三张照片里，她的手腕绑着陌生红线。她在抽屉深处找到同样的红线和六张日期不同的照片。
+
+01:30—02:30｜寻找寄信人
+她按照照片进入废弃照相馆。暗房里挂满她过去七天留下的记录。录音机中传来她自己的声音：“如果你听到这里，说明我又忘了。”
+
+02:30—03:00｜第七张照片
+最后一张照片显示她倒在暗房中。林晚发现“未来的自己”不是超自然存在，而是每天失忆前的她，利用延时冲印装置把线索留给第二天。门外脚步逼近，她终于想起：事故并非意外。画面停在门把缓慢转动的一刻。`,
+
+  visual: `A｜女主角真人定妆提示词（固定身份）
+
+中文提示词
+24岁东亚女性，清瘦鹅蛋脸，眉骨柔和，内双深棕眼睛，眼下有轻微疲惫阴影，鼻梁自然，嘴唇偏薄，黑色锁骨短发略微凌乱；无网红妆感，保留真实毛孔、细小绒毛和轻微肤色不均；穿洗旧的米白针织衫与深灰长裤。纪实电影摄影，真实镜头光学，克制调色，50mm镜头，浅景深，皮肤不过度磨皮，人物身份在所有镜头保持一致。
+
+English prompt
+24-year-old East Asian woman, slim oval face, soft brow ridge, dark-brown inner double-lid eyes with subtle fatigue shadows, natural nose bridge, thin lips, slightly messy collarbone-length black hair; no influencer makeup, visible pores, fine facial hair and mild uneven skin tone; worn ivory knit sweater and charcoal trousers. Documentary cinematic photography, authentic lens optics, restrained color grade, 50mm lens, shallow depth of field, no plastic skin, identical facial identity across every shot.
+
+B｜人物情绪表演规则
+
+主情绪：警觉压住恐惧。
+可见表演：视线先停在照片边缘，呼吸短暂停顿，下颌轻轻收紧；右手拇指反复摩擦照片背面，肩膀保持克制，不做夸张瞪眼。情绪峰值后保留一次缓慢吐气和失焦凝视。
+
+C｜关键帧提示词
+
+竖屏9:16，中近景。凌晨灰蓝色卧室，林晚坐在床沿，手中捏着一张刚显影的照片；窗帘缝隙切出一道冷光，床头暖灯形成微弱色温对比。她的视线锁定照片背面，呼吸停顿，下颌轻收，手指因用力微微发白。真实皮肤纹理，克制悬疑电影感，角色外貌严格沿用固定定妆。
+
+负面约束
+避免塑料皮肤、过度磨皮、网红脸、夸张表情、五官漂移、年龄变化、发型变化、多余手指、文字乱码、动漫感。`,
+
+  plan: `资产确认
+✓ 林晚固定真人定妆：外貌、发型、服装不可变化
+✓ 核心道具：即时照片、红线、录音机、延时冲印装置
+✓ 主场景：卧室、走廊、废弃照相馆、暗房
+
+节奏规划
+段落1（0—30秒）：3个镜头，建立失忆规则与第一张照片
+段落2（30—90秒）：7个镜头，用预言照片连续升级
+段落3（90—150秒）：6个镜头，进入照相馆并发现自我留言
+段落4（150—180秒）：4个镜头，揭示真相并留下门外威胁
+
+连续性规则
+所有人物镜头复用同一角色定妆；红线始终绑在右手腕；暗房主光固定为红色安全灯；单个生成片段不超过15秒；每个镜头只安排一个主要戏剧动作。`,
+
+  storyboard: `镜头01｜0:00—0:07
+景别/机位：俯拍特写，缓慢下降
+画面：凌晨4:07，床头电子钟闪烁。即时照片从画外滑入桌面。
+声音：电流声、远处冰箱压缩机启动。
+视频提示词：9:16竖屏，真实悬疑电影摄影，俯拍床头桌，照片缓慢滑入，冷灰晨光，克制运动，7秒。
+
+镜头02｜0:07—0:15
+景别/机位：50mm中近景，固定机位
+表演：林晚先看电子钟，再看照片；呼吸停顿，下颌轻收，拇指摩擦照片边缘。
+连续性：严格复用林晚固定真人定妆。
+
+镜头03｜0:15—0:24
+景别/机位：照片主观特写，轻微手持
+画面：照片中的林晚站在废弃照相馆前；背面手写“不要相信今天的你”。
+声音：纸张摩擦被异常放大。
+
+……
+
+镜头20｜2:52—3:00
+景别/机位：暗房中景，缓慢推近
+画面：门把从静止到缓慢转动。林晚没有后退，只把第七张照片攥进掌心。红灯映出真实皮肤与眼中尚未散去的恐惧。
+声音：门锁金属声，录音机最后一句“这一次，别再忘了”。
+结束：切黑，保留一次未完成的吸气声。`,
 };
 
-const exampleIdeas = [
-  "一个失去记忆的女孩，每天醒来都会收到未来的自己寄来的照片。",
-  "深夜末班地铁里，老人发现所有乘客都是年轻时的自己。",
-  "古代女将军凯旋回城，却在城门下看见已经战死的爱人。",
-];
-
-function downloadProject(project: ProjectState) {
+function downloadDemo() {
   const sections = stages
-    .filter((stage) => project.outputs[stage.id])
-    .map(
-      (stage) =>
-        `## ${stage.number} ${stage.title}\n\n${project.outputs[stage.id]}`,
-    )
+    .map((stage) => `## ${stage.number} ${stage.title}\n\n${demoOutputs[stage.id]}`)
     .join("\n\n---\n\n");
-  const text = `# ${project.name}\n\n> ${project.idea}\n\n- 体量：${project.format}\n- 类型：${project.genre}\n- 比例：${project.ratio}\n- 风格：${project.style}\n\n${sections}`;
+  const text = `# 《第七张照片》完整流程 Demo\n\n> 一个失忆女孩每天收到未来自己寄来的照片。\n\n- 体量：3分钟\n- 类型：悬疑\n- 比例：9:16 竖屏\n- 品牌：船长AI视界\n\n${sections}`;
   const blob = new Blob([text], { type: "text/markdown;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
   anchor.href = url;
-  anchor.download = `${project.name || "船长AI创作项目"}.md`;
+  anchor.download = "船长AI视界-第七张照片-Demo.md";
   anchor.click();
   URL.revokeObjectURL(url);
 }
 
 export default function Home() {
-  const [project, setProject] = useState<ProjectState>(emptyProject);
   const [activeStage, setActiveStage] = useState<StageId>("idea");
-  const [apiKey, setApiKey] = useState("");
-  const [model, setModel] = useState("gpt-5.6-terra");
-  const [rememberKey, setRememberKey] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
-  const [revision, setRevision] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [hydrated, setHydrated] = useState(false);
-
-  useEffect(() => {
-    try {
-      const storedProject = localStorage.getItem("captain-ai-project");
-      const storedModel = localStorage.getItem("captain-ai-model");
-      const storedKey = localStorage.getItem("captain-ai-api-key");
-      if (storedProject) setProject(JSON.parse(storedProject));
-      if (storedModel) setModel(storedModel);
-      if (storedKey) {
-        setApiKey(storedKey);
-        setRememberKey(true);
-      }
-    } catch {
-      // A damaged local draft should never block the workspace.
-    } finally {
-      setHydrated(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!hydrated) return;
-    localStorage.setItem("captain-ai-project", JSON.stringify(project));
-  }, [project, hydrated]);
-
+  const [revealed, setRevealed] = useState<StageId[]>([]);
   const currentIndex = stages.findIndex((stage) => stage.id === activeStage);
   const currentStage = stages[currentIndex];
-  const currentOutput = project.outputs[activeStage] ?? "";
-  const completedCount = stages.filter((stage) => project.outputs[stage.id]).length;
+  const currentOutput = revealed.includes(activeStage)
+    ? demoOutputs[activeStage]
+    : "";
 
-  const previousContext = useMemo(
-    () =>
-      stages
-        .slice(0, currentIndex)
-        .filter((stage) => project.outputs[stage.id])
-        .map(
-          (stage) =>
-            `【${stage.title}】\n${project.outputs[stage.id]}`,
-        )
-        .join("\n\n"),
-    [currentIndex, project.outputs],
-  );
-
-  function updateProject<K extends keyof ProjectState>(
-    key: K,
-    value: ProjectState[K],
-  ) {
-    setProject((current) => ({ ...current, [key]: value }));
-  }
-
-  function saveSettings() {
-    localStorage.setItem("captain-ai-model", model);
-    if (rememberKey) {
-      localStorage.setItem("captain-ai-api-key", apiKey);
-    } else {
-      localStorage.removeItem("captain-ai-api-key");
-    }
-    setSettingsOpen(false);
-    setError("");
-  }
-
-  function resetProject() {
-    if (!window.confirm("新建项目会清空当前本地草稿，是否继续？")) return;
-    setProject(emptyProject);
-    setActiveStage("idea");
-    setRevision("");
-    setError("");
-  }
-
-  async function generate() {
-    setError("");
-    if (!apiKey.trim()) {
-      setSettingsOpen(true);
-      setError("请先填写你自己的 OpenAI API Key。");
-      return;
-    }
-    if (!project.idea.trim()) {
-      setError("先写下一句话灵感，再开始创作。");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const response = await fetch("/api/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          apiKey: apiKey.trim(),
-          model: model.trim(),
-          stage: activeStage,
-          project: {
-            name: project.name,
-            idea: project.idea,
-            format: project.format,
-            genre: project.genre,
-            ratio: project.ratio,
-            style: project.style,
-          },
-          previousContext,
-          currentDraft: currentOutput,
-          revision: revision.trim(),
-        }),
-      });
-      const data = (await response.json()) as { text?: string; error?: string };
-      if (!response.ok || !data.text) {
-        throw new Error(data.error || "生成失败，请稍后重试。");
-      }
-      setProject((current) => ({
-        ...current,
-        outputs: { ...current.outputs, [activeStage]: data.text },
-      }));
-      setRevision("");
-    } catch (caught) {
-      setError(
-        caught instanceof Error ? caught.message : "生成失败，请稍后重试。",
-      );
-    } finally {
-      setLoading(false);
-    }
+  function revealCurrent() {
+    setRevealed((current) =>
+      current.includes(activeStage) ? current : [...current, activeStage],
+    );
   }
 
   function continueToNext() {
-    if (currentIndex < stages.length - 1) {
-      setActiveStage(stages[currentIndex + 1].id);
-      setRevision("");
-      setError("");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    if (currentIndex >= stages.length - 1) return;
+    setActiveStage(stages[currentIndex + 1].id);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   return (
@@ -245,62 +189,53 @@ export default function Home() {
           <span className="brand-mark">船</span>
           <span>
             <strong>船长AI视界</strong>
-            <small>创作工作台</small>
+            <small>完整流程演示</small>
           </span>
         </button>
         <div className="topbar-actions">
-          <span className="save-state">
+          <span className="demo-status">
             <i />
-            草稿已保存在本机
+            纯演示 · 不调用AI
           </span>
-          <button className="ghost-button" onClick={resetProject}>
-            新建项目
-          </button>
-          <button className="ghost-button" onClick={() => downloadProject(project)}>
-            导出项目
-          </button>
-          <button
-            className={`api-button ${apiKey ? "connected" : ""}`}
-            onClick={() => setSettingsOpen(true)}
-          >
+          <a className="ghost-button link-button" href={`${repositoryUrl}#安装全部技能`}>
+            安装技能
+          </a>
+          <a className="api-button link-button" href={`${repositoryUrl}#部署自己的版本`}>
             <span className="api-dot" />
-            {apiKey ? "API 已填写" : "设置 API"}
-          </button>
+            部署自己的版本
+          </a>
         </div>
       </header>
+
+      <section className="demo-notice" aria-label="演示说明">
+        <strong>这是公开 Demo</strong>
+        <span>所有结果均为预制样例，不收集API Key，不产生AI费用。</span>
+        <a href={repositoryUrl}>查看开源项目 ↗</a>
+      </section>
 
       <div className="workspace">
         <aside className="sidebar">
           <div className="project-block">
-            <label htmlFor="project-name">当前项目</label>
-            <input
-              id="project-name"
-              value={project.name}
-              onChange={(event) => updateProject("name", event.target.value)}
-              aria-label="项目名称"
-            />
+            <label>演示项目</label>
+            <strong className="demo-project-name">《第七张照片》</strong>
             <div className="progress-row">
-              <span>{completedCount} / {stages.length} 已完成</span>
-              <span>{Math.round((completedCount / stages.length) * 100)}%</span>
+              <span>{revealed.length} / {stages.length} 已查看</span>
+              <span>{Math.round((revealed.length / stages.length) * 100)}%</span>
             </div>
             <div className="progress-track">
-              <span style={{ width: `${(completedCount / stages.length) * 100}%` }} />
+              <span style={{ width: `${(revealed.length / stages.length) * 100}%` }} />
             </div>
           </div>
 
           <nav className="stage-nav" aria-label="创作步骤">
             {stages.map((stage, index) => {
               const isActive = stage.id === activeStage;
-              const isDone = Boolean(project.outputs[stage.id]);
+              const isDone = revealed.includes(stage.id);
               return (
                 <button
                   key={stage.id}
                   className={`${isActive ? "active" : ""} ${isDone ? "done" : ""}`}
-                  onClick={() => {
-                    setActiveStage(stage.id);
-                    setRevision("");
-                    setError("");
-                  }}
+                  onClick={() => setActiveStage(stage.id)}
                 >
                   <span className="stage-index">{isDone ? "✓" : stage.number}</span>
                   <span>
@@ -314,10 +249,8 @@ export default function Home() {
           </nav>
 
           <div className="privacy-note">
-            <span>KEY</span>
-            <p>
-              你的 API Key 不进入项目文件，也不会保存在本站服务器。
-            </p>
+            <span>DEMO</span>
+            <p>演示站没有生成接口。真正创作请安装技能，或把网站部署到自己的账号。</p>
           </div>
         </aside>
 
@@ -341,72 +274,22 @@ export default function Home() {
             <section className="brief-card">
               <div className="card-heading">
                 <div>
-                  <span>CREATIVE BRIEF</span>
-                  <h2>这次想讲一个什么故事？</h2>
+                  <span>DEMO CREATIVE BRIEF</span>
+                  <h2>一个失忆女孩每天收到未来自己寄来的照片</h2>
                 </div>
-                <em>必填</em>
+                <em>预制案例</em>
               </div>
-              <textarea
-                className="idea-input"
-                value={project.idea}
-                onChange={(event) => updateProject("idea", event.target.value)}
-                placeholder="写下一句话灵感，不需要完整。例如：一个失去记忆的女孩，每天收到未来的自己寄来的照片……"
-              />
-              <div className="idea-examples">
-                <span>没有头绪？试试：</span>
-                {exampleIdeas.map((idea, index) => (
-                  <button key={idea} onClick={() => updateProject("idea", idea)}>
-                    灵感 {index + 1}
-                  </button>
-                ))}
+              <div className="demo-idea">
+                <p>
+                  从一个明确灵感出发，依次完成故事、真人角色定妆、情绪提示词、
+                  分镜规划和最终镜头表。
+                </p>
               </div>
-              <div className="brief-grid">
-                <label>
-                  影片体量
-                  <select
-                    value={project.format}
-                    onChange={(event) => updateProject("format", event.target.value)}
-                  >
-                    <option>1—3分钟概念短片</option>
-                    <option>5—10分钟短片</option>
-                    <option>长片</option>
-                    <option>多集微短剧</option>
-                  </select>
-                </label>
-                <label>
-                  故事类型
-                  <select
-                    value={project.genre}
-                    onChange={(event) => updateProject("genre", event.target.value)}
-                  >
-                    <option>悬疑</option>
-                    <option>爱情</option>
-                    <option>科幻</option>
-                    <option>动作</option>
-                    <option>喜剧</option>
-                    <option>奇幻</option>
-                    <option>现实主义</option>
-                  </select>
-                </label>
-                <label>
-                  画面比例
-                  <select
-                    value={project.ratio}
-                    onChange={(event) => updateProject("ratio", event.target.value)}
-                  >
-                    <option>9:16 竖屏</option>
-                    <option>16:9 横屏</option>
-                    <option>2.39:1 宽银幕</option>
-                    <option>1:1 方形</option>
-                  </select>
-                </label>
-                <label>
-                  视觉方向
-                  <input
-                    value={project.style}
-                    onChange={(event) => updateProject("style", event.target.value)}
-                  />
-                </label>
+              <div className="brief-grid demo-brief-grid">
+                <span><small>影片体量</small><strong>3分钟</strong></span>
+                <span><small>故事类型</small><strong>悬疑</strong></span>
+                <span><small>画面比例</small><strong>9:16 竖屏</strong></span>
+                <span><small>视觉方向</small><strong>电影写实 · 克制</strong></span>
               </div>
             </section>
           )}
@@ -414,11 +297,11 @@ export default function Home() {
           {activeStage !== "idea" && (
             <section className="context-strip">
               <div>
-                <span>创作依据</span>
-                <strong>{project.name}</strong>
+                <span>演示项目</span>
+                <strong>《第七张照片》</strong>
               </div>
-              <p>{project.idea}</p>
-              <button onClick={() => setActiveStage("idea")}>修改基础设定</button>
+              <p>一个失忆女孩每天收到未来自己寄来的照片。</p>
+              <button onClick={() => setActiveStage("idea")}>返回灵感</button>
             </section>
           )}
 
@@ -426,76 +309,64 @@ export default function Home() {
             <section className="output-card">
               <div className="output-head">
                 <div>
-                  <span>AI OUTPUT · {currentStage.number}</span>
-                  <h2>{currentStage.title}结果</h2>
+                  <span>DEMO OUTPUT · {currentStage.number}</span>
+                  <h2>{currentStage.title}样例</h2>
                 </div>
                 <button
                   onClick={() => navigator.clipboard.writeText(currentOutput)}
                   className="copy-button"
                 >
-                  复制结果
+                  复制样例
                 </button>
               </div>
               <article>{currentOutput}</article>
             </section>
           )}
 
-          <section className="action-card">
-            <label htmlFor="revision">
-              {currentOutput ? "需要修改什么？" : "补充要求（可选）"}
-            </label>
-            <textarea
-              id="revision"
-              value={revision}
-              onChange={(event) => setRevision(event.target.value)}
-              placeholder={
-                currentOutput
-                  ? "只写要调整的部分，例如：让主角更克制，结尾不要反转……"
-                  : "例如：不需要对白、偏冷色、人物要有东方气质……"
-              }
-            />
-            {error && <p className="error-message">{error}</p>}
-            <div className="action-row">
+          <section className="action-card demo-action-card">
+            <div>
+              <span className="demo-action-kicker">NO API · NO COST</span>
+              <h2>{currentOutput ? "这一步已经展示完成" : "查看这一阶段的完整样例"}</h2>
               <p>
-                <span className="spark">✦</span>
-                {currentOutput
-                  ? "修改会保留已经确认的方向，只重做当前步骤。"
-                  : "系统会读取此前已经确认的全部创作结果。"}
+                Demo只展示船长AI视界的工作方法。要输入自己的灵感，请安装技能或部署自己的版本。
               </p>
-              <div>
-                <button
-                  className="generate-button"
-                  onClick={generate}
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <>
-                      <span className="spinner" />
-                      正在创作
-                    </>
-                  ) : (
-                    <>
-                      <span>✦</span>
-                      {currentOutput ? "按意见重新生成" : currentStage.button}
-                    </>
-                  )}
+            </div>
+            <div className="demo-action-buttons">
+              {!currentOutput && (
+                <button className="generate-button" onClick={revealCurrent}>
+                  <span>✦</span>
+                  {currentStage.button}
                 </button>
-                {currentOutput && currentIndex < stages.length - 1 && (
-                  <button className="continue-button" onClick={continueToNext}>
-                    确认并进入下一步
-                    <span>→</span>
-                  </button>
-                )}
-                {currentOutput && currentIndex === stages.length - 1 && (
-                  <button
-                    className="continue-button"
-                    onClick={() => downloadProject(project)}
-                  >
-                    导出完整项目
-                    <span>↓</span>
-                  </button>
-                )}
-              </div>
+              )}
+              {currentOutput && currentIndex < stages.length - 1 && (
+                <button className="continue-button" onClick={continueToNext}>
+                  进入下一步
+                  <span>→</span>
+                </button>
+              )}
+              {currentOutput && currentIndex === stages.length - 1 && (
+                <button className="continue-button" onClick={downloadDemo}>
+                  下载完整Demo
+                  <span>↓</span>
+                </button>
+              )}
+            </div>
+          </section>
+
+          <section className="ownership-cta">
+            <span>想用自己的灵感真正生成？</span>
+            <h2>选择属于你自己的运行方式</h2>
+            <div>
+              <a href={`${repositoryUrl}#安装全部技能`}>
+                <small>推荐</small>
+                <strong>安装5个技能</strong>
+                <p>在自己的Codex中运行，使用自己的会员和模型。</p>
+              </a>
+              <a href={`${repositoryUrl}#部署自己的版本`}>
+                <small>独立使用</small>
+                <strong>部署网站副本</strong>
+                <p>网站与使用额度都归部署者自己，不占用演示站作者的AI额度。</p>
+              </a>
             </div>
           </section>
         </section>
@@ -512,82 +383,11 @@ export default function Home() {
           <span>WECHAT OFFICIAL ACCOUNT</span>
           <h2 id="official-account-title">关注船长AI视界</h2>
           <p>
-            分享 AI 影视故事创作、图像提示词、真人摄影质感、人物情绪表演、
+            分享AI影视故事创作、图像提示词、真人摄影质感、人物情绪表演、
             影视分镜与视频生成工作流。扫码获取技能更新、创作案例和实用方法。
           </p>
         </div>
       </section>
-
-      {settingsOpen && (
-        <div className="modal-backdrop" role="presentation">
-          <section
-            className="settings-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="settings-title"
-          >
-            <button
-              className="modal-close"
-              onClick={() => setSettingsOpen(false)}
-              aria-label="关闭设置"
-            >
-              ×
-            </button>
-            <span className="modal-kicker">AI CONNECTION</span>
-            <h2 id="settings-title">连接你自己的 OpenAI API</h2>
-            <p className="modal-intro">
-              每位使用者填写自己的 Key，费用由各自的 OpenAI API 账户结算。本站不提供共享 Key。
-            </p>
-            <label>
-              OpenAI API Key
-              <input
-                type="password"
-                value={apiKey}
-                onChange={(event) => setApiKey(event.target.value)}
-                placeholder="sk-..."
-                autoComplete="off"
-              />
-            </label>
-            <label>
-              使用模型
-              <select value={model} onChange={(event) => setModel(event.target.value)}>
-                <option value="gpt-5.6-terra">GPT-5.6 Terra · 均衡推荐</option>
-                <option value="gpt-5.6">GPT-5.6 · 质量优先</option>
-                <option value="gpt-5.6-luna">GPT-5.6 Luna · 速度优先</option>
-              </select>
-            </label>
-            <label className="remember-row">
-              <input
-                type="checkbox"
-                checked={rememberKey}
-                onChange={(event) => setRememberKey(event.target.checked)}
-              />
-              <span>
-                <strong>仅保存在这台设备</strong>
-                <small>取消勾选后，关闭页面即需要重新填写。</small>
-              </span>
-            </label>
-            <div className="security-box">
-              <strong>Key 如何使用？</strong>
-              <p>
-                Key 只在你点击生成时发送给本站的安全转发接口，再交给 OpenAI；接口不会记录或写入数据库。
-              </p>
-            </div>
-            <a
-              href="https://platform.openai.com/api-keys"
-              target="_blank"
-              rel="noreferrer"
-              className="key-help"
-            >
-              我还没有 API Key，去 OpenAI 创建
-              <span>↗</span>
-            </a>
-            <button className="save-settings" onClick={saveSettings}>
-              保存并开始使用
-            </button>
-          </section>
-        </div>
-      )}
     </main>
   );
 }
