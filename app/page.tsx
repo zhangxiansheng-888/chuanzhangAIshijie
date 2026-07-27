@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-type StageId = "direction" | "script" | "assets" | "promptPlan" | "storyboard";
+type StageId = "direction" | "script" | "identity" | "assets" | "promptPlan" | "storyboard";
 
 type DetailSection = {
   label: string;
@@ -26,76 +26,65 @@ const repositoryUrl =
   "https://github.com/zhangxiansheng-888/chuanzhangAIshijie";
 
 const outputIndex: { label: string; stage: StageId; targetLabel: string }[] = [
-  { label: "破题与梗概", stage: "direction", targetLabel: "梗概草稿" },
-  { label: "分场大纲", stage: "script", targetLabel: "分场大纲" },
-  { label: "可拍摄剧本", stage: "script", targetLabel: "场景写作" },
-  { label: "统一风格母版", stage: "assets", targetLabel: "统一风格母版" },
-  { label: "场景提示词", stage: "assets", targetLabel: "场景提示词" },
-  { label: "道具提示词", stage: "assets", targetLabel: "道具提示词" },
-  { label: "真人提示词", stage: "assets", targetLabel: "真人提示词" },
-  { label: "情绪加工最终稿", stage: "storyboard", targetLabel: "最终交付｜情绪加工" },
-  { label: "关键帧提示词", stage: "assets", targetLabel: "关键帧提示词" },
-  { label: "分镜规划", stage: "promptPlan", targetLabel: "Gate 1｜资产确认" },
-  { label: "完整剧本分镜", stage: "storyboard", targetLabel: "完整镜头总表" },
-  { label: "全片视频提示词", stage: "storyboard", targetLabel: "完整视频提示词 01 / 18" },
+  { label: "破题与梗概", stage: "direction", targetLabel: "01.2 梗概草稿" },
+  { label: "分场大纲", stage: "direction", targetLabel: "01.6 分场大纲" },
+  { label: "可拍摄剧本", stage: "direction", targetLabel: "01.8 场景写作" },
+  { label: "真人身份基准", stage: "identity", targetLabel: "02.1—02.8 真人身份基准" },
+  { label: "统一风格母版", stage: "assets", targetLabel: "03.1 统一风格母版" },
+  { label: "场景提示词", stage: "assets", targetLabel: "03.3 场景提示词" },
+  { label: "道具提示词", stage: "assets", targetLabel: "03.4 道具提示词" },
+  { label: "真人提示词", stage: "assets", targetLabel: "03.5 真人提示词" },
+  { label: "情绪融合最终稿", stage: "storyboard", targetLabel: "04.3 分镜 + 情绪一体稿" },
+  { label: "关键帧提示词", stage: "assets", targetLabel: "03.6 关键帧提示词" },
+  { label: "分镜规划", stage: "storyboard", targetLabel: "04.G1 Gate 1｜资产确认" },
+  { label: "完整剧本分镜", stage: "storyboard", targetLabel: "04.1 完整镜头总表" },
+  { label: "全片视频提示词", stage: "storyboard", targetLabel: "04.2 完整视频提示词 01 / 18" },
 ];
 
 const stages: DemoStage[] = [
   {
     id: "direction",
     number: "01",
-    eyebrow: "按创作技能逐步通过，不一次跳完",
-    title: "破题、梗概、人物与结构",
+    eyebrow: "01/04｜确认01之前不进入真人基准",
+    title: "故事创作与完整中文剧本",
     description:
-      "严格执行破题、单一梗概、人物弧光、前史世界观和结构大纲；每一步都等待通过、修改或自检。",
-    button: "展开创作前半程",
+      "严格执行01.1—01.9：破题、单一梗概、人物弧光、前史世界观、结构、分场、拉片节奏、可拍摄剧本和剧本医生。",
+    button: "展开01故事创作",
     skills: ["chuanzhang-chuangzuo-v1"],
-    deliverables: ["破题与核心动作", "单一梗概草稿", "人物Want / Need / Arc", "前史与世界观", "结构大纲"],
+    deliverables: ["01.1—01.5 故事基础", "01.6 分场大纲", "01.7 拉片节奏解释", "01.8 可拍摄剧本", "01.9 剧本医生"],
   },
   {
-    id: "script",
+    id: "identity",
     number: "02",
-    eyebrow: "创作技能后半程",
-    title: "分场大纲、场景写作与剧本医生",
+    eyebrow: "02/04｜只锁定真人身份与摄影基准",
+    title: "真人身份基准",
     description:
-      "分场大纲负责目标、阻碍、结果、价值转变、预估时长和双轨节奏；正式剧本只写能拍到、能听到的内容。",
-    button: "展开分场与剧本",
-    skills: ["chuanzhang-chuangzuo-v1"],
-    deliverables: ["分场大纲", "目标 / 阻碍 / 结果", "预估时长与双轨节奏", "可拍摄中文剧本", "剧本医生"],
+      "先固定人物身份锚点、五官、年龄、肤色、妆发、服装、真人材质、镜头光线和一致性约束，不提前生成场景或分镜。",
+    button: "展开02真人基准",
+    skills: ["chuanzhangzhenren-prompts"],
+    deliverables: ["02.1 角色清单", "02.2—02.4 身份与妆发", "02.5—02.6 真人摄影基准", "02.7 一致性约束", "02.8 定妆提示词"],
   },
   {
     id: "assets",
     number: "03",
-    eyebrow: "把剧本拆成可复用资产",
-    title: "场景／道具／真人／关键帧提示词",
+    eyebrow: "03/04｜确认02后才生成静态视觉资产",
+    title: "统一风格与静态视觉资产",
     description:
       "先建立全片统一风格母版，再让每条场景、道具、真人角色和关键帧静态图提示词完整继承；人物动态情绪统一写入最终逐镜剧本。",
-    button: "展开全部资产提示词",
+    button: "展开03视觉资产",
     skills: [
       "chuanzhang-tuxiangtishici",
-      "chuanzhangzhenren-prompts",
     ],
-    deliverables: ["全片统一风格母版", "场景提示词", "道具提示词", "真人定妆提示词", "关键帧提示词"],
-  },
-  {
-    id: "promptPlan",
-    number: "04",
-    eyebrow: "分镜前先锁定资产、位置和时间",
-    title: "分镜六道确认 Gate",
-    description:
-      "完全按分镜技能执行资产、位置、时间、提示词结构、交付形式和网页质检六道确认。",
-    button: "展开分镜规划",
-    skills: ["chuanzhang-fenjing-biaoqing"],
-    deliverables: ["确认资产", "确认位置与风格", "确认时间划分", "确认提示词结构", "确认交付形式", "HTML QA"],
+    deliverables: ["03.1 风格母版", "03.2 资产清单", "03.3 场景", "03.4 道具", "03.5 人物图", "03.6 关键帧", "03.7 连续性检查"],
   },
   {
     id: "storyboard",
-    number: "05",
-    eyebrow: "180秒生产级交付",
-    title: "最终分镜与视频提示词",
+    number: "04",
+    eyebrow: "04/04｜六道确认完成后生成最终稿",
+    title: "最终分镜、人物情绪与视频提示词",
     description:
       "融合技能在生成完整镜头总表和视频提示词时，直接把情绪技能的全部可见表演写进每一镜，最终一次性交付“分镜 + 情绪”的完整剧本。",
-    button: "展开完整180秒分镜",
+    button: "展开04最终分镜",
     skills: ["chuanzhang-fenjing-biaoqing"],
     deliverables: ["分镜与情绪融合原稿", "已确认分组的视频提示词", "逐镜完整表情字段", "逐镜写回可见表演", "摄影机与环境响应", "分镜 + 情绪最终完整稿"],
   },
@@ -252,6 +241,37 @@ Arc：
 价值转变：恐惧失控 → 带着恐惧行动。`,
     },
     {
+      label: "拉片节奏解释",
+      title: "情节节奏与情感节奏为什么不能同步拉满",
+      body: `01.7 拉片节奏解释
+
+00:00—00:15｜异常先行
+情节快速：3秒内让照片滑入，15秒内建立“照片仍在显影”的异常。
+情感克制：人物只从睡眠基线转为警觉，不立刻惊恐，让观众先于人物感到不安。
+
+00:15—01:10｜证据逐级验证
+情节逐渐加速：便签、录像、水杯预言依次增加信息密度。
+情感延迟释放：林晚持续求证，直到杯子真实碎裂才出现第一次明显生理停顿。
+
+01:10—01:35｜行动加速
+情节快速：照片、红线和地址连续出现，把“发生了什么”转成“必须去哪里”。
+情感转向控制：恐惧没有消失，而是被装袋、系线、开门等机械动作压住。
+
+01:35—02:10｜空间压迫
+情节降速：进入走廊后减少新信息，让脚步、距离、红光和空照片墙承担悬疑。
+情感加重：镜头与人物一起放慢，观众开始等待不可见威胁。
+
+02:10—02:40｜认知最重
+情节中速：录音与冲印装置只提供必要事实。
+情感最慢：发现“过去的自己一直在保护现在的自己”需要停顿、辨认和余波，不能用快速剪辑掠过。
+
+02:40—03:00｜外部威胁再加速
+情节重新收紧：第七张照片、脚步、门把形成倒计时。
+情感在顶点后骤停：林晚从后退转为停住，最后的稳定比哭喊更有力量。
+
+双轨原则：调查段让情节快于情感，认知段让情感慢于情节，高潮才让两条轨道同时收紧。`,
+    },
+    {
       label: "场景写作",
       title: "可拍摄中文分场剧本",
       intro: "只写摄影机能拍到、麦克风能听到的内容，不写心理解释。",
@@ -327,6 +347,38 @@ Arc：
 视听化：失忆、害怕、自我怀疑均由便签、停顿、照片、红线、呼吸和动作表达。
 台词控制：只保留录音中的必要信息，不让人物解释情绪。
 体量：8场约180秒，核心人物1名，主场景4个，符合3分钟AI短片。`,
+    },
+  ],
+  identity: [
+    {
+      label: "02.1—02.8 真人身份基准",
+      title: "P01 林晚｜先锁身份，再进入全片视觉资产",
+      intro: "02只建立稳定的真人身份与摄影基准；没有参考照片时，不虚假声称保留本人长相。",
+      body: `02.1 真人角色清单
+P01 林晚——24岁东亚女性，失忆后的自我调查者；本片唯一核心人物。
+
+02.2 身份锚点
+自然清瘦鹅蛋脸，下颌线柔和但不尖，颧骨位置自然；眉形平缓，眉眼间距正常，内双深棕眼睛；鼻梁高度和鼻翼宽度真实；嘴唇偏薄，嘴角轻微不对称。
+
+02.3 年龄、肤色与发型
+24岁真实年龄感，中性肤色，保留轻微毛孔、细小绒毛和自然肤色变化；黑色锁骨短发，固定发际线与碎发。
+
+02.4 妆容、服装和记忆点
+近似素颜，极薄底妆，眼妆几乎不可见，自然血色嘴唇；洗旧米白针织衫、深灰长裤；右手腕旧红棉线是固定记忆点。
+
+02.5 真人摄影材质
+皮肤保留毛孔、细发、眼神反光、唇纹和轻微疲惫阴影；禁止塑料皮肤、蜡像感和过度磨皮。
+
+02.6 摄影基准
+胸像平视，85mm人像镜头距离感，f/2.8适度浅景深；灰蓝窗光作为柔和主光，轻微负补光，中性低饱和调色、自然高光过渡和克制胶片颗粒。
+
+02.7 身份一致性约束
+全片固定同一脸型、五官比例、年龄、肤色、发际线、发型、服装和右腕红线；禁止网红脸、小V脸、放大眼睛、欧美化高鼻梁、年龄漂移、妆发或服装变化。
+
+02.8 中文真人定妆提示词
+请生成悬疑短片角色身份参考胸像：24岁东亚女性林晚，自然清瘦鹅蛋脸、柔和非尖下颌、自然颧骨、平缓眉形、内双深棕眼睛、真实鼻梁和鼻翼宽度、偏薄且轻微不对称的嘴唇；中性肤色保留毛孔、细小绒毛和轻微疲惫，黑色锁骨短发，近似素颜，洗旧米白针织衫、深灰长裤、右腕旧红棉线。平视胸像，85mm人像镜头感，f/2.8，灰蓝窗光、轻微负补光、自然眼神光、中性低饱和调色和克制胶片颗粒。固定人物身份、年龄、妆发、服装与右腕红线；禁止网红脸、塑料皮肤、过度磨皮、动漫感和身份漂移。
+
+本步确认口令：确认02。`,
     },
   ],
   assets: [
@@ -525,6 +577,19 @@ English Keyframe Prompt
 ${staticAssetStyleGuide.en}
 
 Vertical 9:16 tight close-up at a darkroom doorway. Strictly preserve the fixed P01 Lin Wan identity: the same 24-year-old East Asian woman, naturally slim oval face, dark-brown inner double-lid eyes, collarbone-length black hair, worn ivory knit sweater and old red thread on her right wrist. She holds the still-wet seventh instant photograph in her left hand; her gaze has just shifted from the photograph toward an off-screen door handle on frame right. Residue of pupil dilation, wet eyes without falling tears, tightened jaw, one just-finished swallow, thumb bending the paper edge, shoulders slightly raised. 85mm telephoto tight close-up, f/1.4 shallow depth of field, eyes and photo edge sharing the critical focus plane, face in left-center with threatening negative space on the right. Red safelight rims loose hair, cold door-gap light brushes the face, visible pores, fine hair, catchlights, lip texture and knit fabric, restrained low-saturation suspense grade, optical bokeh, subtle grain. No influencer face, plastic skin, exaggerated crying, empty stare, identity drift, wardrobe change, extra fingers, floating photograph or misplaced red thread.`,
+    },
+    {
+      label: "资产连续性检查",
+      title: "03.7｜把全部静态资产交给04之前的最终核对",
+      body: `人物一致性：P01固定同一脸型、五官比例、年龄、发型、米白针织衫、深灰长裤和右腕红线。
+风格一致性：S01—S04、R01—R05、P01和关键帧全部完整继承STYLE-A01。
+时代一致性：当代生活空间中只出现可信的旧模拟摄影设备，不出现智能屏、未来设备和赛博设计。
+色彩一致性：灰蓝环境光、脏旧暖黄实景灯和有来源的暗房安全红，不增加无关跳色。
+材质一致性：旧暖白相纸、磨损深木、掉瓷暖白、氧化炭灰金属、积灰玻璃和旧红棉纤维保持稳定。
+空间一致性：卧室、厨房、走廊、暗房的门、墙、工作台、镜子和关键道具位置可传递给04的空间确认。
+道具一致性：照片尺寸与字迹、红线右腕位置、白瓷杯Y形裂纹、录音机机械结构和冲印机滚轴接触点均可重复。
+
+本步确认口令：确认03。`,
     },
   ],
   promptPlan: [
@@ -814,8 +879,31 @@ R05｜冲印装置｜道具｜02:10—02:40｜滚轴真实接触相纸
 };
 
 function getDisplayOutput(stageId: StageId): DetailSection[] {
+  if (stageId === "direction") {
+    return [...demoOutputs.direction, ...demoOutputs.script].map(
+      (section, index) => ({
+        ...section,
+        label: `01.${index + 1} ${section.label}`,
+      }),
+    );
+  }
+  if (stageId === "identity") return demoOutputs.identity;
   if (stageId === "assets") {
-    return demoOutputs.assets.filter((section) => section.label !== "情绪提示词");
+    const assetNumbers: Record<string, string> = {
+      统一风格母版: "03.1",
+      资产清单: "03.2",
+      场景提示词: "03.3",
+      道具提示词: "03.4",
+      真人提示词: "03.5",
+      关键帧提示词: "03.6",
+      资产连续性检查: "03.7",
+    };
+    return demoOutputs.assets
+      .filter((section) => section.label !== "情绪提示词")
+      .map((section) => ({
+        ...section,
+        label: `${assetNumbers[section.label] ?? "03"} ${section.label}`,
+      }));
   }
   if (stageId !== "storyboard") return demoOutputs[stageId];
 
@@ -824,7 +912,7 @@ function getDisplayOutput(stageId: StageId): DetailSection[] {
     .flatMap((section) => section.body.split("\n\n"));
 
   const shotTable: DetailSection = {
-    label: "完整镜头总表",
+    label: "04.1 完整镜头总表",
     title: "《第七张照片》00:00—03:00 连续完整剧本分镜",
     intro:
       "这是一个连续交付，不按30秒拆成多个卡片。每行才是一个真实分镜；下方视频提示词组只是生成层。",
@@ -899,7 +987,7 @@ ${shotPrompts}
 ⚠️保持人物身份、服装、发型、红线位置和道具形态一致；禁止换脸、年龄漂移、手指融合、道具漂浮、焦点乱跳、无动机绕拍和瞬间最大情绪。`;
 
       return {
-        label: `完整视频提示词 ${String(groupIndex + 1).padStart(2, "0")} / ${String(Math.ceil(shotBlocks.length / 2)).padStart(2, "0")}`,
+        label: `04.2 完整视频提示词 ${String(groupIndex + 1).padStart(2, "0")} / ${String(Math.ceil(shotBlocks.length / 2)).padStart(2, "0")}`,
         title: `${firstTime}—${lastTime}｜约${totalSeconds}秒｜${parsed.length}个内部镜头`,
         intro: `本段使用资产图对照：@image1=P01林晚；@image2=${sceneNames}；@image3=${assetNames}。正文约${promptBody.length}字符，可直接复制。`,
         body: promptBody,
@@ -1011,7 +1099,7 @@ ${shotPrompts}
       const phase = emotionPhases[Math.floor(shotIndex / 6)] ?? emotionPhases.at(-1)!;
       const beat = phase.beats[shotIndex % 6];
       return `${block}
-【情绪Skill二次加工】
+【分镜情绪融合】
 触发：${phase.trigger}。
 目标：${phase.goal}。
 阻碍：${phase.obstacle}。
@@ -1023,14 +1111,41 @@ ${shotPrompts}
     .join("\n\n");
 
   const emotionEnhancedFinal: DetailSection = {
-    label: "最终交付｜情绪加工",
-    title: "《第七张照片》分镜 + 情绪二次加工完整最终剧本",
+    label: "04.3 分镜 + 情绪一体稿",
+    title: "《第七张照片》逐镜融合完整最终剧本",
     intro:
-      "先保留分镜Skill的全部时间码、构图、机位、动作、场景、道具和音效，再由情绪Skill逐镜写回触发、目标、阻碍、保护策略、三轴控制、微表演及摄影机响应。",
+      "融合技能在同一镜头内保留时间码、构图、机位、动作、场景、道具和音效，并直接写入触发、目标、阻碍、保护策略、三轴控制、微表演及摄影机响应。",
     body: emotionEnhancedBody,
   };
 
-  return [shotTable, ...promptGroups, emotionEnhancedFinal];
+  const numberedGates = demoOutputs.promptPlan.map((section) => {
+    const gatePrefix =
+      section.label.startsWith("Gate 1") ? "04.G1" :
+      section.label.startsWith("Gate 2") ? "04.G2" :
+      section.label.startsWith("Gate 3") ? "04.G3" :
+      section.label === "风格四段" ? "04.G3附" :
+      section.label === "固定提示词结构" ? "04.G4模板" :
+      section.label.startsWith("Gate 4") ? "04.G4" :
+      section.label.startsWith("Gate 5") ? "04.G5" :
+      section.label.startsWith("Gate 6") ? "04.G6" :
+      "04.G";
+    return { ...section, label: `${gatePrefix} ${section.label}` };
+  });
+  const finalCheck: DetailSection = {
+    label: "04.4 全片连续性与可生成性检查",
+    title: "01—04依赖是否完整传到最终分镜",
+    body: `01剧本依赖：所有镜头都能追溯到已确认的场次、戏剧动作、价值转变和180秒体量。
+02人物依赖：P01固定同一脸型、五官比例、年龄、妆发、服装与右腕红线。
+03视觉依赖：全部场景、道具、人物和关键帧继承同一STYLE-A01风格母版与资产编号。
+04 Gate状态：资产、位置与风格、时间划分、提示词结构、交付形式和HTML QA均已确认。
+镜头结构：每镜固定为画面动作概述 → 画面构图 → 机位 → 动作 → 表情 → 音效。
+情绪结构：人物情绪包含触发、目标、阻碍、保护策略、三轴控制、可见微表演、顶点、余波和摄影机响应。
+生成约束：单条视频提示词不超过15秒，镜头数量、空间左右、道具受力、声源与切点明确。
+
+完整流程确认口令：确认04。`,
+  };
+
+  return [...numberedGates, shotTable, ...promptGroups, emotionEnhancedFinal, finalCheck];
 }
 
 function downloadDemo() {
@@ -1088,7 +1203,7 @@ export default function Home() {
           <span className="brand-mark">船</span>
           <span>
             <strong>船长AI视界</strong>
-            <small>四技能融合工作流Demo</small>
+            <small>01—04固定顺序工作流Demo</small>
           </span>
         </button>
         <div className="topbar-actions">
@@ -1105,7 +1220,7 @@ export default function Home() {
 
       <section className="demo-notice" aria-label="演示说明">
         <strong>完整教学Demo</strong>
-        <span>严格按4个融合技能原流程展示：创作逐步确认、静态图提示词、分镜六道Gate与逐镜完整表情。</span>
+        <span>由总流程入口强制按01—04执行：故事创作、真人身份、统一视觉资产、最终分镜与逐镜情绪。</span>
         <a href={repositoryUrl}>查看开源项目 ↗</a>
       </section>
 
@@ -1145,7 +1260,7 @@ export default function Home() {
           </nav>
 
           <div className="privacy-note">
-            <span>4 SKILLS</span>
+            <span>01 → 02 → 03 → 04</span>
             <p>每一步都标明负责技能、实际输出字段和《第七张照片》的完整示例。</p>
           </div>
         </aside>
@@ -1267,12 +1382,13 @@ export default function Home() {
           </section>
 
           <section className="skill-ledger">
-            <span>4个融合技能在完整流程中的位置</span>
+            <span>1个总流程入口 + 4个按序生产技能</span>
             <div>
-              <p><code>chuanzhang-chuangzuo-v1</code><strong>破题、单一梗概、人物、结构、分场、场景写作与剧本医生</strong></p>
-              <p><code>chuanzhang-tuxiangtishici</code><strong>场景、道具、关键帧中英双语图像提示词</strong></p>
-              <p><code>chuanzhangzhenren-prompts</code><strong>真人身份锚点、皮肤妆发、镜头光线与一致性</strong></p>
-              <p><code>chuanzhang-fenjing-biaoqing</code><strong>分镜六道确认、镜头总表、视频提示词和逐镜表情一体化输出；固定为动作 → 表情 → 音效</strong></p>
+              <p><code>chuanzhang-ai-shijie-workflow</code><strong>总入口：保存步骤状态，未确认前一步时禁止启动后一步</strong></p>
+              <p><code>01｜chuanzhang-chuangzuo-v1</code><strong>破题、梗概、人物、结构、分场、拉片节奏、可拍摄剧本与剧本医生</strong></p>
+              <p><code>02｜chuanzhangzhenren-prompts</code><strong>真人身份锚点、皮肤妆发、镜头光线与一致性</strong></p>
+              <p><code>03｜chuanzhang-tuxiangtishici</code><strong>统一风格母版、场景、道具、人物和关键帧中英双语提示词</strong></p>
+              <p><code>04｜chuanzhang-fenjing-biaoqing</code><strong>六道确认、镜头总表、视频提示词和逐镜完整表情</strong></p>
             </div>
           </section>
 
@@ -1281,7 +1397,7 @@ export default function Home() {
             <h2>选择属于你自己的运行方式</h2>
             <div>
               <a href={`${repositoryUrl}#安装全部技能`}>
-                <small>推荐</small><strong>安装4个融合技能</strong>
+                <small>推荐</small><strong>安装总流程 + 4个生产技能</strong>
                 <p>在自己的Codex中运行，使用自己的会员和模型。</p>
               </a>
               <a href={`${repositoryUrl}#部署自己的版本`}>

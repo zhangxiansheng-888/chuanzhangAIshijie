@@ -33,19 +33,24 @@ test("renders the chuanzhangAIshijie creative workspace", async () => {
     new URL("../app/page.tsx", import.meta.url),
     "utf8",
   );
+  const workflowSkill = await readFile(
+    new URL("../skills/chuanzhang-ai-shijie-workflow/SKILL.md", import.meta.url),
+    "utf8",
+  );
   assert.match(html, /船长AI视界/);
   assert.match(html, /船长AI视界公众号二维码/);
   assert.match(html, /纯演示/);
   assert.match(html, /不调用AI/);
   assert.match(html, /部署自己的版本/);
-  assert.match(html, /破题、梗概、人物与结构/);
-  assert.match(html, /分场大纲、场景写作与剧本医生/);
-  assert.match(html, /场景／道具／真人／关键帧提示词/);
+  assert.match(html, /故事创作与完整中文剧本/);
+  assert.match(html, /真人身份基准/);
+  assert.match(html, /统一风格与静态视觉资产/);
+  assert.match(html, /最终分镜、人物情绪与视频提示词/);
   assert.match(html, /完整交付目录/);
   assert.match(html, /场景提示词/);
   assert.match(html, /道具提示词/);
   assert.match(html, /真人提示词/);
-  assert.match(html, /情绪加工最终稿/);
+  assert.match(html, /情绪融合最终稿/);
   assert.match(html, /关键帧提示词/);
   assert.match(source, /R01 第七张照片/);
   assert.match(source, /R02 右腕红线/);
@@ -58,9 +63,9 @@ test("renders the chuanzhangAIshijie creative workspace", async () => {
   assert.match(source, /S04 暗房/);
   assert.match(source, /完整镜头总表/);
   assert.match(source, /完整视频提示词/);
-  assert.match(source, /最终交付｜情绪加工/);
-  assert.match(source, /情绪Skill二次加工/);
-  assert.match(source, /分镜 \+ 情绪二次加工完整最终剧本/);
+  assert.match(source, /04\.3 分镜 \+ 情绪一体稿/);
+  assert.match(source, /【分镜情绪融合】/);
+  assert.match(source, /逐镜融合完整最终剧本/);
   assert.match(source, /本段使用资产图对照/);
   assert.match(source, /画面动作概述：/);
   assert.match(source, /画面构图：/);
@@ -79,13 +84,27 @@ test("renders the chuanzhangAIshijie creative workspace", async () => {
   assert.match(source, /Gate 6｜HTML QA/);
   assert.match(source, /15秒，这是上限，不是目标/);
   assert.doesNotMatch(source, /12组视频提示词覆盖180秒/);
-  assert.match(html, /分镜六道确认 Gate/);
-  assert.match(html, /最终分镜与视频提示词/);
+  assert.match(html, /01 → 02 → 03 → 04/);
+  assert.match(html, /最终分镜、人物情绪与视频提示词/);
+  assert.match(html, /chuanzhang-ai-shijie-workflow/);
   assert.match(html, /chuanzhang-chuangzuo-v1/);
   assert.match(html, /chuanzhang-tuxiangtishici/);
   assert.match(html, /chuanzhangzhenren-prompts/);
   assert.match(html, /chuanzhang-fenjing-biaoqing/);
   assert.match(source, /动作：[\s\S]*表情：\$\{[\s\S]*音效：/);
+  assert.ok(
+    workflowSkill.indexOf("## 01/04 故事创作") <
+      workflowSkill.indexOf("## 02/04 真人身份基准") &&
+      workflowSkill.indexOf("## 02/04 真人身份基准") <
+        workflowSkill.indexOf("## 03/04 统一风格与静态视觉资产") &&
+      workflowSkill.indexOf("## 03/04 统一风格与静态视觉资产") <
+        workflowSkill.indexOf("## 04/04 最终分镜与人物情绪"),
+    "workflow skill must preserve the 01-to-04 production order",
+  );
+  assert.match(workflowSkill, /确认01/);
+  assert.match(workflowSkill, /确认02/);
+  assert.match(workflowSkill, /确认03/);
+  assert.match(workflowSkill, /确认04/);
   assert.doesNotMatch(html, /OpenAI API Key|设置 API/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });

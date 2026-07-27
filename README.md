@@ -8,7 +8,7 @@ GitHub 仓库名：`chuanzhangAIshijie`
 
 - 查看不调用 AI、不收集 API Key 的公开流程 Demo。
 - 从 `self-hosted` 分支部署一份属于自己的可用网站。
-- 提供 4 个用于完整流程的 Codex 创作技能，其中分镜与人物情绪已融合为一个技能。
+- 提供 1 个总流程入口技能和 4 个按固定顺序运行的生产技能。
 
 公开 Demo：[船长AI视界](https://captain-ai-studio.zhanganseng.chatgpt.site)
 
@@ -41,12 +41,14 @@ GitHub 仓库名：`chuanzhangAIshijie`
 
 ### 从一个灵感走完整条生产链
 
-## 创作流程
+## 固定创作流程
 
-1. 灵感破题
-2. 故事创作
-3. 场景、道具、真人与关键帧提示词
-4. 最终分镜（逐镜融合完整人物情绪）
+1. **01 故事创作**：破题、梗概、人物、结构、分场、拉片节奏、可拍摄剧本、剧本医生。
+2. **02 真人身份基准**：身份锚点、五官年龄、妆发服装、真人摄影材质与一致性。
+3. **03 统一风格与静态视觉资产**：先生成全片风格母版，再生成场景、道具、人物图片和关键帧。
+4. **04 最终分镜与人物情绪**：完成六道确认后，生成镜头总表、视频提示词和逐镜情绪一体稿。
+
+总流程入口 `chuanzhang-ai-shijie-workflow` 会保存当前步骤；用户未回复 `确认01 / 确认02 / 确认03` 时，不会启动下一步骤。
 
 公开 Demo 不提供生成接口，不要求 API Key，也不产生 AI 调用费用。`self-hosted` 分支保留 BYOK（自带 API Key）版本，部署者和使用者自行承担各自的托管及 API 用量。
 
@@ -54,9 +56,10 @@ GitHub 仓库名：`chuanzhangAIshijie`
 
 | 技能 | 用途 |
 | --- | --- |
+| `chuanzhang-ai-shijie-workflow` | 总流程入口：强制按01→02→03→04执行并保留每一步产出编号 |
 | `chuanzhang-chuangzuo-v1` | 从灵感、梗概到完整中文影视创作与剧本诊断 |
-| `chuanzhang-tuxiangtishici` | 把故事和画面想法转成场景、道具、人物与关键帧中英双语图片提示词 |
 | `chuanzhangzhenren-prompts` | 真人感技能：强化真实摄影感、身份一致性、五官、皮肤、妆容、光线和质感 |
+| `chuanzhang-tuxiangtishici` | 把已确认剧本与真人基准转成统一风格的场景、道具、人物与关键帧中英双语提示词 |
 | `chuanzhang-fenjing-biaoqing` | 分镜与人物情绪融合技能：每镜固定输出画面动作概述、画面构图、机位、动作、表情和音效 |
 
 `chuanzhang-fenjing-biaoqing` 已合并原 `chuanzhang-fenjing` 与 `chuanzhangbiaoqing` 的全部规则。情绪不再作为道具或资产字段，也不再成为分镜后的独立附件，而是直接写进每个镜头的 `表情：` 字段。
@@ -68,11 +71,15 @@ GitHub 仓库名：`chuanzhangAIshijie`
 把当前 GitHub 仓库地址发给 Codex，然后说：
 
 ```text
-请安装这个 GitHub 仓库中的以下 4 个技能：
+请严格按以下顺序安装这个 GitHub 仓库中的技能：
+skills/chuanzhang-ai-shijie-workflow
 skills/chuanzhang-chuangzuo-v1
-skills/chuanzhang-tuxiangtishici
 skills/chuanzhangzhenren-prompts
+skills/chuanzhang-tuxiangtishici
 skills/chuanzhang-fenjing-biaoqing
+
+安装完成后，只从 $chuanzhang-ai-shijie-workflow 开始完整创作，
+按01→02→03→04执行，前一步未经确认不得进入下一步。
 ```
 
 只安装一个技能时，可以说：
@@ -100,6 +107,8 @@ skills/chuanzhang-fenjing-biaoqing
 请从这个仓库的 self-hosted 分支创建一份属于我自己的网站，
 部署到我自己的 ChatGPT Sites 账号，不要使用仓库作者的托管。
 网站采用 BYOK，每位使用者填写自己的 OpenAI API Key。
+页面必须按01→02→03→04排列，保存每一步确认状态；
+完整下载结果也必须按01、02、03、04排序，不得按内容类型重新打乱。
 ```
 
 仓库地址：
@@ -155,7 +164,7 @@ npm test
 chuanzhangAIshijie/
 ├─ app/          网站页面与接口
 ├─ public/       网站静态资源
-├─ skills/       4 个正式流程技能，以及合并前的原始技能备份
+├─ skills/       1 个总流程入口、4个按序生产技能，以及合并前的原始技能备份
 ├─ tests/        网站检查
 ├─ README.md
 └─ LICENSE
