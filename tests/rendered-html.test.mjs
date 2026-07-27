@@ -64,6 +64,18 @@ test("renders the chuanzhangAIshijie creative workspace", async () => {
   assert.match(source, /本段使用资产图对照/);
   assert.match(source, /画面动作概述：/);
   assert.match(source, /画面构图：/);
+  assert.match(source, /STYLE-A01/);
+  assert.match(source, /类型｜中国城市真实实景心理悬疑/);
+  assert.match(source, /时代｜当代生活空间 \+ 1990年代末模拟摄影设备/);
+  assert.ok(
+    (source.match(/\$\{staticAssetStyleGuide\.en\}/g) ?? []).length >= 12,
+    "every static asset prompt should inherit the same English style guide",
+  );
+  assert.ok(
+    (source.match(/\$\{staticAssetStyleGuide\.zh\}/g) ?? []).length >= 12,
+    "every static asset prompt should inherit the same Chinese style guide",
+  );
+  assert.doesNotMatch(source, /label: "情绪提示词"/);
   assert.match(source, /Gate 6｜HTML QA/);
   assert.match(source, /15秒，这是上限，不是目标/);
   assert.doesNotMatch(source, /12组视频提示词覆盖180秒/);

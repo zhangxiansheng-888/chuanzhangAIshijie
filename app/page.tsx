@@ -29,6 +29,7 @@ const outputIndex: { label: string; stage: StageId; targetLabel: string }[] = [
   { label: "破题与梗概", stage: "direction", targetLabel: "梗概草稿" },
   { label: "分场大纲", stage: "script", targetLabel: "分场大纲" },
   { label: "可拍摄剧本", stage: "script", targetLabel: "场景写作" },
+  { label: "统一风格母版", stage: "assets", targetLabel: "统一风格母版" },
   { label: "场景提示词", stage: "assets", targetLabel: "场景提示词" },
   { label: "道具提示词", stage: "assets", targetLabel: "道具提示词" },
   { label: "真人提示词", stage: "assets", targetLabel: "真人提示词" },
@@ -68,13 +69,13 @@ const stages: DemoStage[] = [
     eyebrow: "把剧本拆成可复用资产",
     title: "场景／道具／真人／关键帧提示词",
     description:
-      "只生成场景、道具、真人角色和关键帧静态图提示词；人物情绪不放在资产或道具阶段，统一写入最终逐镜剧本。",
+      "先建立全片统一风格母版，再让每条场景、道具、真人角色和关键帧静态图提示词完整继承；人物动态情绪统一写入最终逐镜剧本。",
     button: "展开全部资产提示词",
     skills: [
       "chuanzhang-tuxiangtishici",
       "chuanzhangzhenren-prompts",
     ],
-    deliverables: ["场景提示词", "道具提示词", "真人定妆提示词", "关键帧提示词"],
+    deliverables: ["全片统一风格母版", "场景提示词", "道具提示词", "真人定妆提示词", "关键帧提示词"],
   },
   {
     id: "promptPlan",
@@ -99,6 +100,11 @@ const stages: DemoStage[] = [
     deliverables: ["分镜与情绪融合原稿", "已确认分组的视频提示词", "逐镜完整表情字段", "逐镜写回可见表演", "摄影机与环境响应", "分镜 + 情绪最终完整稿"],
   },
 ];
+
+const staticAssetStyleGuide = {
+  en: "Unified STYLE-A01 — grounded live-action psychological suspense set in a contemporary but technologically restrained Chinese city, with late-1990s analog photographic equipment and no fashionable modern redesign. Restrained low-saturation palette: cool gray-blue ambient light, dirty muted amber practicals, and darkroom safety red used only as a motivated accent. All illumination must come from believable windows, bedside lamps, ceiling bulbs, corridor spill or darkroom safelights; preserve deep-shadow detail and natural highlight roll-off. Real-location photography, documentary-level material truth, subtle 35mm film grain, restrained halation, optical depth of field, physically correct scale, contact shadows, weight and wear. Art direction is unified through aged ivory paper, faded green paint, worn dark wood, chipped off-white enamel, oxidized charcoal metal, dusty glass and old red cotton fiber. No cyberpunk neon, luxury renovation, glossy commercial product styling, fantasy glow, 3D-render look, plastic surfaces, excessive teal-orange grading or unrelated color accents.",
+  zh: "统一 STYLE-A01——中国城市真实实景的心理悬疑电影风格，故事发生在当代但技术环境刻意克制，核心摄影器材保持1990年代末的模拟胶片设备，禁止时髦现代化改造。全片使用克制低饱和色盘：灰蓝环境冷光、脏旧低亮度暖黄实景灯，暗房安全红只作为有来源的强调色。所有光线必须来自可信的窗光、床头灯、顶灯、走廊漏光或暗房安全灯；暗部保留细节，高光自然衰减。真实地点摄影、纪录片级材质可信度、轻微35mm胶片颗粒、克制光晕、真实光学景深，物体比例、接触阴影、重量和磨损必须正确。美术材质统一为旧暖白相纸、褪色浅绿墙漆、磨损深色木材、掉瓷暖白搪瓷、氧化深炭灰金属、积灰玻璃和旧红棉纤维。禁止赛博霓虹、豪华翻新、光亮商业产品棚拍、奇幻发光、三维渲染感、塑料材质、过度青橙调色和无关跳色。",
+};
 
 const demoOutputs: Record<StageId, DetailSection[]> = {
   direction: [
@@ -325,6 +331,29 @@ Arc：
   ],
   assets: [
     {
+      label: "统一风格母版",
+      title: "STYLE-A01｜所有场景、道具、真人和关键帧必须完整继承",
+      intro: "技能核心不是给每个资产各写一套“电影感”，而是先锁定同一份风格简报，再逐条复用。",
+      body: `风格控制维度：
+类型｜中国城市真实实景心理悬疑
+时代｜当代生活空间 + 1990年代末模拟摄影设备，禁止未来化改造
+色彩｜灰蓝冷光 + 脏旧暖黄实景灯 + 有来源的暗房安全红
+用光｜只允许窗光、床头灯、顶灯、走廊漏光、暗房安全灯等可信光源
+写实等级｜真实地点摄影、纪录片级材质、正确比例、重量、接触阴影和磨损
+摄影语言｜克制35mm胶片颗粒、自然高光衰减、真实光学景深、不过度青橙
+美术材质｜旧暖白相纸、褪色浅绿墙漆、磨损深木、掉瓷暖白、氧化炭灰金属、积灰玻璃、旧红棉纤维
+统一禁区｜赛博霓虹、豪华翻新、商业棚拍、奇幻发光、三维渲染、塑料质感、无关跳色
+
+English Master Style
+${staticAssetStyleGuide.en}
+
+中文母版
+${staticAssetStyleGuide.zh}
+
+执行规则：
+下面每一条场景、道具、真人和关键帧提示词都会完整重复这段母版；单独复制任意一条时也不会丢失全片风格。`,
+    },
+    {
       label: "资产清单",
       title: "先从剧本识别人物、场景与道具",
       body: `人物：
@@ -347,81 +376,117 @@ R05 延时冲印装置——机械滚轴、药液痕迹、吐出照片。`,
       label: "场景提示词",
       title: "S01 凌晨卧室｜中英双语静态场景图",
       body: `English Prompt
+${staticAssetStyleGuide.en}
+
 A cramped lived-in bedroom at 4:07 a.m., vertical 9:16 composition, viewed from the doorway with a 28mm lens. A narrow bed sits frame left; the wall above it is covered with handwritten memory notes, dated instant photographs and red pencil marks. A bedside digital clock clearly reads 4:07, lit by a weak amber practical lamp. Cold blue predawn light leaks through thin curtains on frame right, creating a believable mixed-color contrast. Worn ivory bedding, old wooden floor, half-open drawer, small camera on a chair, realistic dust and paper texture. Real location photography, restrained suspense, readable layout, no people, no luxury interior, no supernatural glow, no illegible decorative text.
 
 中文提示词
+${staticAssetStyleGuide.zh}
+
 凌晨4:07的狭小旧卧室，9:16竖屏，从门口以28mm广角建立空间。画面左侧是窄床，床头墙贴满手写记忆便签、标注日期的即时照片和红铅笔记号；床头电子钟清晰显示4:07，由微弱暖黄色实景灯照亮。画面右侧薄窗帘透入灰蓝色黎明前冷光，形成可信的冷暖混合光。洗旧米白床品、旧木地板、半开的抽屉、椅子上的小相机，保留灰尘、纸张与生活磨损。真实地点摄影、克制悬疑、空间关系清楚；无人、无豪华装修、无超自然光效、无乱码装饰字。`,
     },
     {
       label: "场景提示词",
       title: "S02 小厨房｜中英双语静态场景图",
       body: `English Prompt
+${staticAssetStyleGuide.en}
+
 A tiny aging apartment kitchen at cold dawn, vertical 9:16, eye-level 35mm lens from the hall entrance. An old scarred wooden table occupies the foreground with a white porcelain cup, aluminum kettle and a folded prediction photograph placed in a precise triangle. Pale blue morning light enters through a frosted window above the sink; a weak ceiling bulb adds a dirty warm cast. Faded green cabinets, stained tile joints, exposed water pipe, chipped enamel basin and restrained clutter. Realistic Chinese urban rental apartment, cinematic suspense, natural object scale, clear paths for actor movement, no people, no modern luxury appliances, no excessive mess, no stylized neon.
 
 中文提示词
+${staticAssetStyleGuide.zh}
+
 寒冷清晨的老旧出租屋小厨房，9:16竖屏，从走廊入口平视，35mm镜头。前景旧木桌表面有划痕，白瓷杯、铝制水壶和折起的预言照片形成明确三角关系。水槽上方磨砂窗透入淡蓝晨光，微弱顶灯加入略脏的暖色。褪色浅绿橱柜、发黑瓷砖缝、外露水管、掉瓷水槽和克制生活杂物。真实中国城市出租屋质感，电影悬疑，物体比例正确，演员行动通道清楚；无人、无现代豪华电器、不过度脏乱、无霓虹风格。`,
     },
     {
       label: "场景提示词",
       title: "S03 废弃照相馆走廊｜中英双语静态场景图",
       body: `English Prompt
+${staticAssetStyleGuide.en}
+
 An abandoned street-level analog photo studio and its long narrow corridor, vertical 9:16, low eye-level 24mm lens looking inward from the broken storefront. A faded sign hangs above cracked glass; dusty sample portraits, empty film boxes and a toppled stool frame the entrance. The corridor narrows toward a closed darkroom door with a thin red light leaking underneath. Peeling cream paint, damp stains, old electrical conduit, scattered contact sheets and suspended dust. Natural overcast daylight dies gradually into darkness, one motivated red leak only. Real derelict location, tense perspective depth, no people, no ghosts, no cyberpunk neon, no impossible architecture.
 
 中文提示词
+${staticAssetStyleGuide.zh}
+
 临街废弃胶片照相馆及其狭长走廊，9:16竖屏，从破损店面低机位向内看，24mm广角。裂玻璃上方悬着褪色招牌，积灰样片、空胶卷盒和倒下的木凳围住入口；走廊向深处收窄，尽头暗房门紧闭，门缝只漏出一线红光。奶油色墙漆剥落、潮湿水渍、老旧明线管、散落接触印样和空气浮尘。阴天自然光沿走廊逐渐衰减，只保留有来源的红色漏光。真实废弃地点、透视压迫感强；无人、无鬼影、无赛博霓虹、无不可能建筑结构。`,
     },
     {
       label: "场景提示词",
       title: "S04 暗房｜中英双语静态场景图",
       body: `English Prompt
+${staticAssetStyleGuide.en}
+
 An abandoned analog photography darkroom at the end of a narrow decaying photo-studio corridor, viewed from the doorway at eye level with a 35mm wide-angle lens. A red safelight hangs above a chemical-stained workbench; a delayed photo-developing machine, a worn cassette recorder and trays of developer sit in the midground. Seven horizontal rows of instant photographs cover the back wall, while a narrow aged mirror catches a partial reflection from frame right. Damp concrete, peeling paint, curled photo paper, dusty air and restrained deep shadows. Real location photography, practical red light only, readable spatial layout, subtle film grain, no people, no futuristic equipment, no neon cyberpunk styling.
 
 中文提示词
+${staticAssetStyleGuide.zh}
+
 废弃胶片照相馆尽头的模拟暗房，从门口平视进入，35mm广角建立空间。画面中景是被药液染色的工作台，红色安全灯从上方照亮延时冲印机、旧微型录音机和显影托盘；背景墙横向挂满七排即时照片，画面右侧一面狭窄旧镜子只反射局部空间。潮湿混凝土、剥落墙漆、卷曲相纸、空气浮尘和克制深阴影。真实地点摄影，只使用有来源的红色实景灯，空间布局清晰，轻微胶片颗粒；无人、无未来科技、无霓虹赛博朋克。`,
     },
     {
       label: "道具提示词",
       title: "R01 第七张照片｜中英双语道具图",
       body: `English Prompt
+${staticAssetStyleGuide.en}
+
 A single landscape-format instant photograph, approximately 11 cm by 8.5 cm, resting on a chemical-stained darkroom workbench. Thick warm-white paper border, still-developing emulsion with subtle wet gloss, slightly curled lower-right corner, tiny pressure marks from fingers. The image shows the same young East Asian woman collapsed on a red-lit darkroom floor; the back carries exact black handwritten Chinese text: “这一次，别再忘了”. 85mm macro-detail lens look, f/2.8 feel, focus strictly locked on paper fibers and handwriting, realistic contact shadow and physical weight, no floating object, no extra text.
 
 中文提示词
+${staticAssetStyleGuide.zh}
+
 一张横版即时照片，约11厘米×8.5厘米，放在有药液痕迹的暗房工作台上。暖白色厚纸边框，仍在显影的乳剂表面带轻微湿润反光，右下角略微卷起，边缘有手指压痕。照片画面里是同一名年轻东亚女性倒在红灯照亮的暗房地面；背面黑色手写字必须为“这一次，别再忘了”。85mm微距细节感，f/2.8景深，焦点严格锁定纸纤维和字迹，保留真实接触阴影与重量；禁止漂浮、禁止多余文字。`,
     },
     {
       label: "道具提示词",
       title: "R02 右腕红线｜中英双语道具图",
       body: `English Prompt
-A short length of old faded red cotton thread tied in a simple double knot around the right wrist of the same young East Asian woman. The thread is thin, matte and slightly dirty, with visible twisted fibers, tiny frayed ends and one flattened section caused by long wear. Macro close-up, 100mm lens look, realistic skin pores, fine wrist hair, tendon structure and gentle contact pressure where the knot touches skin. Neutral soft side light, plain dark-gray background, forensic continuity reference, no bracelet, no glossy silk, no bright new red, no blood, no left wrist.
+${staticAssetStyleGuide.en}
+
+A short length of old faded red cotton thread tied in a simple double knot around the right wrist of the same young East Asian woman. The thread is thin, matte and slightly dirty, with visible twisted fibers, tiny frayed ends and one flattened section caused by long wear. Macro close-up, 100mm lens look, realistic skin pores, fine wrist hair, tendon structure and gentle contact pressure where the knot touches skin. The wrist rests on the same worn dark-wood apartment table used in S02, lit by cool gray-blue dawn window light with a weak dirty-amber practical fill; aged ivory instant photographs fall softly out of focus behind it. Forensic continuity reference within the established story world, no neutral studio backdrop, no bracelet, no glossy silk, no bright new red, no blood, no left wrist.
 
 中文提示词
-一段长期佩戴的褪色红棉线，以简单双结固定绑在同一名年轻东亚女性的右手腕。线体细、哑光、略旧，能看见棉纤维捻线、细小毛边和长期摩擦形成的压扁段；结与皮肤接触处有轻微真实压痕。100mm微距特写，保留皮肤毛孔、腕部细汗毛和肌腱结构，中性柔和侧光，纯深灰背景，用作连续性道具参考。禁止手链造型、禁止丝绸高光、禁止鲜艳新红色、禁止血迹、禁止出现在左手腕。`,
+${staticAssetStyleGuide.zh}
+
+一段长期佩戴的褪色红棉线，以简单双结固定绑在同一名年轻东亚女性的右手腕。线体细、哑光、略旧，能看见棉纤维捻线、细小毛边和长期摩擦形成的压扁段；结与皮肤接触处有轻微真实压痕。100mm微距特写，保留皮肤毛孔、腕部细汗毛和肌腱结构。手腕落在与S02一致的磨损深色木桌上，由灰蓝清晨窗光照亮，并保留微弱脏暖黄实景补光，背景虚化处能辨认旧暖白即时照片。必须是故事世界内部的连续性道具参考，禁止中性摄影棚背景、手链造型、丝绸高光、鲜艳新红色、血迹和左手腕。`,
     },
     {
       label: "道具提示词",
       title: "R03 裂纹白瓷杯｜中英双语道具图",
       body: `English Prompt
+${staticAssetStyleGuide.en}
+
 A plain off-white porcelain drinking cup on an old wooden kitchen table, 10 cm tall, cylindrical body with a small rounded handle. A distinctive hairline crack begins under the base, branches into a narrow Y shape and climbs 3 cm up the lower wall; one tiny triangular chip is missing from the foot ring. Slight tea staining inside, faint scratches and realistic glazed ceramic reflections. 85mm product-detail lens, f/5.6, three-quarter view showing both the crack and handle, cold dawn window light from frame left. Continuity reference object, exact repeatable damage pattern, no logo, no printed text, no decorative pattern, not shattered.
 
 中文提示词
+${staticAssetStyleGuide.zh}
+
 旧木质厨房桌上的素面暖白瓷杯，高约10厘米，直筒杯身、小圆弧杯把。标志性细裂纹从杯底开始，分成狭窄Y形并沿杯身下部向上延伸约3厘米；底足缺少一小块三角形瓷片。杯内有淡茶渍，釉面有轻微使用划痕和真实陶瓷反光。85mm产品细节镜头，f/5.6，四分之三角度同时看清裂纹与杯把，画面左侧冷清晨窗光。作为连续性参考，破损形状必须每次完全一致；无标志、无文字、无花纹、不要完全碎裂。`,
     },
     {
       label: "道具提示词",
       title: "R04 微型磁带录音机｜中英双语道具图",
       body: `English Prompt
+${staticAssetStyleGuide.en}
+
 A worn pocket-size microcassette recorder from the late 1990s, dark charcoal ABS plastic body, approximately 12 by 7 cm. Transparent cassette window with a visible microcassette, mechanical play/stop/record buttons, tiny perforated speaker grille and one dim red recording LED. Scratched corners, fingerprint oils, faded white button labels and dust trapped along seams. Resting flat on a chemical-stained darkroom bench, 70mm close product shot, practical red safelight from rear-left and weak cold fill from front. Functional realistic hardware, no brand logo, no digital screen, no smartphone design, no futuristic controls.
 
 中文提示词
+${staticAssetStyleGuide.zh}
+
 一台1990年代末的旧便携微型磁带录音机，深炭灰ABS塑料机身，约12×7厘米。透明磁带窗内能看见微型磁带，配机械播放、停止、录音按键，小型打孔扬声器和一枚微弱红色录音灯。边角有划痕与磨损，表面留有指纹油迹，白色按键标识褪色，接缝积灰。录音机平放在有药液痕迹的暗房工作台，70mm近距离产品镜头，后左侧红色安全灯，正面微弱冷补光。结构必须真实可用；无品牌标志、无数字屏、无手机造型、无未来控制面板。`,
     },
     {
       label: "道具提示词",
       title: "R05 延时冲印装置｜中英双语道具图",
       body: `English Prompt
+${staticAssetStyleGuide.en}
+
 A homemade delayed instant-photo developing apparatus built from an old analog processing unit, positioned on a darkroom workbench. Rectangular beige metal housing, two exposed black rubber rollers, narrow paper exit slot, small mechanical timer dial, red toggle switch, stained translucent chemical tubes and a shallow catch tray. One landscape instant photograph is physically gripped between the rollers and halfway emerging, with correct contact and paper curvature. Corrosion, dried developer residue, screws, ventilation slots and believable wiring. 35mm three-quarter technical reference view, red practical safelight, deep neutral shadows. Real functional machinery, no floating paper, no laser, no computer screen, no sci-fi design, no impossible mechanism.
 
 中文提示词
+${staticAssetStyleGuide.zh}
+
 放在暗房工作台上的自制延时冲印装置，由旧式模拟相纸处理机改装。米灰色长方形金属外壳，两根外露黑色橡胶滚轴、狭窄出纸口、小型机械定时旋钮、红色拨动开关、染有药液的半透明软管和浅接纸盘。一张横版即时照片被滚轴真实夹住，正吐出一半，相纸弯曲、接触点与受力方向必须正确。保留金属腐蚀、干涸显影液痕迹、螺丝、散热孔和可信布线。35mm四分之三技术参考视角，红色实景安全灯，深色中性阴影。必须像真实可工作的机械；照片不能漂浮，无激光、无电脑屏幕、无科幻造型、无不可能机械结构。`,
     },
     {
@@ -429,6 +494,8 @@ A homemade delayed instant-photo developing apparatus built from an old analog p
       title: "P01 林晚固定真人定妆",
       intro: "真人提示词的核心不是“漂亮”，而是身份锚点、摄影语言、真实材质和一致性。",
       body: `中文真人定妆提示词
+${staticAssetStyleGuide.zh}
+
 请生成一张电影角色定妆半身人像。主体为24岁东亚女性林晚，清瘦自然鹅蛋脸，下颌线柔和但不尖，颧骨位置自然；眉形平缓，眉眼间距正常，内双深棕眼睛，眼下有轻微疲惫阴影；鼻梁高度自然、鼻翼宽度真实；嘴唇偏薄，嘴角轻微不对称；肤色偏中性，保留真实年龄感、轻微毛孔、细小绒毛、肤色变化和自然眼神光。黑色锁骨短发，发际线与碎发保持稳定。近似素颜妆感，底妆极薄，眉毛自然整理，眼妆几乎不可见，自然血色嘴唇。穿洗旧的米白针织衫、深灰长裤，右手腕绑旧红棉线。
 
 图像用途：悬疑短片角色身份参考。气质：警觉、克制、长期疲惫但不脆弱。构图：胸像，平视，身体微微偏向画面右侧，视线看向镜头左侧近处。85mm人像镜头距离感，f/2.8适度浅景深，面部清晰、背景仍可辨识。左侧灰蓝窗光作为柔和主光，右侧轻微负补光，眼中保留自然小面积眼神光。中性低饱和电影调色，轻微颗粒、自然高光过渡、真实布料纹理和细发。
@@ -440,45 +507,23 @@ A homemade delayed instant-photo developing apparatus built from an old analog p
 不要陌生人脸、网红脸、小V脸、放大眼睛、欧美化高鼻梁、塑料皮肤、蜡像感、过度磨皮、夸张妆容、动漫感、年龄漂移、服装变化、发型变化、空洞凝视。
 
 English identity prompt
+${staticAssetStyleGuide.en}
+
 Character-reference bust portrait of Lin Wan, a 24-year-old East Asian woman with a naturally slim oval face, soft non-pointed jawline, realistic cheekbone placement, straight soft brows, dark-brown inner double-lid eyes with subtle fatigue shadows, a natural nose bridge and nostril width, thin lips with mild real asymmetry, neutral skin tone with visible pores, fine facial hair and natural tone variation. Stable collarbone-length black hairline and flyaway strands, near-bare-face makeup, worn ivory knit sweater, charcoal trousers and an old red cotton thread on the right wrist. Restrained, alert and quietly exhausted temperament. Eye-level bust framing, 85mm portrait-lens look, f/2.8 feel, soft cool window key from frame left, slight negative fill from frame right, natural catchlights, restrained low-saturation cinematic grade, subtle grain, realistic fabric and skin. Lock the identical facial identity, age, hair, wardrobe and red thread across every image; no influencer face, V-line jaw, enlarged eyes, westernized nose, plastic skin, over-retouching, anime look or identity drift.`,
-    },
-    {
-      label: "情绪提示词",
-      title: "看见第七张照片｜8秒表演块",
-      intro: "情绪不能只写“震惊”或“害怕”，必须写因果、保护策略和可见微表演。",
-      body: `情绪因果：
-触发：照片显示她倒在当前暗房。
-目标：在门外的人进来前看清照片背面的字。
-阻碍：恐惧打断呼吸，她不确定自己能否相信这张照片。
-保护策略：压住表情，不出声，把照片边缘捏紧。
-潜台词：如果我承认照片是真的，死亡就已经开始。
-
-三轴控制：
-内部压力 5/5；外显幅度从1/5升到3/5；自我控制从5/5降到3/5后重新回到4/5。
-
-8秒微表演时间线：
-0.0—1.0秒｜基线：视线停在照片下缘，呼吸均匀，肩膀略向前。
-1.0—2.0秒｜识别：瞳孔短暂放大，身体冻结0.4秒，嘴唇微张但无声。
-2.0—3.4秒｜抵抗：一次延迟鼻吸气，下颌立刻收紧，眼睛仍锁定照片。
-3.4—5.0秒｜泄漏：喉结用力吞咽，拇指压弯照片边缘，眼眶出现水光但不落泪。
-5.0—6.5秒｜顶点：视线从照片移向门把，肩膀轻微上提，屏息。
-6.5—8.0秒｜余波：缓慢吐气，下颌放松半秒又重新收紧，把照片攥进掌心。
-
-摄像机配合：
-85mm紧特写，f/1.4极浅景深，焦点锁在眼睛；镜头前1秒严格静止，从识别开始极慢推进，总距离不超过12厘米；顶点后停止移动，保留余波。
-
-表演负面约束：
-不要瞬间最大情绪、不要夸张瞪眼、不要立刻流泪、不要所有五官同时变化、不要随机眨眼、不要机械转头、不要橡皮嘴、不要身份漂移。`,
     },
     {
       label: "关键帧提示词",
       title: "真人感 + 情绪 + 场景合并后的最终静态图",
       body: `中文关键帧提示词
+${staticAssetStyleGuide.zh}
+
 9:16竖屏，暗房门口的紧特写。严格沿用P01林晚固定真人定妆：24岁东亚女性、自然清瘦鹅蛋脸、内双深棕眼睛、锁骨黑短发、米白针织衫、右腕旧红线，身份与年龄不可变化。她左手拿着仍带湿润显影光泽的第七张即时照片，视线刚从照片移向画面右侧门把；瞳孔短暂放大后的余波仍在，眼眶有水光但不落泪，下颌收紧，喉结刚完成一次吞咽，拇指压弯照片边缘，肩膀轻微上提。
 
 85mm长焦紧特写，f/1.4极浅景深，眼睛和照片边缘处于同一关键焦面；林晚脸部位于画面左中部，右侧保留门把方向的负空间。暗房红色安全灯从后侧描出发丝边缘，门缝冷光轻扫面部，真实毛孔、细发、眼神光、唇纹和针织布料。低饱和悬疑电影调色，真实光学散景，轻微胶片颗粒。避免网红脸、塑料皮肤、夸张哭泣、空洞凝视、发型服装变化、多余手指、漂浮照片和红线位置错误。
 
 English Keyframe Prompt
+${staticAssetStyleGuide.en}
+
 Vertical 9:16 tight close-up at a darkroom doorway. Strictly preserve the fixed P01 Lin Wan identity: the same 24-year-old East Asian woman, naturally slim oval face, dark-brown inner double-lid eyes, collarbone-length black hair, worn ivory knit sweater and old red thread on her right wrist. She holds the still-wet seventh instant photograph in her left hand; her gaze has just shifted from the photograph toward an off-screen door handle on frame right. Residue of pupil dilation, wet eyes without falling tears, tightened jaw, one just-finished swallow, thumb bending the paper edge, shoulders slightly raised. 85mm telephoto tight close-up, f/1.4 shallow depth of field, eyes and photo edge sharing the critical focus plane, face in left-center with threatening negative space on the right. Red safelight rims loose hair, cold door-gap light brushes the face, visible pores, fine hair, catchlights, lip texture and knit fabric, restrained low-saturation suspense grade, optical bokeh, subtle grain. No influencer face, plastic skin, exaggerated crying, empty stare, identity drift, wardrobe change, extra fingers, floating photograph or misplaced red thread.`,
     },
   ],
@@ -499,7 +544,7 @@ R05｜冲印装置｜道具｜02:10—02:40｜滚轴真实接触相纸
 
 确认状态：
 已确认资产：是
-已确认风格：电影写实、低饱和悬疑、真实实景灯。`,
+已确认风格：是｜STYLE-A01 中国城市真实实景心理悬疑；统一时代、灰蓝/脏暖黄/安全红色盘、有来源实景光、35mm胶片质感和旧模拟摄影材质。`,
     },
     {
       label: "Gate 2｜空间确认",
