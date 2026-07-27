@@ -884,6 +884,49 @@ button {
   color: #fff;
 }
 
+.official-account {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 540px);
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  margin-left: 280px;
+  padding: 38px 24px 46px;
+  border-top: 1px solid #ded8cd;
+  background: #f1ede5;
+}
+
+.official-account img {
+  width: 132px;
+  height: 132px;
+  padding: 7px;
+  border: 1px solid #d3cbbf;
+  background: #fff;
+  object-fit: contain;
+}
+
+.official-account span {
+  color: var(--orange-dark);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.official-account h2 {
+  margin: 8px 0 10px;
+  color: #25221e;
+  font-family: var(--font-serif);
+  font-size: 25px;
+}
+
+.official-account p {
+  max-width: 540px;
+  margin: 0;
+  color: #666057;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
 @media (max-width: 900px) {
   .topbar {
     padding: 0 16px;
@@ -940,6 +983,10 @@ button {
 
   .content {
     padding: 34px 22px 70px;
+  }
+
+  .official-account {
+    margin-left: 0;
   }
 }
 
@@ -1005,6 +1052,21 @@ button {
 
   .settings-modal {
     padding: 30px 22px 24px;
+  }
+
+  .official-account {
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 18px;
+    padding: 28px 20px 34px;
+  }
+
+  .official-account img {
+    width: 96px;
+    height: 96px;
+  }
+
+  .official-account h2 {
+    font-size: 20px;
   }
 }
 

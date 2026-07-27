@@ -244,7 +244,7 @@ export default function Home() {
         <button className="brand" onClick={() => setActiveStage("idea")}>
           <span className="brand-mark">船</span>
           <span>
-            <strong>船长 AI 视界</strong>
+            <strong>船长AI视界</strong>
             <small>创作工作台</small>
           </span>
         </button>
@@ -500,6 +500,23 @@ export default function Home() {
           </section>
         </section>
       </div>
+
+      <section className="official-account" aria-labelledby="official-account-title">
+        <img
+          src="/wechat-official-account-qr.jpg"
+          alt="船长AI视界公众号二维码"
+          width="258"
+          height="258"
+        />
+        <div>
+          <span>WECHAT OFFICIAL ACCOUNT</span>
+          <h2 id="official-account-title">关注船长AI视界</h2>
+          <p>
+            分享 AI 影视故事创作、图像提示词、真人摄影质感、人物情绪表演、
+            影视分镜与视频生成工作流。扫码获取技能更新、创作案例和实用方法。
+          </p>
+        </div>
+      </section>
 
       {settingsOpen && (
         <div className="modal-backdrop" role="presentation">

@@ -1,4 +1,4 @@
 interface:
   display_name: "船长AI视界 图像提示词"
-  short_description: "Create bilingual still-image prompts."
+  short_description: "船长AI视界中英图片提示词，人物自动融合真人感与情绪表演"
   default_prompt: "Use $chuanzhang-tuxiangtishici to turn this visual idea, script excerpt, or style brief into English and Chinese image prompts."

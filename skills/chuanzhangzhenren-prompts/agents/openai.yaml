@@ -1,6 +1,6 @@
 interface:
-  display_name: "真人写真提示词"
-  short_description: "生成保留本人长相的真人写真提示词"
+  display_name: "船长AI视界 真人感人像"
+  short_description: "船长AI视界真人摄影质感、身份一致性与人像提示词"
   default_prompt: "Use $chuanzhangzhenren-prompts to generate a realistic AI portrait photography prompt from my reference photo and style brief."
 
 policy:

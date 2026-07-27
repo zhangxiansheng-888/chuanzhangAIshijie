@@ -28,7 +28,8 @@ test("renders the chuanzhangAIshijie creative workspace", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /船长 AI 视界/);
+  assert.match(html, /船长AI视界/);
+  assert.match(html, /船长AI视界公众号二维码/);
   assert.match(html, /灵感破题/);
   assert.match(html, /故事创作/);
   assert.match(html, /视觉提示词/);

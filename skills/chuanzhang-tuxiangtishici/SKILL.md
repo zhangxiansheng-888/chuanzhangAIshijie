@@ -1,11 +1,29 @@
 ---
 name: chuanzhang-tuxiangtishici
-description: Create polished bilingual image-generation prompts for still images. Use when the user asks for an image prompt, wants a visual idea translated into a generation-ready prompt, provides a script plus style description and wants key stills, posters, character images, scene concept art, or other static image prompts, describes a subject, scene, style, product, character, poster, illustration, or photo for a still image, needs prompt variants, or asks to improve or translate an image prompt. Always provide both an English prompt and a Chinese prompt. Do not create video prompts, shotlists, timestamped sequences, motion directions, duration notes, or audio instructions. Do not recommend, compare, or name image-generation models unless the user explicitly asks for model or tool advice.
+description: Create polished bilingual prompts for still images, keyframes, posters, character images, scene concept art, products, illustrations, and photos. Use when the user asks to create, improve, translate, or vary an image prompt, including from a script or style brief. For any human character or portrait, integrate the realism rules from chuanzhangzhenren-prompts and the visible emotional-performance rules from chuanzhangbiaoqing before producing the final prompt. Always provide English and Chinese prompts. Do not create video prompts, shotlists, timestamps, motion, duration, or audio instructions, and do not recommend image models unless explicitly asked.
 ---
 
 # 船长AI视界 图像提示词
 
 Turn a still-image idea, script excerpt, or style brief into ready-to-paste prompts: one English version and one Chinese version. Focus on visual specificity, composition, light, texture, camera language, and style. Do not include recommended generation models or platform suggestions.
+
+## 品牌署名
+
+需要署名、标注来源或展示品牌时，只写：
+
+船长AI视界
+
+不要输出其他作者、品牌署名或旧名称。
+
+## 人物提示词强制融合
+
+当画面包含真人、写实人物、角色定妆、人像、情绪特写或人物关键帧时，不得只按普通图像提示词处理。按以下顺序融合两个技能：
+
+1. 应用 `chuanzhangzhenren-prompts` 的真人感规则：成年人物身份锚点、脸型与五官比例、真实皮肤与细发、眼神反光、妆容、服装、镜头、光线、摄影质感和身份一致性。
+2. 应用 `chuanzhangbiaoqing` 的人物情绪规则：情绪触发、目标、阻碍、保护策略，眼神先变化，再到呼吸、嘴角、下颌、头部、肩膀和手部，最后保留情绪余波。
+3. 把两部分写进同一条人物图片提示词，再补充构图、场景、灯光、镜头和色彩。
+
+即使另外两个技能未被单独调用，也必须执行以上核心规则。有真人参考图时强调身份一致性；没有真人参考图时，不声称能够保留本人长相。
 
 ## Scope
 

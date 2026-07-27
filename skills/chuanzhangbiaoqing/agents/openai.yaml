@@ -1,4 +1,4 @@
 interface:
-  display_name: "chuanzhangbiaoqing"
-  short_description: "按实际剧情节拍选择时长并生成完整场景、表演、镜头与声音提示词"
+  display_name: "船长AI视界 人物情绪"
+  short_description: "船长AI视界人物情绪、微表情、身体表演与视频提示词"
   default_prompt: "Use $chuanzhangbiaoqing to turn a vague character idea into a complete AI video prompt with an adaptively chosen duration, scene, motivation, performance, camera, lighting, and audio."
