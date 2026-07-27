@@ -57,6 +57,10 @@ test("renders the chuanzhangAIshijie creative workspace", async () => {
   assert.match(source, /S03 废弃照相馆走廊/);
   assert.match(source, /S04 暗房/);
   assert.match(source, /完整镜头总表/);
+  assert.match(source, /完整视频提示词/);
+  assert.match(source, /本段使用资产图对照/);
+  assert.match(source, /画面动作概述：/);
+  assert.match(source, /画面构图：/);
   assert.match(source, /Gate 6｜HTML QA/);
   assert.match(source, /15秒，这是上限，不是目标/);
   assert.doesNotMatch(source, /12组视频提示词覆盖180秒/);

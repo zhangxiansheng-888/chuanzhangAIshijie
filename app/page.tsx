@@ -36,6 +36,7 @@ const outputIndex: { label: string; stage: StageId; targetLabel: string }[] = [
   { label: "关键帧提示词", stage: "assets", targetLabel: "关键帧提示词" },
   { label: "分镜规划", stage: "promptPlan", targetLabel: "Gate 1｜资产确认" },
   { label: "完整剧本分镜", stage: "storyboard", targetLabel: "完整镜头总表" },
+  { label: "全片视频提示词", stage: "storyboard", targetLabel: "完整视频提示词 01 / 18" },
 ];
 
 const stages: DemoStage[] = [
@@ -771,18 +772,86 @@ R05｜冲印装置｜道具｜02:10—02:40｜滚轴真实接触相纸
 function getDisplayOutput(stageId: StageId): DetailSection[] {
   if (stageId !== "storyboard") return demoOutputs[stageId];
 
-  return [
-    {
-      label: "完整镜头总表",
-      title: "《第七张照片》00:00—03:00 连续完整剧本分镜",
-      intro:
-        "这是一个连续交付，不按30秒拆成多个卡片。每行才是一个真实分镜；视频提示词分组属于后续生成层。",
-      body: demoOutputs.storyboard
-        .filter((section) => section.label.startsWith("逐镜头"))
-        .map((section) => section.body)
-        .join("\n\n"),
+  const shotBlocks = demoOutputs.storyboard
+    .filter((section) => section.label.startsWith("逐镜头"))
+    .flatMap((section) => section.body.split("\n\n"));
+
+  const shotTable: DetailSection = {
+    label: "完整镜头总表",
+    title: "《第七张照片》00:00—03:00 连续完整剧本分镜",
+    intro:
+      "这是一个连续交付，不按30秒拆成多个卡片。每行才是一个真实分镜；下方视频提示词组只是生成层。",
+    body: shotBlocks.join("\n\n"),
+  };
+
+  const promptGroups = Array.from(
+    { length: Math.ceil(shotBlocks.length / 2) },
+    (_, groupIndex): DetailSection => {
+      const blocks = shotBlocks.slice(groupIndex * 2, groupIndex * 2 + 2);
+      const parsed = blocks.map((block) => {
+        const [header, ...detailLines] = block.split("\n");
+        const [shot, time, duration, scene = "当前场景", assets = "本镜所需资产"] =
+          header.split("｜");
+        const seconds = Number.parseFloat(duration.replace(/[^\d.]/g, "")) || 0;
+        const detail = detailLines.join(" ").trim();
+        const sound =
+          detail.match(/音效：([^。]+)/)?.[1] ??
+          detail.match(/([^。]*(?:声|响|呼吸|低频)[^。]*)/)?.[1] ??
+          "延续当前场景真实环境声";
+        return { shot, time, seconds, scene, assets, detail, sound };
+      });
+      const totalSeconds = parsed.reduce((sum, shot) => sum + shot.seconds, 0);
+      let relativeStart = 0;
+      const shotPrompts = parsed
+        .map((shot, index) => {
+          const relativeEnd = relativeStart + shot.seconds;
+          const range = `${relativeStart.toFixed(1)}—${relativeEnd.toFixed(1)}秒`;
+          relativeStart = relativeEnd;
+          return `【镜头${index + 1}｜${range}】
+画面动作概述：在${shot.scene}完成完整镜头总表${shot.shot}规定的叙事动作，人物状态与上一镜连续。
+画面构图：严格沿用完整镜头总表${shot.shot}的景别、主体位置、前中后景和负空间；${shot.assets}的方位、接触点与重量保持稳定。
+机位：${shot.detail}
+动作：动作按镜头总表顺序发生；人物情绪先从眼神变化，再依次传到呼吸、嘴角、下颌、肩膀和手，变化错峰出现，结尾保留余波。
+音效：${shot.sound}。`;
+        })
+        .join("\n\n");
+      const firstTime = parsed[0]?.time.split("—")[0] ?? "00:00";
+      const lastTime =
+        parsed.at(-1)?.time.split("—")[1] ?? parsed.at(-1)?.time ?? "00:00";
+      const assetNames = [...new Set(parsed.flatMap((shot) => shot.assets.split("、")))]
+        .filter(Boolean)
+        .join("、");
+      const sceneNames = [...new Set(parsed.map((shot) => shot.scene))].join("、");
+      const promptBody = `不要出现BGM，不要出现字幕
+
+【全局画质】真实电影实拍质感，高解析，大画幅动态范围，真实物理接触、重量与光学运动模糊；不要游戏引擎、三维渲染、动画或插画感。
+【人物材质】林晚的皮肤保留毛孔、细小绒毛、自然血色、眼眶水光、唇纹和碎发；手部受力、呼吸与布料牵拉必须真实。
+【灯光与风格】依据已确认风格：低饱和悬疑，灰蓝自然光与有来源的暖灯或暗房红灯形成克制冷暖冲突，暗部保留细节，轻微胶片颗粒。
+【核心特效】照片显影、陶瓷碎裂、滚轴出纸等全部遵守真实物理机制；湿乳剂反光、接触阴影、碎片受力和相纸弯曲必须可信。
+
+@image1（P01林晚）——24岁东亚女性，固定脸型、五官比例、年龄、锁骨黑短发、米白针织衫、深灰长裤和右腕旧红线。
+@image2（场景）——${sceneNames}，严格沿用已确认空间布局、材质、光源方向和出入口方位。
+@image3（道具）——${assetNames}，严格沿用已确认尺寸、材质、文字、破损状态和摆放关系。
+
+⚠️空间布局：人物、摄影机、门、墙面、工作台和关键道具保持已确认的前后左右、朝向、距离与遮挡关系，禁止空间镜像。
+⚠️本视频严格只有${parsed.length}个镜头，禁止添加额外镜头或自动补镜头。
+
+${shotPrompts}
+
+环境活动 / 全场音效：保持${sceneNames}的真实底噪，近景拟音只在对应动作发生时出现，无音乐。
+
+⚠️保持人物身份、服装、发型、红线位置和道具形态一致；禁止换脸、年龄漂移、手指融合、道具漂浮、焦点乱跳、无动机绕拍和瞬间最大情绪。`;
+
+      return {
+        label: `完整视频提示词 ${String(groupIndex + 1).padStart(2, "0")} / ${String(Math.ceil(shotBlocks.length / 2)).padStart(2, "0")}`,
+        title: `${firstTime}—${lastTime}｜约${totalSeconds}秒｜${parsed.length}个内部镜头`,
+        intro: `本段使用资产图对照：@image1=P01林晚；@image2=${sceneNames}；@image3=${assetNames}。正文约${promptBody.length}字符，可直接复制。`,
+        body: promptBody,
+      };
     },
-  ];
+  );
+
+  return [shotTable, ...promptGroups];
 }
 
 function downloadDemo() {
