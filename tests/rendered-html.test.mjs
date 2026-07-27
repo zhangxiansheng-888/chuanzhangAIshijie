@@ -45,7 +45,7 @@ test("renders the chuanzhangAIshijie creative workspace", async () => {
   assert.match(html, /场景提示词/);
   assert.match(html, /道具提示词/);
   assert.match(html, /真人提示词/);
-  assert.match(html, /人物情绪表演/);
+  assert.match(html, /情绪加工最终稿/);
   assert.match(html, /关键帧提示词/);
   assert.match(source, /R01 第七张照片/);
   assert.match(source, /R02 右腕红线/);
@@ -58,7 +58,9 @@ test("renders the chuanzhangAIshijie creative workspace", async () => {
   assert.match(source, /S04 暗房/);
   assert.match(source, /完整镜头总表/);
   assert.match(source, /完整视频提示词/);
-  assert.match(source, /人物情绪与表演轨/);
+  assert.match(source, /最终交付｜情绪加工/);
+  assert.match(source, /情绪Skill二次加工/);
+  assert.match(source, /分镜 \+ 情绪二次加工完整最终剧本/);
   assert.match(source, /本段使用资产图对照/);
   assert.match(source, /画面动作概述：/);
   assert.match(source, /画面构图：/);

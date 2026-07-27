@@ -32,7 +32,7 @@ const outputIndex: { label: string; stage: StageId; targetLabel: string }[] = [
   { label: "场景提示词", stage: "assets", targetLabel: "场景提示词" },
   { label: "道具提示词", stage: "assets", targetLabel: "道具提示词" },
   { label: "真人提示词", stage: "assets", targetLabel: "真人提示词" },
-  { label: "人物情绪表演", stage: "storyboard", targetLabel: "人物情绪与表演轨" },
+  { label: "情绪加工最终稿", stage: "storyboard", targetLabel: "最终交付｜情绪加工" },
   { label: "关键帧提示词", stage: "assets", targetLabel: "关键帧提示词" },
   { label: "分镜规划", stage: "promptPlan", targetLabel: "Gate 1｜资产确认" },
   { label: "完整剧本分镜", stage: "storyboard", targetLabel: "完整镜头总表" },
@@ -94,10 +94,10 @@ const stages: DemoStage[] = [
     eyebrow: "180秒生产级交付",
     title: "最终分镜与视频提示词",
     description:
-      "先输出一份连续完整的镜头总表；再按已经确认的提示词组生成视频提示词。提示词最多15秒，但内部镜头按剧情实际需要分配。",
+      "分镜技能先输出完整镜头总表和视频提示词；情绪技能再对整段分镜逐镜二次加工，最终交付“分镜 + 情绪”的完整剧本。",
     button: "展开完整180秒分镜",
     skills: ["chuanzhang-fenjing", "chuanzhangbiaoqing"],
-    deliverables: ["一份完整镜头总表", "逐镜头时间码与切点", "人物情绪与表演轨", "构图与机位", "场景道具与音效", "已确认分组的视频提示词"],
+    deliverables: ["分镜Skill完整原稿", "已确认分组的视频提示词", "情绪Skill整段二次加工", "逐镜写回可见表演", "摄影机与环境响应", "分镜 + 情绪最终完整稿"],
   },
 ];
 
@@ -786,19 +786,6 @@ function getDisplayOutput(stageId: StageId): DetailSection[] {
       "这是一个连续交付，不按30秒拆成多个卡片。每行才是一个真实分镜；下方视频提示词组只是生成层。",
     body: shotBlocks.join("\n\n"),
   };
-  const emotionSource = demoOutputs.assets.find(
-    (section) => section.label === "情绪提示词",
-  );
-  const emotionTrack: DetailSection = {
-    label: "人物情绪与表演轨",
-    title: "情绪不单独漂在资产区，而是进入具体分镜",
-    intro:
-      "以下表演控制会写入第七张照片对应的镜头及视频提示词，并与机位、焦点、灯光和声音同步。",
-    body:
-      emotionSource?.body ??
-      "触发、目标、阻碍、保护策略、识别、抵抗、泄漏、顶点和余波，必须转译成可见表演。",
-  };
-
   const promptGroups = Array.from(
     { length: Math.ceil(shotBlocks.length / 2) },
     (_, groupIndex): DetailSection => {
@@ -866,7 +853,130 @@ ${shotPrompts}
     },
   );
 
-  return [shotTable, emotionTrack, ...promptGroups];
+  const emotionPhases = [
+    {
+      trigger: "陌生湿照片进入卧室，照片里却是她自己",
+      goal: "确认危险来源，同时不让恐惧夺走判断",
+      obstacle: "记忆空白，她无法确认昨天的自己是否可信",
+      strategy: "先冻结和观察，压住声音，只用视线与手指求证",
+      pressure: "内部压力2/5；外显1/5；自控5/5",
+      camera: "镜头保持安静，只有在她第一次屏息时轻微推进，避免盖过眼神变化",
+      beats: [
+        "人物尚未入画；让电子钟电流和照片擦地声先触发观众警觉，空间维持静止。",
+        "上眼睑先抬起，头部保持不动；呼吸延迟半拍，视线寻找声音来源。",
+        "视线落向门口，右手指尖抓紧床单，下颌只收紧一点，不立刻坐起。",
+        "手伸向照片前停顿0.5秒；食指和拇指避开湿乳剂区，肩膀保持僵硬。",
+        "看清照片时拇指轻颤一次，鼻吸气被压住，眼睛不离开显影画面。",
+        "瞳孔短暂收缩，嘴唇分开但不出声，下颌进一步稳定；余波落在突然转向便签墙的视线。",
+      ],
+    },
+    {
+      trigger: "便签与录像证明她每天失忆，水杯预言随后应验",
+      goal: "判断这些证据是否由自己留下，并验证照片是否领先现实",
+      obstacle: "证据都指向她本人，但她不记得制作过程",
+      strategy: "反复比对笔迹、脸和动作，以克制的求证掩盖慌乱",
+      pressure: "内部压力由2/5升至4/5；外显1/5升至3/5；自控5/5降至4/5",
+      camera: "信息镜头固定清楚，情绪出现时才切近或拉焦；杯子碎裂后镜头立即回到眼睛",
+      beats: [
+        "肩后看便签墙，眼睛逐行扫动，眉心尚未收紧，呼吸维持浅而均匀。",
+        "食指停在关键词前而不触碰，慢眨一次，嘴唇轻压，喉结完成一次吞咽。",
+        "看录像时现实与屏幕保持同一脸；听到“昨天”时瞳孔轻缩，身体不后退。",
+        "触摸眉尾完成身份比对，手指离开后仍悬停半秒，视线继续锁定屏幕。",
+        "照片与完整杯子同框时，她先看裂纹位置，再看现实杯底，鼻翼轻微张开。",
+        "杯子碎裂后身体冻结0.4秒，嘴唇微张、呼吸停止；不要立刻哭或夸张瞪眼。",
+      ],
+    },
+    {
+      trigger: "预言应验，抽屉里又出现六张由自己留下的照片",
+      goal: "把恐惧转成可执行线索，找到照片中的地址",
+      obstacle: "手部发抖、时间有限，她仍怀疑自己可能被操控",
+      strategy: "通过排列、打结、确认地址等机械动作恢复控制",
+      pressure: "内部压力4/5；外显2/5；自控从3/5回升至4/5",
+      camera: "动作阶段缩短停顿，决定发生时镜头才缓慢横移；手部特写必须保留真实受力",
+      beats: [
+        "碎裂声后眼睛维持放大，延迟吸气进入，视线从碎片移向自己的右腕。",
+        "猛地拉开抽屉后手停在把手上，肩膀上提，看到照片数量时呼吸变浅。",
+        "翻看照片的速度先快后慢，到最后一张时食指压住地址，不再继续翻。",
+        "第一次打结失败，手指短暂停住；她短促吐气后重新系紧右腕红线。",
+        "读地址时下颌由紧转稳，肩膀逐渐放下，目光从字迹抬向门口。",
+        "手停在门锁0.8秒；一次深吸气后压下门把，恐惧未消失但行动已经开始。",
+      ],
+    },
+    {
+      trigger: "她抵达照片中的废弃照相馆，走廊尽头出现暗房红光",
+      goal: "进入暗房找到寄照片的人",
+      obstacle: "空间陌生、声音会暴露位置，黑暗不断放大预期恐惧",
+      strategy: "压低动作幅度，依靠听觉和视线分段确认空间",
+      pressure: "内部压力4/5升至5/5；外显维持2/5；自控4/5",
+      camera: "手持幅度随紧张略增，人物停住时摄影机同步停止；红光出现后运镜减慢",
+      beats: [
+        "外景建立不要求人物表演；让湿地反光和残缺招牌先形成威胁。",
+        "侧面跟拍中右手隔着口袋按住照片，步速略快，肩颈保持僵硬。",
+        "推门时先只探入半个身体，眼神快速扫过左右，再让脚跨过门槛。",
+        "踢到胶片盒时肩膀骤然上提，脚立刻停住，呼吸从鼻腔变成更浅的胸式呼吸。",
+        "视线在地面胶片盒和尽头红光之间切换两次，右手持续压住口袋。",
+        "推开暗房门前吞咽一次；门开启时下巴微抬，身体仍留一部分在门外。",
+      ],
+    },
+    {
+      trigger: "照片墙全部是她自己，录音又说她已经来过六次",
+      goal: "从墙面、镜子和录音中拼出过去六次发生的事实",
+      obstacle: "最值得怀疑的人变成了她自己，防御开始松动",
+      strategy: "继续检查物证，不让情绪先于事实爆发",
+      pressure: "内部压力5/5；外显由2/5升至3/5；自控由4/5降至3/5",
+      camera: "照片墙用缓慢横移承载认知，录音出现时切近但不绕拍；闭眼0.3秒后镜头停止移动",
+      beats: [
+        "进入照片墙全景时身体位于画面边缘，头部缓慢抬起，眼睛先找到第一排。",
+        "视线随横移逐排移动，嘴唇保持闭合，呼吸逐渐变浅，不连续眨眼。",
+        "看到空白第七排时冻结，眉心中央轻皱，肩膀出现第一次明显下沉。",
+        "按下录音键后手指留在按钮上；听见自己的声音时闭眼0.3秒，下唇内收。",
+        "录音说“别再删掉它”时眼睛重新睁开，视线移向冲印机，身体没有后退。",
+        "滚轴咬住相纸时手掌撑住桌沿，指节轻微发白，下颌重新收紧等待图像出现。",
+      ],
+    },
+    {
+      trigger: "第七张照片显示她倒在暗房，门外脚步随即靠近",
+      goal: "看清最后信息，并决定逃走还是相信过去的自己",
+      obstacle: "死亡图像打断呼吸，现实威胁正在门外逼近",
+      strategy: "压住哭泣和退缩，把恐惧集中到握紧照片与直视门口",
+      pressure: "内部压力5/5；外显由2/5升至4/5后回到2/5；自控由3/5降至2/5再回升至4/5",
+      camera: "识别开始后极慢推进，顶点时停止；门把镜头锁焦，最后人物稳定时摄影机也恢复稳定",
+      beats: [
+        "相纸完全吐出时她不立即触碰；视线停在逐渐出现的人形轮廓，呼吸悬住。",
+        "认出自己倒地后身体冻结0.4秒，瞳孔短暂放大，嘴唇微张但无声。",
+        "延迟鼻吸气进入，下颌收紧，喉结吞咽，眼眶出现水光但不落泪。",
+        "翻到背面时拇指压弯纸边；读完文字后视线从照片移向门口，右腕红线保持可见。",
+        "门把转动时她先后退半步，胸腔短促起伏一次；脚后跟停住后不再继续退。",
+        "把照片攥紧，缓慢吐气，下颌重新稳定，直视门口；切黑后保留未完成吸气作为余波。",
+      ],
+    },
+  ];
+
+  const emotionEnhancedBody = shotBlocks
+    .map((block, shotIndex) => {
+      const phase = emotionPhases[Math.floor(shotIndex / 6)] ?? emotionPhases.at(-1)!;
+      const beat = phase.beats[shotIndex % 6];
+      return `${block}
+【情绪Skill二次加工】
+触发：${phase.trigger}。
+目标：${phase.goal}。
+阻碍：${phase.obstacle}。
+保护策略：${phase.strategy}。
+三轴控制：${phase.pressure}。
+可见微表演：${beat}
+摄影机与环境响应：${phase.camera}。`;
+    })
+    .join("\n\n");
+
+  const emotionEnhancedFinal: DetailSection = {
+    label: "最终交付｜情绪加工",
+    title: "《第七张照片》分镜 + 情绪二次加工完整最终剧本",
+    intro:
+      "先保留分镜Skill的全部时间码、构图、机位、动作、场景、道具和音效，再由情绪Skill逐镜写回触发、目标、阻碍、保护策略、三轴控制、微表演及摄影机响应。",
+    body: emotionEnhancedBody,
+  };
+
+  return [shotTable, ...promptGroups, emotionEnhancedFinal];
 }
 
 function downloadDemo() {
@@ -1108,7 +1218,7 @@ export default function Home() {
               <p><code>chuanzhang-chuangzuo-v1</code><strong>破题、单一梗概、人物、结构、分场、场景写作与剧本医生</strong></p>
               <p><code>chuanzhang-tuxiangtishici</code><strong>场景、道具、关键帧中英双语图像提示词</strong></p>
               <p><code>chuanzhangzhenren-prompts</code><strong>真人身份锚点、皮肤妆发、镜头光线与一致性</strong></p>
-              <p><code>chuanzhangbiaoqing</code><strong>情绪因果、微表演、逐秒表演弧线和摄影机响应</strong></p>
+              <p><code>chuanzhangbiaoqing</code><strong>在分镜与视频提示词完成后，对整段剧本逐镜二次加工并输出最终情绪版</strong></p>
               <p><code>chuanzhang-fenjing</code><strong>资产、位置、时间、构图、机位、动作、音效和视频提示词</strong></p>
             </div>
           </section>

@@ -12,21 +12,23 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "船长AI视界｜完整创作流程 Demo",
     description:
-      "无需 API Key，查看三种故事方向、拉片节奏、详细剧本、五类资产提示词与180秒最终影视分镜。",
+      "无需 API Key，完整体验船长AI视界创作、静态图资产、分镜视频提示词与情绪二次加工工作流。",
     icons: {
       icon: "/og.png",
       shortcut: "/og.png",
     },
     openGraph: {
       title: "船长AI视界",
-      description: "三种故事方向、拉片节奏、真人与情绪提示词、180秒最终分镜。",
+      description:
+        "从灵感、剧本、场景道具与真人提示词，到分镜视频提示词和情绪二次加工最终稿。",
       type: "website",
       images: [{ url: socialImage, width: 1200, height: 630 }],
     },
     twitter: {
       card: "summary_large_image",
       title: "船长AI视界",
-      description: "三种故事方向、拉片节奏、真人与情绪提示词、180秒最终分镜。",
+      description:
+        "从灵感、剧本、场景道具与真人提示词，到分镜视频提示词和情绪二次加工最终稿。",
       images: [socialImage],
     },
   };
